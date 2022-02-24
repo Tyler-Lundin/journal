@@ -21,21 +21,37 @@ width: 100%;
 S.SlideOutMenu = styled.div`
     width: 100vw;
     height: 100vh;
-    background: #967ad0;
+    background: #489fff;
     display: grid;
+    grid-template-rows: 1fr 3fr;
     justify-content: center;
-    animation: ${props => moveVertically((props.isMenuOpen?'100':0),(props.isMenuOpen?0:'100'))}  2s forwards;
+    animation: ${props => moveVertically((props.isMenuOpen?'100':0),(props.isMenuOpen?0:'100'))}  1s forwards;
 `
 S.UserImageContainer = styled.div`
     background: #8fc4ff;
-    width: 220px;
-    height: 220px;
+    width: 180px;
+    height: 180px;
     margin-top: 2rem;
     border-radius: 50%;
 `
 S.UserImage = styled.img`
     width: 100%;
     border-radius: 50%;
+`
+S.Links = styled.ul`
+    list-style: none;
+    display: grid;
+    justify-items: center;
+    align-content: space-evenly;
+    font-size: 1.5rem;
+    font-weight: 300;
+`
+S.Link = styled.li`
+    cursor: pointer;
+    transition: 250ms;
+    :hover {
+        color: white;
+    }
 `
 const moveVertically = (y,x) =>
   keyframes`
@@ -62,7 +78,12 @@ const Nav = (props) => {
                 <S.SlideOutMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
                     <S.UserImageContainer>
                         {user ? <S.UserImage src={user.photoURL}/> : <></>}
-                    </S.UserImageContainer>                    
+                    </S.UserImageContainer>
+                    <S.Links>
+                        <S.Link>JOURNALS</S.Link>
+                        <S.Link>SETTINGS</S.Link>
+                        <S.Link>LOGOUT</S.Link>
+                    </S.Links>                 
                 </S.SlideOutMenu>
             </S.Nav>
         </>
