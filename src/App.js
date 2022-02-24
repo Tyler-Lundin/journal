@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { app, auth, provider, db } from './util'; 
+import { useState } from 'react';
+import LoggedIn from './components/LoggedIn';
+import LoggedOut from './components/LoggedOut';
 
+// util
+import Login from './util/login';
+
+import styled from 'styled-components'
+
+
+const S = {}
+S.App = styled.div`
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  overscroll-behavior:none;
+  background: #acbcfe;
+  overflow: hidden;
+`
 function App() {
+  const [user, setUser] = useState()
+  const [userID, setUserID] = useState()
+  const handleLogin = () => Login(setUser, setUserID)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <S.App>
+        {user ? 
+          <LoggedIn isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} user={user}/> 
+          : 
+          <LoggedOut handleLogin={handleLogin}/>
+        }
+      </S.App>
+    </>
   );
 }
 
