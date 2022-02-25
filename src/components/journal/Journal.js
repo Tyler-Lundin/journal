@@ -1,5 +1,31 @@
 import styled from 'styled-components'
 import BlankJournal from './../../assets/JournalBlank.png'
+
+const Journal = (props) => {
+    const {
+        title, 
+        index, 
+        setJournalIndex,
+        handlePrompt
+    } = props
+
+    const handleClick = () => {
+        setJournalIndex(index)
+        handlePrompt(`Open Journal '${title}'?`, 'journal')
+    }
+
+    return (
+        <S.Container onClick={()=>handleClick(index)} id={`journal_${title}_${Math.random()}`}>
+            <S.Journal>
+                <S.JournalIcon src={BlankJournal}/>
+                <S.JournalTitle>{title || 'title'}</S.JournalTitle>
+            </S.Journal>
+        </S.Container>
+    )
+}
+
+export default Journal
+
 const S = {}
 S.Container = styled.div`
     transition: 300ms;
@@ -25,16 +51,3 @@ S.JournalTitle = styled.h1`
     left: 50%;
     transform: translateX(-45%);
 `
-const Journal = (props) => {
-    const {title, index, setCurrentJournal} = props
-    return (
-        <S.Container onClick={()=>setCurrentJournal(index)} id={`journal_${title}_${Math.random()}`}>
-            <S.Journal>
-                <S.JournalIcon src={BlankJournal}/>
-                <S.JournalTitle>{title || 'title'}</S.JournalTitle>
-            </S.Journal>
-        </S.Container>
-    )
-}
-
-export default Journal

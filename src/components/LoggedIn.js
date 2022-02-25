@@ -12,16 +12,24 @@ const LoggedIn = (props) => {
         isMenuOpen,
         setIsMenuOpen,
         user,
-        setCurrentJournal
+        setJournalIndex,
+        promptMsg,
+        isPromptOpen,
+        handlePrompt,
+        handlePromptAction
     } = props
 
     const JournalList = ['Title00', 'Title01', 'Title02', 'Title03', 'Title04', 'Title05']
 
     return (
         <S.LoggedIn>
-            <Prompt message={'test'}/>
+            <Prompt promptMsg={promptMsg} isPromptOpen={isPromptOpen} handlePromptAction={handlePromptAction}/>
             <DisplayJournals>
-                {JournalList.map((title, index)=><Journal title={title} key={index} index={index} setCurrentJournal={setCurrentJournal}/> )}
+                {JournalList.map((title, index)=><Journal 
+                    title={title} key={index} index={index} 
+                    setJournalIndex={setJournalIndex} 
+                    handlePrompt={handlePrompt}
+                /> )}
             </DisplayJournals>
             
             <Nav isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} user={user}/>

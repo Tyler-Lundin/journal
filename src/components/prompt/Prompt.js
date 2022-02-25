@@ -1,4 +1,40 @@
 import styled from 'styled-components'
+import promptMessage from './../../util/promptMessage'
+
+
+const Prompt = (props) => {
+    const {
+        promptMsg,
+        isPromptOpen,
+        handlePromptAction
+        
+    } = props
+    const handleCancel = () => handlePromptAction(false)
+    const handleConfirm = () => handlePromptAction(true)
+
+
+    return (
+        <>
+        {
+            isPromptOpen 
+            ? 
+            <S.Shadow>
+                <S.Prompt>
+                    <S.Message>{promptMsg}</S.Message>
+                    <S.Btns>    
+                        <S.Cancel onClick={handleCancel}>CANCEL</S.Cancel> 
+                        <S.Confirm onClick={handleConfirm}>CONFIRM</S.Confirm>
+                    </S.Btns>
+                </S.Prompt>
+            </S.Shadow>
+            :
+            <></>
+        }
+        </>
+    )
+}
+
+export default Prompt
 
 const S = {}
 S.Shadow = styled.div`
@@ -60,21 +96,3 @@ S.Cancel = styled.div`
         cursor: pointer;
     }
 `
-
-const Prompt = (props) => {
-    const {message} = props
-
-    return (
-        <S.Shadow>
-            <S.Prompt>
-                <S.Message>{message}</S.Message>
-                <S.Btns>    
-                    <S.Cancel>CANCEL</S.Cancel> 
-                    <S.Confirm>CONFIRM</S.Confirm>
-                </S.Btns>
-            </S.Prompt>
-        </S.Shadow>
-    )
-}
-
-export default Prompt

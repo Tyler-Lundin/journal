@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-function Set_User_Auth (setUserID, setUser) {
+function setUserAuth (setUserID, setUser) {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
     if (user) {

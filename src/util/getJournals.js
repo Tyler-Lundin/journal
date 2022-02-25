@@ -6,7 +6,6 @@ async function getJournals (userID, journals, setJournals) {
     if (list.length > 0) {
       list = [[],[]]
     }
-
     const collRef = collection(db, userID);
     const querySnapshot = await getDocs(collRef);
     querySnapshot.forEach((doc) => {
