@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import promptMessage from './../../util/promptMessage'
+import promptMessage from '../../util/promptAction'
 
 
 const Prompt = (props) => {
@@ -15,9 +15,6 @@ const Prompt = (props) => {
 
     return (
         <>
-        {
-            isPromptOpen 
-            ? 
             <S.Shadow>
                 <S.Prompt>
                     <S.Message>{promptMsg}</S.Message>
@@ -27,9 +24,6 @@ const Prompt = (props) => {
                     </S.Btns>
                 </S.Prompt>
             </S.Shadow>
-            :
-            <></>
-        }
         </>
     )
 }

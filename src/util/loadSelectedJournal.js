@@ -9,7 +9,7 @@ async function loadSelectedJournal (currentJournal, journals) {
     const docSnap = await getDoc(docRef)
 
     if(docSnap.exists()){
-        await handleSetCurrent(docSnap.data().jrnlTitle, docSnap.data().pages[0])
+        await handleSetCurrent(docSnap.data().jrnlTitle, docSnap.data().pages.content)
     }
 }
 

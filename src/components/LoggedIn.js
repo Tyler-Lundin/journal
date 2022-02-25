@@ -2,6 +2,7 @@ import styled from "styled-components";
 import DisplayJournals from "./journal/DisplayJournals";
 import Journal from "./journal/Journal";
 import Nav from "./nav/Nav";
+import PageEditor from "./pageEditor/pageEditor";
 import Prompt from "./prompt/Prompt";
 const S = {}
 S.LoggedIn = styled.div`
@@ -12,6 +13,7 @@ const LoggedIn = (props) => {
         isMenuOpen,
         setIsMenuOpen,
         user,
+        journals,
         setJournalIndex,
         promptMsg,
         isPromptOpen,
@@ -19,13 +21,17 @@ const LoggedIn = (props) => {
         handlePromptAction
     } = props
 
-    const JournalList = ['Title00', 'Title01', 'Title02', 'Title03', 'Title04', 'Title05']
-
     return (
         <S.LoggedIn>
+            {/* <PageEditor/> */}
+            {isPromptOpen ? 
             <Prompt promptMsg={promptMsg} isPromptOpen={isPromptOpen} handlePromptAction={handlePromptAction}/>
+                          :
+            <></>
+            }
+            
             <DisplayJournals>
-                {JournalList.map((title, index)=><Journal 
+                {journals[0].map((title, index)=><Journal 
                     title={title} key={index} index={index} 
                     setJournalIndex={setJournalIndex} 
                     handlePrompt={handlePrompt}

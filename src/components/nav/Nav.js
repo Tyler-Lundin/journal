@@ -11,9 +11,10 @@ S.Toggle = styled.div`
     width: 30px;
     height: 30px;
     position: absolute;
-    top: 2rem;
-    right: 2rem;
+    top: 3vh;
+    right: 3vh;
     z-index: 999999;
+
 `
 S.Icon = styled.img`
 width: 100%;
@@ -25,6 +26,7 @@ S.SlideOutMenu = styled.div`
     display: grid;
     grid-template-rows: 1fr 3fr;
     justify-content: center;
+    z-index: 999998;
     animation: ${props => moveVertically((props.isMenuOpen?'100':0),(props.isMenuOpen?0:'100'))}  1s forwards;
 `
 S.UserImageContainer = styled.div`

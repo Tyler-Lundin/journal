@@ -1,7 +1,8 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import SignInBtn from './../assets/signinwithgoogle.png'
 import JournalLogo from './../assets/JOURNAL.png'
 import Login from "../util/login";
+import { upDown } from "../util/animations";
 const S = {}
 S.LoggedOut = styled.div`
     width: 100%;
@@ -24,7 +25,9 @@ S.Logo = styled.img`
     width: 45vw;
     min-width: 200px;
     max-width: 340px;
+    animation: ${upDown} 3s infinite alternate;
 `
+
 const LoggedOut = (props) => {
 
     return (
