@@ -18,14 +18,24 @@ const LoggedIn = (props) => {
         promptMsg,
         isPromptOpen,
         handlePrompt,
-        handlePromptAction
+        handlePromptAction,
+        pageIndex,
+        totalPages,
+        currentPage,
+        isJournalOpen,
+        handleGetPages
     } = props
 
     return (
         <S.LoggedIn>
-            {/* <PageEditor/> */}
+            {
+                isJournalOpen?
+                <PageEditor pageIndex={pageIndex} totalPages={totalPages} currentPage={currentPage}/>
+                :
+                <></>
+            }
             {isPromptOpen ? 
-            <Prompt promptMsg={promptMsg} isPromptOpen={isPromptOpen} handlePromptAction={handlePromptAction}/>
+            <Prompt promptMsg={promptMsg} isPromptOpen={isPromptOpen} handlePromptAction={handlePromptAction} handleGetPages={handleGetPages}/>
                           :
             <></>
             }

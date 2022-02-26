@@ -14,6 +14,7 @@ async function getJournals (journals, setJournals) {
       list[1].push([doc.id])
     });
     setJournals(list)
+    console.log('END GET JOURNALS')
 }
     
 

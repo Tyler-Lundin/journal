@@ -6,13 +6,15 @@ const Prompt = (props) => {
     const {
         promptMsg,
         isPromptOpen,
-        handlePromptAction
+        handlePromptAction,
+        handleGetPages
         
     } = props
     const handleCancel = () => handlePromptAction(false)
-    const handleConfirm = () => handlePromptAction(true)
-
-
+    const handleConfirm = () => {
+        handlePromptAction(true)
+        // handleGetPages()
+    }
     return (
         <>
             <S.Shadow>
