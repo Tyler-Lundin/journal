@@ -13,18 +13,21 @@ const PageEditor = (props) => {
         currentPage,
         setCurrentPage,
         journalIndex,
-        currentJournal
+        currentJournal,
+        setUnsavedChanges
     } = props
 
     const [currentPageContent, setCurrentPageContent] = useState()
     const [titleClicked, setTitleClicked] = useState(false)
     const editTitleRef = useRef();
     const [pageTitle, setPageTitle] = useState(currentPage[0])
+
     function changeTitle (e) {
         if (e.target.value !== '') {
             setPageTitle(e.target.value)
         }
         setTitleClicked(false)
+        setUnsavedChanges(true)
     }
 
     function handleKeyPress (e) {
@@ -33,6 +36,7 @@ const PageEditor = (props) => {
         }
     }
     function handleSavePage () {
+        setCurrentPage([pageTitle, currentPageContent])
         savePage(currentJournal, pages, pageIndex, currentPageContent, pageTitle)
     }
 
@@ -61,13 +65,20 @@ const PageEditor = (props) => {
                 </S.CounterContainer >
             </S.Head>
             <S.Content>
-                <S.TextArea id='pageEditorTextArea' defaultValue={currentPage[1]} onChange={e=>setCurrentPageContent(e.target.value)}>
+                <S.TextArea id='pageEditorTextArea' defaultValue={currentPage[1]} 
+                onChange={e=>{
+                    setCurrentPageContent(e.target.value)
+                    setUnsavedChanges(true)
+                }}>
                     
                 </S.TextArea>
             </S.Content>
             <S.Footer>
                 <S.PreviousPage>^</S.PreviousPage>
-                <S.SaveButton onClick={()=>handleSavePage()}>SAVE CHANGES</S.SaveButton>
+                <S.SaveButton onClick={()=>{
+                    handleSavePage()
+                    setUnsavedChanges(false)
+                }}>SAVE CHANGES</S.SaveButton>
                 <S.NextPage>^</S.NextPage>
             </S.Footer>
         </S.PageEditor>
@@ -164,7 +175,9 @@ S.Footer = styled.div`
 S.SaveButton = styled.div`
     width: 100%;
     height: 7vh;
+    font-size: 2rem;
     line-height: 7vh;
+    border-radius: 15px;
     background: rgba(255,255,255,0.2);
     transition: 250ms;
     cursor: pointer;

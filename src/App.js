@@ -4,7 +4,6 @@ import LoggedIn from './components/LoggedIn';
 import LoggedOut from './components/LoggedOut';
 
 // util
-import Login from './util/login';
 
 import styled from 'styled-components'
 import promptAction from './util/promptAction';
@@ -48,9 +47,9 @@ function App() {
   const [isPromptOpen, setIsPromptOpen] = useState(false)
   const [promptTarget, setPromptTarget] = useState('')
   const [isJournalOpen, setIsJournalOpen] = useState()
-  
+  const [unsavedChanges, setUnsavedChanges] = useState(false)
 
-  const handleLogin = () => Login(setUser, setUserID)
+  // const handleLogin = () => Login(setUser, setUserID)
   const handleGetJournals = () => getJournals(journals, setJournals)
   const handleGetPages = (journalPath) => getPages(journalPath, setPages)
   const handlePrompt = (msg, target) => {
@@ -58,21 +57,27 @@ function App() {
     setPromptTarget(target) // will be a param, can change based on where its called ofc
     setIsPromptOpen(true)
   }
-  const handlePromptAction = (promptChoice) => promptAction(promptTarget, promptChoice, setIsPromptOpen, currentJournal, handleSetCurrent, setIsJournalOpen, handleGetPages)
+  const handlePromptAction = (promptChoice) => promptAction(promptTarget, promptChoice, setIsPromptOpen, currentJournal, handleSetCurrent, setIsJournalOpen, setIsJournalOpen, handleGetPages)
   const handleSetCurrent = () => {
     setCurrentJournal(journals[1][journalIndex])
     handleGetPages(journals[1][journalIndex])
     setIsJournalOpen(true)
   }
-
-
-  
   const handlePageCounter = async () => {
     pageCounter(pages, setTotalPages, setPageIndex, setCurrentPage)
     // console.log('TOTALPAGES: ', totalPages)
     // console.log('CURRENTPAGE: ', currentPage)
     // console.log('PAGEINDEX: ', pageIndex)
   }
+  const handleOpenJournals = () => {
+    if (unsavedChanges) {
+      handlePrompt('Exit current Page without saving?', 'page')
+    } else {
+      setIsJournalOpen(false)
+    }
+  }
+
+
 
   useEffect(()=>{if(pages !== [[],[]]){handlePageCounter()}},[pages])
   useEffect(()=>{
@@ -80,26 +85,14 @@ function App() {
         handleGetJournals()
    }
   },[user])
+
   return (
     <>
-      <S.Tests> 
-      {/* dev buttons */}
-        {/* <S.Test onClick={()=>getJournals(journals, setJournals)}>getJournals</S.Test> */}
-        {/* <S.Test onClick={()=>getPages(setPages, currentJournal)}>getPages</S.Test> */}
-        <S.Test onClick={()=>handlePageCounter(1)}>pageCounter</S.Test>
-        <S.Test onClick={()=>console.log(pageIndex)}>pageIndex</S.Test>
-        <S.Test onClick={()=>console.log(pages)}>pages</S.Test>
-        <S.Test onClick={()=>console.log(currentJournal)}>currentJournal</S.Test>
-        <S.Test onClick={()=>console.log(currentPage)}>currentPage</S.Test>
-        <S.Test onClick={()=>console.log(journalIndex)}>journalIndex</S.Test>
-        <S.Test onClick={()=>console.log(journals)}>journals</S.Test>
-      </S.Tests>
-
       <S.App>
         {user ? 
           <LoggedIn 
             isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} 
-            user={user} journals={journals} journalIndex={journalIndex}
+            user={user} setUser={setUser} journals={journals} journalIndex={journalIndex}
             setJournalIndex={setJournalIndex} promptMsg={promptMsg}
             isPromptOpen={isPromptOpen} handlePrompt={handlePrompt}
             promptTarget={promptTarget} handlePromptAction={handlePromptAction} 
@@ -107,9 +100,10 @@ function App() {
             totalPages={totalPages} currentPage={currentPage}
             isJournalOpen={isJournalOpen} handleGetPages={handleGetPages}
             setCurrentPage={setCurrentPage} currentJournal={currentJournal}
+            setUnsavedChanges={setUnsavedChanges} handleOpenJournals={handleOpenJournals}
           /> 
           : 
-          <LoggedOut handleLogin={handleLogin}/>
+          <LoggedOut setUser={setUser}/>
         }
       </S.App>
     </>
@@ -117,3 +111,16 @@ function App() {
 }
 
 export default App;
+
+
+      {/* <S.Tests> 
+        <S.Test onClick={()=>getJournals(journals, setJournals)}>getJournals</S.Test>
+        <S.Test onClick={()=>getPages(setPages, currentJournal)}>getPages</S.Test>
+        <S.Test onClick={()=>handlePageCounter(1)}>pageCounter</S.Test>
+        <S.Test onClick={()=>console.log(pageIndex)}>pageIndex</S.Test>
+        <S.Test onClick={()=>console.log(pages)}>pages</S.Test>
+        <S.Test onClick={()=>console.log(currentJournal)}>currentJournal</S.Test>
+        <S.Test onClick={()=>console.log(currentPage)}>currentPage</S.Test>
+        <S.Test onClick={()=>console.log(journalIndex)}>journalIndex</S.Test>
+        <S.Test onClick={()=>console.log(journals)}>journals</S.Test>
+      </S.Tests> */}

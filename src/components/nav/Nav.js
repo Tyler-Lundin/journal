@@ -1,6 +1,8 @@
 import styled, {keyframes} from 'styled-components'
 import OpenMenu from './../../assets/menu.png'
 import CloseMenu from './../../assets/close.png'
+import { useGoogleLogout } from 'react-google-login';
+
 const S = {}
 S.Nav = styled.div`
     width: 100%;
@@ -70,8 +72,26 @@ const Nav = (props) => {
     const {
         isMenuOpen,
         setIsMenuOpen,
-        user
+        user,
+        setUser,
+        handleOpenJournals
     } = props
+
+    const clientId =
+    '707788443358-u05p46nssla3l8tmn58tpo9r5sommgks.apps.googleusercontent.com';
+
+    const onLogoutSuccess = (res) => {
+        setUser(null)
+      };
+    
+      const onFailure = () => {
+        console.log('Handle failure cases');
+      };
+    const { signOut } = useGoogleLogout({
+    clientId,
+    onLogoutSuccess,
+    onFailure,
+    });
 
     return (
         <>
@@ -81,12 +101,15 @@ const Nav = (props) => {
                 </S.Toggle>
                 <S.SlideOutMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
                     <S.UserImageContainer>
-                        {user ? <S.UserImage src={user.photoURL}/> : <></>}
+                        {user ? <S.UserImage src={user.imageUrl}/> : <></>}
                     </S.UserImageContainer>
                     <S.Links>
-                        <S.Link>JOURNALS</S.Link>
+                        <S.Link onClick={()=>{
+                            setIsMenuOpen(!isMenuOpen)
+                            handleOpenJournals()
+                            }}>JOURNALS</S.Link>
                         <S.Link>SETTINGS</S.Link>
-                        <S.Link>LOGOUT</S.Link>
+                        <S.Link onClick={signOut}>LOGOUT</S.Link>
                     </S.Links>                 
                 </S.SlideOutMenu>
             </S.Nav>

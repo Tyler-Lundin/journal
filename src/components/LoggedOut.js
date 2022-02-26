@@ -1,8 +1,8 @@
 import styled, {keyframes} from "styled-components";
 import SignInBtn from './../assets/signinwithgoogle.png'
 import JournalLogo from './../assets/JOURNAL.png'
-import Login from "../util/login";
 import { upDown } from "../util/animations";
+import Login from './Login/Login';
 const S = {}
 S.LoggedOut = styled.div`
     width: 100%;
@@ -17,9 +17,6 @@ S.SignInBtn = styled.img`
     max-width: 300px;
     width: 40vw;
     transition: 250ms;
-    :hover {
-        opacity: .5;
-    }
 `
 S.Logo = styled.img`
     width: 45vw;
@@ -33,7 +30,8 @@ const LoggedOut = (props) => {
     return (
         <S.LoggedOut id="LoggedOut">
             <S.Logo id="LogInLogo" src={JournalLogo}/>
-            <S.SignInBtn id="LogInWithGoogleBtn" onClick={props.handleLogin} src={SignInBtn}/>
+            <Login setUser={props.setUser}/>            
+            {/* <S.SignInBtn id="LogInWithGoogleBtn" onClick={props.handleLogin} src={SignInBtn}/> */}
         </S.LoggedOut>
     )
 }

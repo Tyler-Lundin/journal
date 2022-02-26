@@ -4,6 +4,7 @@ import Journal from "./journal/Journal";
 import Nav from "./nav/Nav";
 import PageEditor from "./pageEditor/pageEditor";
 import Prompt from "./prompt/Prompt";
+import { useState } from "react";
 const S = {}
 S.LoggedIn = styled.div`
 
@@ -13,6 +14,7 @@ const LoggedIn = (props) => {
         isMenuOpen,
         setIsMenuOpen,
         user,
+        setUser,
         journals,
         journalIndex,
         setJournalIndex,
@@ -27,9 +29,11 @@ const LoggedIn = (props) => {
         isJournalOpen,
         handleGetPages,
         setCurrentPage,
-        currentJournal
+        currentJournal,
+        handleOpenJournals,
+        setUnsavedChanges
     } = props
-
+    
     
     return (
         <S.LoggedIn>
@@ -43,6 +47,7 @@ const LoggedIn = (props) => {
                     setCurrentPage={setCurrentPage}
                     journalIndex={journalIndex}
                     currentJournal={currentJournal}
+                    setUnsavedChanges={setUnsavedChanges}
                 />
                 :
                 <></>
@@ -66,7 +71,7 @@ const LoggedIn = (props) => {
                 </DisplayJournals>
                 
             }
-            <Nav isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} user={user}/>
+            <Nav setUser={setUser} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} user={user} handleOpenJournals={handleOpenJournals}/>
             
         </S.LoggedIn>
     )

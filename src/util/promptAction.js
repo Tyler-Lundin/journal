@@ -1,8 +1,12 @@
 
-function promptAction (target, promptChoice, setIsPromptOpen, currentJournal, handleSetCurrent, handleGetPages) {
+function promptAction (target, promptChoice, setIsPromptOpen, currentJournal, handleSetCurrent, setIsJournalOpen, handleGetPages) {
     console.log('start prompt action')
     const handleJournal = () => {
         handleSetCurrent()
+        setIsPromptOpen(false)
+    }
+    const handleCloseUnsavedPage = () => {
+        setIsJournalOpen(false)
         setIsPromptOpen(false)
     }
     if(!promptChoice)setIsPromptOpen(false)
@@ -12,7 +16,9 @@ function promptAction (target, promptChoice, setIsPromptOpen, currentJournal, ha
             case 'journal' : 
                 handleJournal()
                 break;
-            case 'page' : // not sure yet
+            case 'page' : 
+                handleCloseUnsavedPage()
+                break;
             default :
                 return null
         }
