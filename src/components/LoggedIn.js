@@ -14,40 +14,58 @@ const LoggedIn = (props) => {
         setIsMenuOpen,
         user,
         journals,
+        journalIndex,
         setJournalIndex,
         promptMsg,
         isPromptOpen,
         handlePrompt,
         handlePromptAction,
         pageIndex,
+        pages,
         totalPages,
         currentPage,
         isJournalOpen,
-        handleGetPages
+        handleGetPages,
+        setCurrentPage,
+        currentJournal
     } = props
 
+    
     return (
         <S.LoggedIn>
             {
                 isJournalOpen?
-                <PageEditor pageIndex={pageIndex} totalPages={totalPages} currentPage={currentPage}/>
+                <PageEditor 
+                    pageIndex={pageIndex} 
+                    pages={pages}
+                    totalPages={totalPages} 
+                    currentPage={currentPage} 
+                    setCurrentPage={setCurrentPage}
+                    journalIndex={journalIndex}
+                    currentJournal={currentJournal}
+                />
                 :
                 <></>
             }
-            {isPromptOpen ? 
+            {isPromptOpen? 
             <Prompt promptMsg={promptMsg} isPromptOpen={isPromptOpen} handlePromptAction={handlePromptAction} handleGetPages={handleGetPages}/>
-                          :
+            :
             <></>
             }
-            
-            <DisplayJournals>
-                {journals[0].map((title, index)=><Journal 
-                    title={title} key={index} index={index} 
-                    setJournalIndex={setJournalIndex} 
-                    handlePrompt={handlePrompt}
-                /> )}
-            </DisplayJournals>
-            
+            {
+                isJournalOpen?
+                <></>
+                :
+                            
+                <DisplayJournals>
+                    {journals[0].map((title, index)=><Journal 
+                        title={title} key={index} index={index} 
+                        setJournalIndex={setJournalIndex} 
+                        handlePrompt={handlePrompt}
+                        /> )}
+                </DisplayJournals>
+                
+            }
             <Nav isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} user={user}/>
             
         </S.LoggedIn>

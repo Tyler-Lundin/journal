@@ -6,6 +6,7 @@ S.Nav = styled.div`
     width: 100%;
     height: 100%;
     overflow: hidden;
+    position: absolute;
 `
 S.Toggle = styled.div`
     width: 30px;
@@ -26,6 +27,7 @@ S.SlideOutMenu = styled.div`
     display: grid;
     grid-template-rows: 1fr 3fr;
     justify-content: center;
+    position: relative;
     z-index: 999998;
     animation: ${props => moveVertically((props.isMenuOpen?'100':0),(props.isMenuOpen?0:'100'))}  1s forwards;
 `

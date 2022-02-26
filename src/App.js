@@ -88,7 +88,10 @@ function App() {
         {/* <S.Test onClick={()=>getPages(setPages, currentJournal)}>getPages</S.Test> */}
         <S.Test onClick={()=>handlePageCounter(1)}>pageCounter</S.Test>
         <S.Test onClick={()=>console.log(pageIndex)}>pageIndex</S.Test>
+        <S.Test onClick={()=>console.log(pages)}>pages</S.Test>
+        <S.Test onClick={()=>console.log(currentJournal)}>currentJournal</S.Test>
         <S.Test onClick={()=>console.log(currentPage)}>currentPage</S.Test>
+        <S.Test onClick={()=>console.log(journalIndex)}>journalIndex</S.Test>
         <S.Test onClick={()=>console.log(journals)}>journals</S.Test>
       </S.Tests>
 
@@ -96,12 +99,14 @@ function App() {
         {user ? 
           <LoggedIn 
             isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} 
-            user={user} journals={journals}
+            user={user} journals={journals} journalIndex={journalIndex}
             setJournalIndex={setJournalIndex} promptMsg={promptMsg}
             isPromptOpen={isPromptOpen} handlePrompt={handlePrompt}
             promptTarget={promptTarget} handlePromptAction={handlePromptAction} 
-            pageIndex={pageIndex} totalPages={totalPages} currentPage={currentPage}
+            pageIndex={pageIndex} pages={pages} 
+            totalPages={totalPages} currentPage={currentPage}
             isJournalOpen={isJournalOpen} handleGetPages={handleGetPages}
+            setCurrentPage={setCurrentPage} currentJournal={currentJournal}
           /> 
           : 
           <LoggedOut handleLogin={handleLogin}/>

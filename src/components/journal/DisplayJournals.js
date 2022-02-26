@@ -6,7 +6,7 @@ S.Scroller = styled.div`
     position:absolute;
     top: 50%;
     transform: translateY(-50%);
-    
+    z-index: 99999;
 `
 S.DisplayJournals = styled.div`
     max-width: 100vw;
