@@ -31,7 +31,8 @@ const LoggedIn = (props) => {
         setCurrentPage,
         currentJournal,
         handleOpenJournals,
-        setUnsavedChanges
+        setUnsavedChanges,
+        setPageIndex
     } = props
     
     
@@ -48,6 +49,7 @@ const LoggedIn = (props) => {
                     journalIndex={journalIndex}
                     currentJournal={currentJournal}
                     setUnsavedChanges={setUnsavedChanges}
+                    setPageIndex={setPageIndex}
                 />
                 :
                 <></>

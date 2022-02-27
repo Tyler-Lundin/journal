@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import savePage from './../../util/savePage'
 const S = {}
@@ -14,14 +14,14 @@ const PageEditor = (props) => {
         setCurrentPage,
         journalIndex,
         currentJournal,
-        setUnsavedChanges
+        setUnsavedChanges,
+        setPageIndex
     } = props
-
     const [currentPageContent, setCurrentPageContent] = useState()
     const [titleClicked, setTitleClicked] = useState(false)
     const editTitleRef = useRef();
     const [pageTitle, setPageTitle] = useState(currentPage[0])
-
+    const [selectedPage, setSelectedPage] = useState(1)
     function changeTitle (e) {
         if (e.target.value !== '') {
             setPageTitle(e.target.value)
@@ -39,7 +39,31 @@ const PageEditor = (props) => {
         setCurrentPage([pageTitle, currentPageContent])
         savePage(currentJournal, pages, pageIndex, currentPageContent, pageTitle)
     }
+    function prevPage () {
+        if (pages[0].length - 1 <= selectedPage) {
+            setCurrentPage([pages[0][selectedPage - 1], pages[1][selectedPage - 1]])
+            setSelectedPage(selectedPage - 1)
+            setPageIndex(pageIndex - 1)
+            setPageTitle(null)
+        }
+        console.log(selectedPage)
+    }
+    function nextPage () {
+        if (pages[0].length - 1 > selectedPage) {
+            setCurrentPage([pages[0][selectedPage + 1], pages[1][selectedPage + 1]])
+            setSelectedPage(selectedPage + 1)
+            setPageIndex(pageIndex + 1)
+            setPageTitle(null)
+        }
+        console.log(selectedPage)
 
+        // else {
+        //      new page
+        // }
+    }
+    useEffect(()=>{
+        setCurrentPage([pages[0][totalPages - 1],pages[1][totalPages - 1]])
+    },[totalPages])
     return(
         <S.PageEditor>
             <S.Head>
@@ -54,7 +78,7 @@ const PageEditor = (props) => {
                             ref={editTitleRef}
                         /> 
                         :
-                        currentPage[0]
+                        pageTitle == null ? currentPage[0] : pageTitle
                     }
 
                 </S.PageTitle>
@@ -74,12 +98,12 @@ const PageEditor = (props) => {
                 </S.TextArea>
             </S.Content>
             <S.Footer>
-                <S.PreviousPage>^</S.PreviousPage>
+                <S.PreviousPage onClick={()=>prevPage()}>^</S.PreviousPage>
                 <S.SaveButton onClick={()=>{
                     handleSavePage()
                     setUnsavedChanges(false)
                 }}>SAVE CHANGES</S.SaveButton>
-                <S.NextPage>^</S.NextPage>
+                <S.NextPage onClick={()=>nextPage()}>^</S.NextPage>
             </S.Footer>
         </S.PageEditor>
     )

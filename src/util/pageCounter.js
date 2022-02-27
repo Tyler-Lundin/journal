@@ -1,8 +1,10 @@
 
-async function pageCounter (pages, setTotalPages, setPageIndex, setCurrentPage) {
+async function pageCounter (pages, setTotalPages, setPageIndex, setCurrentPage, selectedPage) {
+    
     const pagetotal = pages[0].length
-    const currentPageTitle = pages[0][pagetotal - 1]
-    const currentPageContent = pages[1][pagetotal - 1]
+    const openedIndex = pagetotal - selectedPage
+    const currentPageTitle = pages[0][openedIndex]
+    const currentPageContent = pages[1][openedIndex]
     setCurrentPage([currentPageTitle,currentPageContent])
     setTotalPages(pagetotal)
     setPageIndex(pagetotal)

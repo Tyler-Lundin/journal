@@ -57,7 +57,7 @@ function App() {
     setPromptTarget(target) // will be a param, can change based on where its called ofc
     setIsPromptOpen(true)
   }
-  const handlePromptAction = (promptChoice) => promptAction(promptTarget, promptChoice, setIsPromptOpen, currentJournal, handleSetCurrent, setIsJournalOpen, setIsJournalOpen, handleGetPages)
+  const handlePromptAction = (promptChoice) => promptAction(promptTarget, promptChoice, setIsPromptOpen, currentJournal, handleSetCurrent, setIsJournalOpen, isJournalOpen, handleGetPages)
   const handleSetCurrent = () => {
     setCurrentJournal(journals[1][journalIndex])
     handleGetPages(journals[1][journalIndex])
@@ -70,7 +70,7 @@ function App() {
     // console.log('PAGEINDEX: ', pageIndex)
   }
   const handleOpenJournals = () => {
-    if (unsavedChanges) {
+    if (unsavedChanges && isJournalOpen) {
       handlePrompt('Exit current Page without saving?', 'page')
     } else {
       setIsJournalOpen(false)
@@ -101,6 +101,7 @@ function App() {
             isJournalOpen={isJournalOpen} handleGetPages={handleGetPages}
             setCurrentPage={setCurrentPage} currentJournal={currentJournal}
             setUnsavedChanges={setUnsavedChanges} handleOpenJournals={handleOpenJournals}
+            setPageIndex={setPageIndex}
           /> 
           : 
           <LoggedOut setUser={setUser}/>

@@ -1,5 +1,5 @@
 
-function promptAction (target, promptChoice, setIsPromptOpen, currentJournal, handleSetCurrent, setIsJournalOpen, handleGetPages) {
+function promptAction (target, promptChoice, setIsPromptOpen, currentJournal, handleSetCurrent, setIsJournalOpen, isJournalOpen, handleGetPages) {
     console.log('start prompt action')
     const handleJournal = () => {
         handleSetCurrent()

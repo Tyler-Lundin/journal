@@ -11,6 +11,7 @@ function Login(props) {
   const {
     setUser
   } = props
+  
   const onSuccess = (res) => {
     console.log('Login Success: currentUser:', res.profileObj);
     setUser(res.profileObj)
