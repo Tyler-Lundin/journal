@@ -1,8 +1,15 @@
 import styled, {keyframes} from "styled-components";
-import SignInBtn from './../assets/signinwithgoogle.png'
 import JournalLogo from './../assets/JOURNAL.png'
 import { upDown } from "../util/animations";
 import Login from './Login/Login';
+import { useDispatch } from 'react-redux';
+import { useEffect, useState } from "react";
+import { clrJournalsList } from './journal/journalsListSlice';
+import { clrPagesList } from './pageEditor/pagesListSlice'
+import { clrCurrentJournal } from './journal/currentJournalSlice';
+import { clrCurrentPage } from './pageEditor/currentPageSlice';
+
+
 const S = {}
 S.LoggedOut = styled.div`
     width: 100%;
@@ -25,8 +32,24 @@ S.Logo = styled.img`
     animation: ${upDown} 3s infinite alternate;
 `
 
-const LoggedOut = (props) => {
 
+const LoggedOut = (props) => {
+    const [counter, setCounter] = useState(0)
+    const dispatch = useDispatch()
+    function clearStateSignout () {
+        dispatch(clrJournalsList())
+        dispatch(clrPagesList())
+        dispatch(clrCurrentJournal())
+        dispatch(clrCurrentPage())
+        setCounter(0)
+      }
+      useEffect(()=>{
+        if (counter > 1) {
+            clearStateSignout()
+        }
+      }
+    ,[])
+    console.log(counter)
     return (
         <S.LoggedOut id="LoggedOut">
             <S.Logo id="LogInLogo" src={JournalLogo}/>

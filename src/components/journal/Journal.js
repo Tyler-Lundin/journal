@@ -2,19 +2,29 @@ import styled from 'styled-components'
 import BlankJournal from './../../assets/JournalBlank.png'
 import { upDown } from '../../util/animations'
 import { useSelector, useDispatch } from 'react-redux'
-import { setCurrentJournal } from './currentJournalSlice'
+import { setCurrentJournalTitle, setCurrentJournalID } from './currentJournalSlice'
 import loadSelectedJournal from '../../util/loadSelectedJournal'
+import { promptOpenJournal } from '../prompt/promptSlice'
+import { getPages } from '../../util'
+import { setCurrentPageContent, setCurrentPageTitle } from '../pageEditor/currentPageSlice'
 const Journal = (props) => {
-    const {index, handlePrompt} = props
+    const {index} = props
     const dispatch = useDispatch()
     const journalsList = useSelector(state => state.journalsList.value)
     const selectedTitle = journalsList.journalTitles[index]
     const selectedID = journalsList.journalIDs[index]
-    
+    const prompt = useSelector(state => state.prompt.value)
+
     const handleClick = async (index) => {
-        const loadSelected = await loadSelectedJournal(selectedID)
-        dispatch(setCurrentJournal(loadSelected))
-        handlePrompt(`Open Journal '${selectedTitle}'?`, 'journal')
+        const preloadPages = await getPages(selectedID)
+        const journalLength = preloadPages.pageTitles.length
+        const preloadedTitle = preloadPages.pageTitles[journalLength - 1]
+        const preloadedContent = preloadPages.pageContent[journalLength - 1]
+        dispatch(setCurrentJournalTitle(selectedTitle))
+        dispatch(setCurrentJournalID(selectedID))
+        dispatch(promptOpenJournal(selectedTitle))
+        dispatch(setCurrentPageTitle(preloadedTitle))
+        dispatch(setCurrentPageContent(preloadedContent))
     }
 
     return (
@@ -34,9 +44,9 @@ export default Journal
 const S = {}
 S.Container = styled.div`
     transition: 300ms;
+    animation: ${upDown} 2.5s infinite alternate ease-out;
     :hover {
-        animation: ${upDown} .8s infinite alternate ease-out;
-        
+        animation: ${upDown} .5s infinite alternate ease-out;
     }
 `
 S.Journal = styled.div`

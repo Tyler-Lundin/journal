@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getPages } from '../../util'
 
 export const currentJournalSlice = createSlice({
   name: 'currentJournal',
@@ -10,23 +9,32 @@ export const currentJournalSlice = createSlice({
       pageTitles: [],
       pagesContent: [],
       isJournalOpen: false
-    } // [[title],[id]]
+    } 
   },
   reducers: {
-    setCurrentJournal: (state, action) => {
-      
-      
+    setCurrentJournalTitle: (state, action) => {
+      state.value.currentTitle = action.payload
     },
+    setCurrentJournalID: (state, action) => {
+      state.value.currentID = action.payload
+    },
+    // setPageTitles: (state, action) => {
+    //   state.value = action.payload
+    // },
+    // setPageContent: (state, action) => {
+    //   state.value = action.payload
+    // },
     openJournal: state => {
       state.value.isJournalOpen = true
     },
     closeJournal: state => {
       state.value.isJournalOpen = false
-    }
+    },
+    clrCurrentJournal: state => state.value == null
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { setCurrentJournal, openJournal, closeJournal } = currentJournalSlice.actions
+export const { setCurrentJournalTitle, setCurrentJournalID, openJournal, closeJournal, clrCurrentJournal } = currentJournalSlice.actions
 
 export default currentJournalSlice.reducer

@@ -6,7 +6,7 @@ export const unsavedChangesSlice = createSlice({
     value: false 
   },
   reducers: {
-    unsaved: (state, payload) => state.value = true,
+    unsaved: state => state.value = true,
     saved: state => state.value = false
   }
 })

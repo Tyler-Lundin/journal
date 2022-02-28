@@ -14,13 +14,13 @@ export const pagesListSlice = createSlice({
       // immutable state based off those changes
       getPages(action)
     },
-    clearPagesList: state => {
+    clrPagesList: state => {
       state.value = null
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { loadPages, clearPagesList } = pagesListSlice.actions
+export const { loadPages, clrPagesList } = pagesListSlice.actions
 
 export default pagesListSlice.reducer

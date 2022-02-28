@@ -2,8 +2,68 @@ import styled, {keyframes} from 'styled-components'
 import OpenMenu from './../../assets/menu.png'
 import CloseMenu from './../../assets/close.png'
 import { useGoogleLogout } from 'react-google-login';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react'
+import { closeNav, openNav } from './isNavOpenSlice';
+import { clearUser } from '../Login/userSlice';
 
-const S = {}
+const S = {} // styles below
+
+const Nav = () => {
+    const dispatch = useDispatch()
+    const _isMenuOpen = useSelector(state => state.isNavOpen.value)
+    const user = useSelector(state => state.user.value)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const clientId =
+    '707788443358-u05p46nssla3l8tmn58tpo9r5sommgks.apps.googleusercontent.com';
+
+    const onLogoutSuccess = (res) => {
+        console.log('logout')
+        dispatch(clearUser())
+      };
+    
+      const onFailure = () => {
+        console.log('Handle failure cases');
+      };
+    const { signOut } = useGoogleLogout({
+    clientId,
+    onLogoutSuccess,
+    onFailure,
+    });
+
+    // useEffect( ()=>{
+    //     if(toggle){
+    //         dispatch(openNav())
+    //     }
+    //     else {
+    //         dispatch(closeNav())
+    //     }
+    // } ,[toggle])
+
+    return (
+        <>
+            <S.Nav id='Nav'>
+                <S.Toggle onClick={()=>setIsMenuOpen(!isMenuOpen)} id='ToggleNavBtn'>
+                    <S.Icon src={isMenuOpen ? OpenMenu : CloseMenu}/>
+                </S.Toggle>
+                <S.SlideOutMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
+                    <S.UserImageContainer>
+                        {user ? <S.UserImage src={user.imageUrl}/> : <></>}
+                    </S.UserImageContainer>
+                    <S.Links>
+                        <S.Link onClick={()=>{console.log('click journals')}}>JOURNALS</S.Link>
+                        <S.Link>SETTINGS</S.Link>
+                        <S.Link onClick={signOut}>LOGOUT</S.Link>
+                    </S.Links>                 
+                </S.SlideOutMenu>
+            </S.Nav>
+        </>
+    
+    )
+}
+
+export default Nav
+
 S.Nav = styled.div`
     width: 100%;
     height: 100%;
@@ -68,54 +128,3 @@ const moveVertically = (y,x) =>
       transform: translateY(${y}%);
     }
 `
-const Nav = (props) => {
-    const {
-        isMenuOpen,
-        setIsMenuOpen,
-        user,
-        setUser,
-        handleOpenJournals
-    } = props
-
-    const clientId =
-    '707788443358-u05p46nssla3l8tmn58tpo9r5sommgks.apps.googleusercontent.com';
-
-    const onLogoutSuccess = (res) => {
-        setUser(null)
-      };
-    
-      const onFailure = () => {
-        console.log('Handle failure cases');
-      };
-    const { signOut } = useGoogleLogout({
-    clientId,
-    onLogoutSuccess,
-    onFailure,
-    });
-
-    return (
-        <>
-            <S.Nav id='Nav'>
-                <S.Toggle onClick={()=>setIsMenuOpen(!isMenuOpen)} id='ToggleNavBtn'>
-                    <S.Icon src={isMenuOpen ? OpenMenu : CloseMenu}/>
-                </S.Toggle>
-                <S.SlideOutMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
-                    <S.UserImageContainer>
-                        {user ? <S.UserImage src={user.imageUrl}/> : <></>}
-                    </S.UserImageContainer>
-                    <S.Links>
-                        <S.Link onClick={()=>{
-                            setIsMenuOpen(!isMenuOpen)
-                            handleOpenJournals()
-                            }}>JOURNALS</S.Link>
-                        <S.Link>SETTINGS</S.Link>
-                        <S.Link onClick={signOut}>LOGOUT</S.Link>
-                    </S.Links>                 
-                </S.SlideOutMenu>
-            </S.Nav>
-        </>
-    
-    )
-}
-
-export default Nav

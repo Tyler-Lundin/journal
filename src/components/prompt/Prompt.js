@@ -1,25 +1,24 @@
 import styled from 'styled-components'
 import promptMessage from '../../util/promptAction'
+import { useSelector, useDispatch } from 'react-redux'
+import { promptAccept, promptCancel } from './promptSlice'
+import { openJournal } from '../journal/currentJournalSlice'
 
+const Prompt = () => {
 
-const Prompt = (props) => {
-    const {
-        promptMsg,
-        isPromptOpen,
-        handlePromptAction,
-        handleGetPages
-        
-    } = props
-    const handleCancel = () => handlePromptAction(false)
+    const dispatch = useDispatch()
+    const promptMessage = useSelector(state => state.prompt.value.message)
+
+    const handleCancel = () => dispatch( promptCancel() )
     const handleConfirm = () => {
-        handlePromptAction(true)
-        // handleGetPages()
+        dispatch( promptAccept() )
+        dispatch( openJournal() )
     }
     return (
         <>
             <S.Shadow>
                 <S.Prompt>
-                    <S.Message>{promptMsg}</S.Message>
+                    <S.Message>{promptMessage}</S.Message>
                     <S.Btns>    
                         <S.Cancel onClick={handleCancel}>CANCEL</S.Cancel> 
                         <S.Confirm onClick={handleConfirm}>CONFIRM</S.Confirm>

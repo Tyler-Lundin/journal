@@ -9,80 +9,50 @@ const S = {}
 
 const PageEditor = (props) => {
     const dispatch = useDispatch()
-    const pagesList = useSelector(state => state.pagesList.value )
-    const journalsList = useSelector(state => state.journalsList.value)
-    // let _pagesList = getPages()
-    const {
-        handlePageCounter,
-        pageIndex,
-        pages,
-        totalPages,
-        currentPage,
-        setCurrentPage,
-        journalIndex,
-        currentJournal,
-        setUnsavedChanges,
-        setPageIndex
-    } = props
-    const [currentPageContent, setCurrentPageContent] = useState()
-    const [titleClicked, setTitleClicked] = useState(false)
-    const editTitleRef = useRef();
-    const [pageTitle, setPageTitle] = useState(currentPage[0])
-    const [selectedPage, setSelectedPage] = useState(1)
-    const [unsavedTitle, setUnsavedTitle] = useState(false)
-    function changeTitle (e) {
-        setUnsavedTitle(true)
-        if (e.target.value !== '') {
-            setPageTitle(e.target.value)
-        }
-        setTitleClicked(false)
-        setUnsavedChanges(true)
-    }
 
+    const currentJournal = useSelector(state => state.currentJournal.value)
+    const pagesList = useSelector(state => state.pagesList.value )
+    const pageTitle = useSelector(state => state.currentPage.value.pageTitle)
+    const pageContent = useSelector(state => state.currentPage.value.pageContent)
+    const user = useSelector(state => state.user.value)
+    const editTitleRef = useRef()
+    const [titleClicked, setTitleClicked] = useState(false)
+    const [unsavedPage, setUnsavedChanges] = useState({unsavedTitle: pageTitle, unsavedContent: pageContent})
+
+    function prevPage() {
+        
+    }
+    function nextPage() {
+        
+    }
+    
     function handleKeyPress (e) {
         if (e.key === 'Enter') {
             editTitleRef.current.blur()
         }
     }
-    function handleSavePage () {
-        savePage(currentJournal, pages, pageIndex, currentPageContent, pageTitle)
-        setUnsavedTitle(false)
+    function handleTitleChange (e) {
+        if (e.target.value != '') {
+            unsavedPage.unsavedTitle = e.target.value
+        }
+        setTitleClicked(false)
     }
-    function prevPage () {
-        if (unsavedTitle) {
-            handleSavePage()
-        }
-        if (pages[0].length - 1 <= selectedPage) {
-            setCurrentPage([pages[0][selectedPage - 1], pages[1][selectedPage - 1]])
-            setSelectedPage(selectedPage - 1)
-            setPageIndex(pageIndex - 1)
-            setPageTitle(null)
-        }
+    function handleContentChange(e){
+        unsavedPage.unsavedContent = e.target.value
     }
-    function nextPage () {
-        if (unsavedTitle) {
-            handleSavePage()
-        }
-        if (pages[0].length - 1 > selectedPage) {
-            setCurrentPage([pages[0][selectedPage + 1], pages[1][selectedPage + 1]])
-            setSelectedPage(selectedPage + 1)
-            setPageIndex(pageIndex + 1)
-            setPageTitle(null)
-        }
+    function handleSaveChanges(){
+        savePage(currentJournal, unsavedPage.unsavedTitle, unsavedPage.unsavedContent)
     }
-    useEffect(()=>{
-        
-        dispatch()
-        setCurrentPage([pages[0][totalPages - 1],pages[1][totalPages - 1]])
-    },[totalPages])
+
+
+
     return(
         <S.PageEditor>
-            <button onClick={() => console.log(pagesList)}>TEST</button>
             <S.Head>
                 <S.PageTitle onClick={()=>setTitleClicked(true)}>
                     {titleClicked ? 
                         <S.EditTitle 
-                            onBlur={(e)=>{changeTitle(e)}} 
+                            onBlur={(e)=>handleTitleChange(e)} 
                             placeholder={pageTitle} 
                             maxLength="25" 
                             autoFocus
@@ -90,31 +60,26 @@ const PageEditor = (props) => {
                             ref={editTitleRef}
                         /> 
                         :
-                        unsavedTitle ? pageTitle : currentPage[0]
+                        unsavedPage.unsavedTitle
                     }
 
                 </S.PageTitle>
                 <S.CounterContainer >
                     <S.PageCounter>
-                        {`${pageIndex}/${totalPages}`}
+                       
                     </S.PageCounter>
                 </S.CounterContainer >
             </S.Head>
             <S.Content>
-                <S.TextArea id='pageEditorTextArea' defaultValue={currentPage[1]} 
-                onChange={e=>{
-                    setCurrentPageContent(e.target.value)
-                    setUnsavedChanges(true)
-                }}>
-                    
-                </S.TextArea>
+                <S.TextArea 
+                    id='pageEditorTextArea' 
+                    defaultValue={pageContent} 
+                    onChange={e=>handleContentChange(e)}
+                />
             </S.Content>
             <S.Footer>
                 <S.PreviousPage onClick={()=>prevPage()}>^</S.PreviousPage>
-                <S.SaveButton onClick={()=>{
-                    handleSavePage()
-                    setUnsavedChanges(false)
-                }}>SAVE CHANGES</S.SaveButton>
+                <S.SaveButton onClick={()=>handleSaveChanges()}>SAVE CHANGES</S.SaveButton>
                 <S.NextPage onClick={()=>nextPage()}>^</S.NextPage>
             </S.Footer>
         </S.PageEditor>
@@ -254,3 +219,69 @@ S.NextPage = styled.div`
 
 `
 
+
+
+// let _pagesList = getPages()
+    // const {
+    //     handlePageCounter,
+    //     pageIndex,
+    //     pages,
+    //     totalPages,
+    //     currentPage,
+    //     setCurrentPage,
+    //     journalIndex,
+    //     currentJournal,
+    //     setUnsavedChanges,
+    //     setPageIndex
+    // } = props
+    // const [currentPageContent, setCurrentPageContent] = useState()
+    // const [titleClicked, setTitleClicked] = useState(false)
+    // const editTitleRef = useRef();
+    // const [pageTitle, setPageTitle] = useState(currentPage[0])
+    // const [selectedPage, setSelectedPage] = useState(1)
+    // const [unsavedTitle, setUnsavedTitle] = useState(false)
+    // function changeTitle (e) {
+    //     setUnsavedTitle(true)
+    //     if (e.target.value !== '') {
+    //         setPageTitle(e.target.value)
+    //     }
+    //     setTitleClicked(false)
+    //     setUnsavedChanges(true)
+    // }
+
+    // function handleKeyPress (e) {
+    //     if (e.key === 'Enter') {
+    //         editTitleRef.current.blur()
+    //     }
+    // }
+    // function handleSavePage () {
+    //     savePage(currentJournal, pages, pageIndex, currentPageContent, pageTitle)
+    //     setUnsavedTitle(false)
+    // }
+    // function prevPage () {
+    //     if (unsavedTitle) {
+    //         handleSavePage()
+    //     }
+    //     if (pages[0].length - 1 <= selectedPage) {
+    //         setCurrentPage([pages[0][selectedPage - 1], pages[1][selectedPage - 1]])
+    //         setSelectedPage(selectedPage - 1)
+    //         setPageIndex(pageIndex - 1)
+    //         setPageTitle(null)
+    //     }
+    // }
+    // function nextPage () {
+    //     if (unsavedTitle) {
+    //         handleSavePage()
+    //     }
+    //     if (pages[0].length - 1 > selectedPage) {
+    //         setCurrentPage([pages[0][selectedPage + 1], pages[1][selectedPage + 1]])
+    //         setSelectedPage(selectedPage + 1)
+    //         setPageIndex(pageIndex + 1)
+    //         setPageTitle(null)
+    //     }
+    // }
+    // useEffect(()=>{
+        
+    //     dispatch()
+    //     setCurrentPage([pages[0][totalPages - 1],pages[1][totalPages - 1]])
+    // },[totalPages])

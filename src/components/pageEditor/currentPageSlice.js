@@ -3,24 +3,28 @@ import { createSlice } from '@reduxjs/toolkit'
 export const currentPageSlice = createSlice({
   name: 'currentPage',
   initialState: {
-    value: [[],[]] // [[title],[id]]
+    value: {
+      pageTitle: '',
+      pageContent: ''
+    }
   },
   reducers: {
-    loadCurrentPage: (state, payload) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      
+    setCurrentPageTitle: (state,action) => {
+      state.value.pageTitle = action.payload
     },
-    reloadCurrentPage: state => {
-      
+    setCurrentPageContent: (state,action) => {
+      state.value.pageContent = action.payload
     },
-    clearCurrentPage: state => state.value = [[],[]]
+    clrCurrentPage: state => {
+      state.value = {
+        pageTitle: '',
+        pageContent: ''
+      }
+    }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { loadCurrentPage, reloadCurrentPage, clearCurrentPage} = currentPageSlice.actions
+export const { setCurrentPageTitle, setCurrentPageContent, clrCurrentPage} = currentPageSlice.actions
 
 export default currentPageSlice.reducer

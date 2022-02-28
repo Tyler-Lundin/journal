@@ -15,13 +15,13 @@ export const journalsListSlice = createSlice({
     setJournalsList: (state, action) => {
       state.value = action.payload
     },
-    clearJournalsList: state => {
+    clrJournalsList: state => {
       state.value = null
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { loadJournalsList, setJournalsList, clearJournalsList } = journalsListSlice.actions
+export const { loadJournalsList, setJournalsList, clrJournalsList } = journalsListSlice.actions
 
 export default journalsListSlice.reducer
