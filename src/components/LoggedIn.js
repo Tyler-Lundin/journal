@@ -4,7 +4,12 @@ import Journal from "./journal/Journal";
 import Nav from "./nav/Nav";
 import PageEditor from "./pageEditor/pageEditor";
 import Prompt from "./prompt/Prompt";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getJournals } from "../util";
+
+import { useDispatch, useSelector } from 'react-redux';
+import { setJournalsList } from './journal/journalsListSlice'
+
 const S = {}
 S.LoggedIn = styled.div`
 
@@ -34,10 +39,21 @@ const LoggedIn = (props) => {
         setUnsavedChanges,
         setPageIndex
     } = props
-    
-    
+
+    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
+    const journalsList = useSelector(state => state.journalsList.value)
+
+    useEffect( async ()=>{
+        if (user) {
+             let list = await getJournals()
+             dispatch(setJournalsList(list))
+        }
+       },[])
+
     return (
         <S.LoggedIn>
+            {/* <button onClick={()=>console.log(journalsList)}>TEST    </button> */}
             {
                 isJournalOpen?
                 <PageEditor 
@@ -65,11 +81,13 @@ const LoggedIn = (props) => {
                 :
                             
                 <DisplayJournals>
-                    {journals[0].map((title, index)=><Journal 
-                        title={title} key={index} index={index} 
-                        setJournalIndex={setJournalIndex} 
-                        handlePrompt={handlePrompt}
-                        /> )}
+                    {journalsList.journalTitles.map((title, index)=>
+                        <Journal 
+                            title={title} key={index} index={index} 
+                            setJournalIndex={setJournalIndex} 
+                            handlePrompt={handlePrompt}
+                        /> 
+                    )}
                 </DisplayJournals>
                 
             }

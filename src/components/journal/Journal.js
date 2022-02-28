@@ -1,25 +1,28 @@
 import styled from 'styled-components'
 import BlankJournal from './../../assets/JournalBlank.png'
 import { upDown } from '../../util/animations'
+import { useSelector, useDispatch } from 'react-redux'
+import { setCurrentJournal } from './currentJournalSlice'
+import loadSelectedJournal from '../../util/loadSelectedJournal'
 const Journal = (props) => {
-    const {
-        title, 
-        index, 
-        setJournalIndex,
-        handlePrompt
-    } = props
-
-    const handleClick = () => {
-        setJournalIndex(index)
-        handlePrompt(`Open Journal '${title}'?`, 'journal')
+    const {index, handlePrompt} = props
+    const dispatch = useDispatch()
+    const journalsList = useSelector(state => state.journalsList.value)
+    const selectedTitle = journalsList.journalTitles[index]
+    const selectedID = journalsList.journalIDs[index]
+    
+    const handleClick = async (index) => {
+        const loadSelected = await loadSelectedJournal(selectedID)
+        dispatch(setCurrentJournal(loadSelected))
+        handlePrompt(`Open Journal '${selectedTitle}'?`, 'journal')
     }
 
     return (
-        <S.Container onClick={()=>handleClick(index)} id={`journal_${title}_${Math.random()}`}>
+        <S.Container onClick={()=>handleClick(index)} id={selectedID}>
             <S.Journal>
                 <S.JournalIcon src={BlankJournal}/>
                 <S.TitleContainer>
-                    <S.JournalTitle>{title || 'title'}</S.JournalTitle>
+                    <S.JournalTitle>{selectedTitle}</S.JournalTitle>
                 </S.TitleContainer>
             </S.Journal>
         </S.Container>

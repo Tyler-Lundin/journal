@@ -1,10 +1,17 @@
 import { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import savePage from './../../util/savePage'
+import { useDispatch, useSelector } from 'react-redux';
+
+
 const S = {}
 
 
 const PageEditor = (props) => {
+    const dispatch = useDispatch()
+    const pagesList = useSelector(state => state.pagesList.value )
+    const journalsList = useSelector(state => state.journalsList.value)
+    // let _pagesList = getPages()
     const {
         handlePageCounter,
         pageIndex,
@@ -22,7 +29,9 @@ const PageEditor = (props) => {
     const editTitleRef = useRef();
     const [pageTitle, setPageTitle] = useState(currentPage[0])
     const [selectedPage, setSelectedPage] = useState(1)
+    const [unsavedTitle, setUnsavedTitle] = useState(false)
     function changeTitle (e) {
+        setUnsavedTitle(true)
         if (e.target.value !== '') {
             setPageTitle(e.target.value)
         }
@@ -36,36 +45,39 @@ const PageEditor = (props) => {
         }
     }
     function handleSavePage () {
-        setCurrentPage([pageTitle, currentPageContent])
         savePage(currentJournal, pages, pageIndex, currentPageContent, pageTitle)
+        setUnsavedTitle(false)
     }
     function prevPage () {
+        if (unsavedTitle) {
+            handleSavePage()
+        }
         if (pages[0].length - 1 <= selectedPage) {
             setCurrentPage([pages[0][selectedPage - 1], pages[1][selectedPage - 1]])
             setSelectedPage(selectedPage - 1)
             setPageIndex(pageIndex - 1)
             setPageTitle(null)
         }
-        console.log(selectedPage)
     }
     function nextPage () {
+        if (unsavedTitle) {
+            handleSavePage()
+        }
         if (pages[0].length - 1 > selectedPage) {
             setCurrentPage([pages[0][selectedPage + 1], pages[1][selectedPage + 1]])
             setSelectedPage(selectedPage + 1)
             setPageIndex(pageIndex + 1)
             setPageTitle(null)
         }
-        console.log(selectedPage)
-
-        // else {
-        //      new page
-        // }
     }
     useEffect(()=>{
+        
+        dispatch()
         setCurrentPage([pages[0][totalPages - 1],pages[1][totalPages - 1]])
     },[totalPages])
     return(
         <S.PageEditor>
+            <button onClick={() => console.log(pagesList)}>TEST</button>
             <S.Head>
                 <S.PageTitle onClick={()=>setTitleClicked(true)}>
                     {titleClicked ? 
@@ -78,7 +90,7 @@ const PageEditor = (props) => {
                             ref={editTitleRef}
                         /> 
                         :
-                        pageTitle == null ? currentPage[0] : pageTitle
+                        unsavedTitle ? pageTitle : currentPage[0]
                     }
 
                 </S.PageTitle>
