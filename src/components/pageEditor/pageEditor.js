@@ -16,34 +16,42 @@ const PageEditor = (props) => {
     const [currentPage, setCurrentPage] = useState([pagesList[0][initialAmount - 1],pagesList[1][initialAmount - 1]])
     const [prevPage_, setPrevPage_] = useState( [pagesList[0][initialAmount - 2],pagesList[1][initialAmount - 2]])
     const [nextPage_, setNextPage_] = useState(['NEW PAGE 📄', 'Type here! ⌨'])
-
-    const [pageTitle, setPageTitle] = useState(currentPage[0])
-    const [pageContent, setPageContent] = useState(currentPage[1])
     const [pageAmount, setPageAmount] = useState(pagesList[0].length)
     const [pageIndex, setPageIndex] = useState(initialAmount)
     const editTitleRef = useRef()
     const [titleClicked, setTitleClicked] = useState(false)
-    console.log('####################################### RERENDER LINE')
-    console.log('currentPage', currentPage)
-    console.log('prevPage_', prevPage_)
-    console.log('nextPage_', nextPage_)
+    // console.log('####################################### RERENDER LINE')
+    // console.log('currentPage', currentPage)
+    // console.log('prevPage_', prevPage_)
+    // console.log('nextPage_', nextPage_)
 
-    async function prevPage() {
+    function prevPage() {
         if (pageIndex > 1) {
-            await setPageTitle(pagesList[0][pageIndex - 1])
-            await setPageContent(pagesList[1][pageIndex - 1])
             setPageIndex(pageIndex - 1)
+            setCurrentPage(prevPage_)
+            setPrevPage_([pagesList[0][pageIndex - 3],pagesList[1][pageIndex - 3]])
+            setNextPage_([pagesList[0][pageIndex - 1],pagesList[1][pageIndex - 1]])
+        } else {
+            setCurrentPage([pagesList[0][pageIndex - 1], pagesList[1][pageIndex - 1]])
         }
     }
     async function nextPage() {
+        if (pageIndex < pageAmount) {
+            setCurrentPage(nextPage_)
+            setPrevPage_([pagesList[0][pageIndex - 1],pagesList[1][pageIndex - 1]])
+            setNextPage_([pagesList[0][pageIndex + 1],pagesList[1][pageIndex + 1]])
+            if (pageIndex == pageAmount - 1) {
+                setNextPage_(['NEW PAGE 📄', 'Type here! ⌨'])
+            }
+        }
         if (pageIndex == pageAmount) { // NEW PAGE BUTTON
+            setPrevPage_([pagesList[0][pageIndex - 3],pagesList[1][pageIndex - 3]])
+            setCurrentPage(nextPage_)
             dispatch(addNewPage())
             setPageAmount(pageAmount + 1)
+            setPageIndex(pageIndex + 1)
         }
         setPageIndex(pageIndex + 1)
-        await setPageTitle(pagesList[0][pageIndex + 1])
-        await setPageContent(pagesList[1][pageIndex + 1])
-
     }
     
     function handleKeyPress (e) {
@@ -53,15 +61,20 @@ const PageEditor = (props) => {
     }
     function handleTitleChange (e) {
         if (e.target.value != '') {
-            editPageTitle({index: pageIndex, title: e.target.value})
+            let tempList = [...pagesList[0]]
+            tempList[pageIndex - 1] = e.target.value
+            dispatch(editPageTitle(tempList))
+            currentPage[0] = e.target.value
         }
         setTitleClicked(false)
     }
     function handleContentChange(e){
-        editPageContent({index: pageIndex, content: e.target.value})
+        let tempList = [...pagesList[1]]
+        tempList[pageIndex - 1] = e.target.value
+        dispatch(editPageContent(tempList))
     }
     function handleSaveChanges(){
-        // savePage(currentJournal, unsavedPage.unsavedTitle, unsavedPage.unsavedContent)
+        savePage(currentJournal, pagesList[0], pagesList[1])
     }
 
 
@@ -72,13 +85,13 @@ const PageEditor = (props) => {
                     {titleClicked ? 
                         <S.EditTitle 
                             onBlur={(e)=>handleTitleChange(e)} 
-                            placeholder={pageTitle} 
+                            placeholder={currentPage[0]} 
                             maxLength="25" 
                             autoFocus
                             onKeyUp={handleKeyPress}
                             ref={editTitleRef}
                         /> 
-                        : pageTitle
+                        : currentPage[0]
                     }
 
                 </S.PageTitle>
@@ -90,8 +103,9 @@ const PageEditor = (props) => {
             </S.Head>
             <S.Content>
                 <S.TextArea 
-                    id='pageEditorTextArea' 
-                    defaultValue={pageContent} 
+                    id='pageEditorTextArea'
+                    key={pageIndex}
+                    defaultValue={currentPage[1]} 
                     onChange={e=>handleContentChange(e)}
                 />
             </S.Content>

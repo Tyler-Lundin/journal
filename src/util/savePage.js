@@ -7,8 +7,8 @@ async function savePage (journal, title, content) {
     const docRef = doc(db, userID, journalID);
     
     await updateDoc(docRef, {
-        pagesContent: [content],
-        pageTitles: [title]
+        pageTitles: title,
+        pagesContent: content
     })
  
 }

@@ -11,14 +11,14 @@ export const pagesListSlice = createSlice({
       state.value = (action.payload)
     },
     addNewPage: (state) => {
-      state.value[0].push('Page Title 🙂')
-      state.value[1].push('Page 🙂')
+      state.value[0].push('NEW PAGE 📄')
+      state.value[1].push('Type here! ⌨')
     },
     editPageTitle: (state, action) => {
-      state.value[0][action.payload.index] = action.payload.title
+      state.value[0] = action.payload
     },
     editPageContent: (state, action) => {
-      state.value[1][action.payload.index] = action.payload.content
+      state.value[1] = action.payload
     },
     clrPagesList: state => {
       state.value = [[],[]]

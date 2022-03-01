@@ -31,14 +31,12 @@ const Nav = () => {
     onFailure,
     });
 
-    // useEffect( ()=>{
-    //     if(toggle){
-    //         dispatch(openNav())
-    //     }
-    //     else {
-    //         dispatch(closeNav())
-    //     }
-    // } ,[toggle])
+    function handleJournals () {
+        // if (unsaved && journalOpen) {
+        //     prompt warning
+        // }
+        
+    }
 
     return (
         <>
@@ -51,8 +49,8 @@ const Nav = () => {
                         {user ? <S.UserImage src={user.imageUrl}/> : <></>}
                     </S.UserImageContainer>
                     <S.Links>
-                        <S.Link onClick={()=>{console.log('click journals')}}>JOURNALS</S.Link>
-                        <S.Link>SETTINGS</S.Link>
+                        <S.Link onClick={()=>handleJournals}>JOURNALS</S.Link>
+                        {/* <S.Link>SETTINGS</S.Link> */}
                         <S.Link onClick={signOut}>LOGOUT</S.Link>
                     </S.Links>                 
                 </S.SlideOutMenu>
