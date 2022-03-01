@@ -1,4 +1,4 @@
-import styled, {keyframes} from "styled-components";
+import styled from "styled-components";
 import JournalLogo from './../assets/JOURNAL.png'
 import { upDown } from "../util/animations";
 import Login from './Login/Login';
@@ -33,7 +33,7 @@ S.Logo = styled.img`
 `
 
 
-const LoggedOut = (props) => {
+const LoggedOut = () => {
     const [counter, setCounter] = useState(0)
     const dispatch = useDispatch()
     function clearStateSignout () {
@@ -42,19 +42,16 @@ const LoggedOut = (props) => {
         dispatch(clrCurrentJournal())
         dispatch(clrCurrentPage())
         setCounter(0)
-      }
-      useEffect(()=>{
-        if (counter > 1) {
-            clearStateSignout()
-        }
-      }
-    ,[])
-    console.log(counter)
+    }
+    useEffect(()=>{
+    if (counter > 1) {
+        clearStateSignout()
+    }
+    },[])
     return (
         <S.LoggedOut id="LoggedOut">
             <S.Logo id="LogInLogo" src={JournalLogo}/>
-            <Login setUser={props.setUser}/>            
-            {/* <S.SignInBtn id="LogInWithGoogleBtn" onClick={props.handleLogin} src={SignInBtn}/> */}
+            <Login/>            
         </S.LoggedOut>
     )
 }

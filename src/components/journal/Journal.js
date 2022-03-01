@@ -2,29 +2,32 @@ import styled from 'styled-components'
 import BlankJournal from './../../assets/JournalBlank.png'
 import { upDown } from '../../util/animations'
 import { useSelector, useDispatch } from 'react-redux'
-import { setCurrentJournalTitle, setCurrentJournalID } from './currentJournalSlice'
+import { setCurrentJournalTitle, setCurrentJournalID, setCurrentJournalPageAmount } from './currentJournalSlice'
 import loadSelectedJournal from '../../util/loadSelectedJournal'
 import { promptOpenJournal } from '../prompt/promptSlice'
 import { getPages } from '../../util'
-import { setCurrentPageContent, setCurrentPageTitle } from '../pageEditor/currentPageSlice'
+import { setCurrentPageContent, setCurrentPageTitle, setCurrentPageIndex } from '../pageEditor/currentPageSlice'
+import { setPageList } from '../pageEditor/pagesListSlice'
 const Journal = (props) => {
     const {index} = props
     const dispatch = useDispatch()
     const journalsList = useSelector(state => state.journalsList.value)
     const selectedTitle = journalsList.journalTitles[index]
     const selectedID = journalsList.journalIDs[index]
-    const prompt = useSelector(state => state.prompt.value)
 
-    const handleClick = async (index) => {
+    const handleClick = async (index) => { 
         const preloadPages = await getPages(selectedID)
         const journalLength = preloadPages.pageTitles.length
         const preloadedTitle = preloadPages.pageTitles[journalLength - 1]
         const preloadedContent = preloadPages.pageContent[journalLength - 1]
+        dispatch(setPageList([preloadPages.pageTitles,preloadPages.pageContent]))
+        dispatch(setCurrentJournalPageAmount(journalLength))
         dispatch(setCurrentJournalTitle(selectedTitle))
         dispatch(setCurrentJournalID(selectedID))
         dispatch(promptOpenJournal(selectedTitle))
         dispatch(setCurrentPageTitle(preloadedTitle))
         dispatch(setCurrentPageContent(preloadedContent))
+        dispatch(setCurrentPageIndex(journalLength))
     }
 
     return (

@@ -1,9 +1,10 @@
-import React from 'react';
-import { GoogleLogin } from 'react-google-login';
+import React from 'react'
+import { GoogleLogin } from 'react-google-login'
 // refresh token
-import { refreshTokenSetup } from '../../util/refreshToken';
-import { useDispatch } from 'react-redux';
-import { setUser } from './userSlice';
+import { refreshTokenSetup } from '../../util/refreshToken'
+import { useDispatch } from 'react-redux'
+import { setUser } from './userSlice'
+import styled from 'styled-components'
 
 const clientId =
   '56356826329-i6jr7h582u1l3b8c07kp2kdrvqnp9m5f.apps.googleusercontent.com';
@@ -17,10 +18,8 @@ function Login(props) {
     refreshTokenSetup(res);
   };
   const onFailure = (res) => {
-    console.log('Login failed: res:', res);
-    alert(
-      `Failed to login. 😢`
-    );
+    console.log(res);
+
   };
 
   return (
@@ -31,7 +30,7 @@ function Login(props) {
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={'single_host_origin'}
-        style={{ marginTop: '100px' }}
+        style={{ marginTop: '50px' }}
         isSignedIn={true}
       />
     </div>
@@ -39,3 +38,6 @@ function Login(props) {
 }
 
 export default Login;
+
+// https://github.com/Sivanesh-S/react-google-authentication
+// CREDIT TO SIVANESH-S FOR HIS BLOG POST ON HOW TO SET IT ALL UP

@@ -7,20 +7,26 @@ export const pagesListSlice = createSlice({
     value: [[],[]]
   },
   reducers: {
-    loadPages: (state, action) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      getPages(action)
+    setPageList: (state, action) => {
+      state.value = (action.payload)
+    },
+    addNewPage: (state) => {
+      state.value[0].push('Page Title 🙂')
+      state.value[1].push('Page 🙂')
+    },
+    editPageTitle: (state, action) => {
+      state.value[0][action.payload.index] = action.payload.title
+    },
+    editPageContent: (state, action) => {
+      state.value[1][action.payload.index] = action.payload.content
     },
     clrPagesList: state => {
-      state.value = null
+      state.value = [[],[]]
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { loadPages, clrPagesList } = pagesListSlice.actions
+export const { setPageList, addNewPage, editPageTitle, editPageContent, clrPagesList } = pagesListSlice.actions
 
 export default pagesListSlice.reducer

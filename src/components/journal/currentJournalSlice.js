@@ -6,9 +6,8 @@ export const currentJournalSlice = createSlice({
     value: {
       currentTitle: '',
       currentID: '',
-      pageTitles: [],
-      pagesContent: [],
-      isJournalOpen: false
+      isJournalOpen: false,
+      pageAmount: 0
     } 
   },
   reducers: {
@@ -18,12 +17,9 @@ export const currentJournalSlice = createSlice({
     setCurrentJournalID: (state, action) => {
       state.value.currentID = action.payload
     },
-    // setPageTitles: (state, action) => {
-    //   state.value = action.payload
-    // },
-    // setPageContent: (state, action) => {
-    //   state.value = action.payload
-    // },
+    setCurrentJournalPageAmount: (state, action) => {
+      state.value.pageAmount = action.payload
+    },
     openJournal: state => {
       state.value.isJournalOpen = true
     },
@@ -35,6 +31,6 @@ export const currentJournalSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setCurrentJournalTitle, setCurrentJournalID, openJournal, closeJournal, clrCurrentJournal } = currentJournalSlice.actions
+export const { setCurrentJournalTitle, setCurrentJournalID, setCurrentJournalPageAmount, openJournal, closeJournal, clrCurrentJournal } = currentJournalSlice.actions
 
 export default currentJournalSlice.reducer

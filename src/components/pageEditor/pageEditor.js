@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
-import savePage from './../../util/savePage'
+import savePage from '../../util/savePage'
 import { useDispatch, useSelector } from 'react-redux';
+import { addNewPage, editPageTitle, editPageContent } from './pagesListSlice';
 
 
 const S = {}
@@ -9,21 +10,40 @@ const S = {}
 
 const PageEditor = (props) => {
     const dispatch = useDispatch()
-
     const currentJournal = useSelector(state => state.currentJournal.value)
     const pagesList = useSelector(state => state.pagesList.value )
-    const pageTitle = useSelector(state => state.currentPage.value.pageTitle)
-    const pageContent = useSelector(state => state.currentPage.value.pageContent)
-    const user = useSelector(state => state.user.value)
+    const initialAmount = useSelector(state => state.currentJournal.value.pageAmount)
+    const [currentPage, setCurrentPage] = useState([pagesList[0][initialAmount - 1],pagesList[1][initialAmount - 1]])
+    const [prevPage_, setPrevPage_] = useState( [pagesList[0][initialAmount - 2],pagesList[1][initialAmount - 2]])
+    const [nextPage_, setNextPage_] = useState(['NEW PAGE 📄', 'Type here! ⌨'])
+
+    const [pageTitle, setPageTitle] = useState(currentPage[0])
+    const [pageContent, setPageContent] = useState(currentPage[1])
+    const [pageAmount, setPageAmount] = useState(pagesList[0].length)
+    const [pageIndex, setPageIndex] = useState(initialAmount)
     const editTitleRef = useRef()
     const [titleClicked, setTitleClicked] = useState(false)
-    const [unsavedPage, setUnsavedChanges] = useState({unsavedTitle: pageTitle, unsavedContent: pageContent})
+    console.log('####################################### RERENDER LINE')
+    console.log('currentPage', currentPage)
+    console.log('prevPage_', prevPage_)
+    console.log('nextPage_', nextPage_)
 
-    function prevPage() {
-        
+    async function prevPage() {
+        if (pageIndex > 1) {
+            await setPageTitle(pagesList[0][pageIndex - 1])
+            await setPageContent(pagesList[1][pageIndex - 1])
+            setPageIndex(pageIndex - 1)
+        }
     }
-    function nextPage() {
-        
+    async function nextPage() {
+        if (pageIndex == pageAmount) { // NEW PAGE BUTTON
+            dispatch(addNewPage())
+            setPageAmount(pageAmount + 1)
+        }
+        setPageIndex(pageIndex + 1)
+        await setPageTitle(pagesList[0][pageIndex + 1])
+        await setPageContent(pagesList[1][pageIndex + 1])
+
     }
     
     function handleKeyPress (e) {
@@ -33,17 +53,16 @@ const PageEditor = (props) => {
     }
     function handleTitleChange (e) {
         if (e.target.value != '') {
-            unsavedPage.unsavedTitle = e.target.value
+            editPageTitle({index: pageIndex, title: e.target.value})
         }
         setTitleClicked(false)
     }
     function handleContentChange(e){
-        unsavedPage.unsavedContent = e.target.value
+        editPageContent({index: pageIndex, content: e.target.value})
     }
     function handleSaveChanges(){
-        savePage(currentJournal, unsavedPage.unsavedTitle, unsavedPage.unsavedContent)
+        // savePage(currentJournal, unsavedPage.unsavedTitle, unsavedPage.unsavedContent)
     }
-
 
 
     return(
@@ -59,14 +78,13 @@ const PageEditor = (props) => {
                             onKeyUp={handleKeyPress}
                             ref={editTitleRef}
                         /> 
-                        :
-                        unsavedPage.unsavedTitle
+                        : pageTitle
                     }
 
                 </S.PageTitle>
                 <S.CounterContainer >
                     <S.PageCounter>
-                       
+                       {pageIndex}/{pageAmount}
                     </S.PageCounter>
                 </S.CounterContainer >
             </S.Head>
@@ -78,9 +96,9 @@ const PageEditor = (props) => {
                 />
             </S.Content>
             <S.Footer>
-                <S.PreviousPage onClick={()=>prevPage()}>^</S.PreviousPage>
+                <S.PreviousPage onClick={()=>prevPage()}>&#60;</S.PreviousPage>
                 <S.SaveButton onClick={()=>handleSaveChanges()}>SAVE CHANGES</S.SaveButton>
-                <S.NextPage onClick={()=>nextPage()}>^</S.NextPage>
+                <S.NextPage onClick={()=>nextPage()}>{pageIndex == pageAmount ? '+' : '>'}</S.NextPage>
             </S.Footer>
         </S.PageEditor>
     )
@@ -101,7 +119,6 @@ S.Head = styled.div`
     height: 10vh;
     display: grid;
     /* grid-auto-flow: column; */
-    grid-template-rows: 32px 32px;
     justify-items: center;
     align-items: center;
 `
@@ -113,37 +130,36 @@ background: none;
 /* border-radius: 0; */
 border: none;
 text-align: center;
+font-size: 2.5rem;
+
 ::placeholder {
-    color: white;
-    font-size: 1rem;
+    color: gray;
+    font-size: 2.5rem;
 }
 :focus {
     outline: none;
 }
 `;
 S.PageTitle = styled.div`
-    height: 30px;
     width: fit-content;
-    background: whitesmoke;
-    margin-top: 3vh;
+    /* margin-top: 3vh; */
+    font-size: 2.5rem;
     text-align: center;
     font-weight: 700;
     position: absolute;
 `
 S.CounterContainer = styled.div`
-    width: 100px;
     display: grid;
     justify-content: center;
+    position: absolute;
+    top: 3vh;
+    left: 3vh;
 `
 S.PageCounter = styled.div`
     width: fit-content;
-    height: 30px;
-    background: whitesmoke;
-    margin-top: 3vh;
     text-align: center;
-    line-height: 28px;
+    line-height: 30px;
 `
-
 S.Content = styled.div`
     width: 98%;
     height: 80vh;
@@ -162,7 +178,6 @@ S.TextArea = styled.textarea`
         outline: none;
     }
 `
-
 S.Footer = styled.div`
     width: 100%;
     height: 10vh;
@@ -178,110 +193,40 @@ S.SaveButton = styled.div`
     height: 7vh;
     font-size: 2rem;
     line-height: 7vh;
-    border-radius: 15px;
-    background: rgba(255,255,255,0.2);
     transition: 250ms;
     cursor: pointer;
+    border-radius: 5px;
+    border: 2px solid black;
     :hover {
-        background: rgba(255,255,255,0.5);
-
+        background: white;
     }
 `
-
 S.PreviousPage = styled.div`
     width: 7vh;
     height: 7vh;
     font-size: 7vh;
-    transform: rotate(-90deg);
-    background: rgba(255,255,255,0.2);
     cursor: pointer;
-    border-radius: 50%;
-    line-height: 8vh;
+    line-height: 6vh;
     transition: 250ms;
+    border-radius: 50%;
+    border: 2px solid black;
     :hover {
-        background: rgba(255,255,255,0.5);
+        background: white;
     }
 `
-
 S.NextPage = styled.div`
     width: 7vh;
     height: 7vh;
     font-size: 7vh;
     cursor: pointer;
-    transform: rotate(90deg);
-    background: rgba(255,255,255,0.2);
-    border-radius: 50%;
-    line-height: 8vh;
+    line-height: 6vh;
     transition: 250ms;
+    border-radius: 50%;
+    border: 2px solid black;
     :hover {
-        background: rgba(255,255,255,0.5);
+        background: white;
     }
 
 `
 
 
-
-// let _pagesList = getPages()
-    // const {
-    //     handlePageCounter,
-    //     pageIndex,
-    //     pages,
-    //     totalPages,
-    //     currentPage,
-    //     setCurrentPage,
-    //     journalIndex,
-    //     currentJournal,
-    //     setUnsavedChanges,
-    //     setPageIndex
-    // } = props
-    // const [currentPageContent, setCurrentPageContent] = useState()
-    // const [titleClicked, setTitleClicked] = useState(false)
-    // const editTitleRef = useRef();
-    // const [pageTitle, setPageTitle] = useState(currentPage[0])
-    // const [selectedPage, setSelectedPage] = useState(1)
-    // const [unsavedTitle, setUnsavedTitle] = useState(false)
-    // function changeTitle (e) {
-    //     setUnsavedTitle(true)
-    //     if (e.target.value !== '') {
-    //         setPageTitle(e.target.value)
-    //     }
-    //     setTitleClicked(false)
-    //     setUnsavedChanges(true)
-    // }
-
-    // function handleKeyPress (e) {
-    //     if (e.key === 'Enter') {
-    //         editTitleRef.current.blur()
-    //     }
-    // }
-    // function handleSavePage () {
-    //     savePage(currentJournal, pages, pageIndex, currentPageContent, pageTitle)
-    //     setUnsavedTitle(false)
-    // }
-    // function prevPage () {
-    //     if (unsavedTitle) {
-    //         handleSavePage()
-    //     }
-    //     if (pages[0].length - 1 <= selectedPage) {
-    //         setCurrentPage([pages[0][selectedPage - 1], pages[1][selectedPage - 1]])
-    //         setSelectedPage(selectedPage - 1)
-    //         setPageIndex(pageIndex - 1)
-    //         setPageTitle(null)
-    //     }
-    // }
-    // function nextPage () {
-    //     if (unsavedTitle) {
-    //         handleSavePage()
-    //     }
-    //     if (pages[0].length - 1 > selectedPage) {
-    //         setCurrentPage([pages[0][selectedPage + 1], pages[1][selectedPage + 1]])
-    //         setSelectedPage(selectedPage + 1)
-    //         setPageIndex(pageIndex + 1)
-    //         setPageTitle(null)
-    //     }
-    // }
-    // useEffect(()=>{
-        
-    //     dispatch()
-    //     setCurrentPage([pages[0][totalPages - 1],pages[1][totalPages - 1]])
-    // },[totalPages])

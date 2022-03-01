@@ -5,16 +5,23 @@ export const currentPageSlice = createSlice({
   initialState: {
     value: {
       pageTitle: '',
-      pageContent: ''
+      pageContent: '',
+      pageIndex: 0
     }
   },
   reducers: {
     setCurrentPageTitle: (state,action) => {
       state.value.pageTitle = action.payload
     },
+
     setCurrentPageContent: (state,action) => {
       state.value.pageContent = action.payload
     },
+
+    setCurrentPageIndex: (state, action) => {
+      state.value.pageIndex = action.payload
+    },
+
     clrCurrentPage: state => {
       state.value = {
         pageTitle: '',
@@ -25,6 +32,6 @@ export const currentPageSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setCurrentPageTitle, setCurrentPageContent, clrCurrentPage} = currentPageSlice.actions
+export const { setCurrentPageTitle, setCurrentPageContent, setCurrentPageIndex, clrCurrentPage} = currentPageSlice.actions
 
 export default currentPageSlice.reducer
