@@ -1,10 +1,10 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import styled from 'styled-components'
 import savePage from '../../util/savePage'
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewPage, editPageTitle, editPageContent } from './pagesListSlice';
 import { auth } from '../../util/firebase';
-import {IoIosArrowBack, IoIosArrowForward, IoIosAdd} from 'react-icons/io'
+import {IoIosAdd} from 'react-icons/io'
 import {MdKeyboardArrowLeft, MdKeyboardArrowRight} from 'react-icons/md'
 const S = {}
 
