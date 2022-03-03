@@ -107,7 +107,7 @@ S.SmallMessage = styled.div`
 `
 S.Message = styled.div`
     color: white;
-    font-size: 2.5rem;
+    font-size: 2rem;
     align-self: center;
 `
 S.Btns = styled.div`
