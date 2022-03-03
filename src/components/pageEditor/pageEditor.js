@@ -220,6 +220,7 @@ S.TextArea = styled.textarea`
     resize: none;
     border: none;
     background: #e4e4e4;
+    font-size: 1.5rem;
     :focus {
         outline: none;
     }
