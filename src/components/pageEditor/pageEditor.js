@@ -167,16 +167,19 @@ background: none;
 /* border-radius: 0; */
 border: none;
 text-align: center;
-font-size: 1rem;
-    @media (min-width: 550px) {
-        font-size: 1.5rem;
+font-size: 1.5rem;
+font-family:"le-havre";
+
+    @media (max-width: 550px) {
+        font-size: 1rem;
     }
 
 ::placeholder {
     color: gray;
-    font-size: 1rem;
-    @media (min-width: 550px) {
-        font-size: 1.5rem;
+    font-size: 1.5rem;
+    font-family:"le-havre";
+    @media (max-width: 550px) {
+        font-size: 1rem;
     }
 }
 :focus {
