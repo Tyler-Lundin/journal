@@ -25,7 +25,8 @@ export const currentPageSlice = createSlice({
     clrCurrentPage: state => {
       state.value = {
         pageTitle: '',
-        pageContent: ''
+        pageContent: '',
+        pageIndex: 0
       }
     }
   }

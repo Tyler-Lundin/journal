@@ -1,9 +1,8 @@
 import {doc, getDoc} from 'firebase/firestore'
-import {db, auth} from './firebase'
+import {db} from './firebase'
 
-async function loadSelectedJournal (jrnlID) {
-    const uID = auth.currentUser.uid
-    const docRef = await doc(db, uID, jrnlID.toString())
+async function loadSelectedJournal (email, jrnlID) {
+    const docRef = await doc(db, email, jrnlID.toString())
     const docSnap = await getDoc(docRef)
 
     if(docSnap.exists()){

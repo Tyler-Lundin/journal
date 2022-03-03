@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getPages } from '../../util'
 
 export const pagesListSlice = createSlice({
   name: 'pagesList',

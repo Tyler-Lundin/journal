@@ -1,24 +1,72 @@
 import styled from 'styled-components'
 import promptMessage from '../../util/promptAction'
 import { useSelector, useDispatch } from 'react-redux'
-import { promptAccept, promptCancel } from './promptSlice'
+import { promptAccept, promptCancel, promptDeleteWarning } from './promptSlice'
 import { openJournal } from '../journal/currentJournalSlice'
+import createJournal from '../../util/createJournal'
+import { useRef, useState } from 'react'
+import deleteJournal from '../../util/deleteJournal'
+import { auth } from '../../util/firebase'
+const Prompt = (props) => {
 
-const Prompt = () => {
-
+    const {
+        getJournalList
+    } = props
     const dispatch = useDispatch()
     const promptMessage = useSelector(state => state.prompt.value.message)
+    const user = useSelector(state => state.user.value)
+    const promptAction = useSelector(state => state.prompt.value.action)
+    const selectedTitle = useSelector(state => state.currentJournal.value.currentTitle)
+    const selectedID = useSelector(state => state.currentJournal.value.currentID)
+    const newTitleRef = useRef()
+    const [deleteJournalCheck, setDeleteJournalCheck] = useState(false)
 
     const handleCancel = () => dispatch( promptCancel() )
     const handleConfirm = () => {
-        dispatch( promptAccept() )
-        dispatch( openJournal() )
+        if (promptAction == 'OpenJournal') {
+            dispatch( promptAccept('OpenJournalAccepted') )
+            dispatch( openJournal() )
+        }
+        if (promptAction == 'NewJournal') {
+            dispatch ( promptAccept('NewJournalAccepted'))
+            createJournal(newTitleRef.current.value, auth.currentUser.email)
+            getJournalList()
+        }
+        if (deleteJournalCheck) {
+            deleteJournal(selectedID)
+            dispatch ( promptAccept('JournalDeleted'))
+            getJournalList()
+        }
+
+    }
+    const handleDelete = () => {
+        setDeleteJournalCheck(!deleteJournalCheck)
+        dispatch( promptDeleteWarning(selectedTitle) )
     }
     return (
         <>
             <S.Shadow>
                 <S.Prompt>
-                    <S.Message>{promptMessage}</S.Message>
+                    { promptAction == 'NewJournal' ? 
+                        <S.TitleInputContainer>
+                            <S.SmallMessage>What will you call this Journal?</S.SmallMessage>
+                            <S.TitleInput maxLength={25} ref={newTitleRef}/>
+
+                        </S.TitleInputContainer>
+
+                    :
+                        
+                            !deleteJournalCheck ? 
+                            <S.OpenJournalContainer>
+                                <S.DeleteJournal onClick={handleDelete}>DELETE JOURNAL</S.DeleteJournal>
+                                <S.Message>{promptMessage}</S.Message>
+                            </S.OpenJournalContainer>
+                            :
+                            <S.Message>
+                                {promptMessage}
+                            </S.Message>
+                        
+                    }
                     <S.Btns>    
                         <S.Cancel onClick={handleCancel}>CANCEL</S.Cancel> 
                         <S.Confirm onClick={handleConfirm}>CONFIRM</S.Confirm>
@@ -36,12 +84,12 @@ S.Shadow = styled.div`
     width: 100vw;
     height: 100vh;
     background: rgba(0,0,0,0.5);
-    z-index: 999999999;
+    z-index: 99999999;
     position: absolute;
 `
 S.Prompt = styled.div`
     width: 70vw;
-    min-height: 40vh;
+    min-height: 30vh;
     background: rgb(50,50,50);
     border-radius: 10px;
     border: 3px solid rgb(230,230,230);
@@ -49,14 +97,18 @@ S.Prompt = styled.div`
     left: 50%; top: 50%;
     transform: translate(-50%, -50%);
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 2fr 1fr;
     text-align:center ;
 
 `
-
+S.SmallMessage = styled.div`
+    color: white;
+    font-size: 1.5rem;
+    align-self: center;
+`
 S.Message = styled.div`
     color: white;
-    font-size: 3rem;
+    font-size: 2.5rem;
     align-self: center;
 `
 S.Btns = styled.div`
@@ -89,5 +141,30 @@ S.Cancel = styled.div`
     :hover {
         opacity: .7;
         cursor: pointer;
+    }
+`
+S.OpenJournalContainer = styled.div`
+    display: grid;
+    justify-items: center;
+    grid-template-rows: 1rem 1fr;
+`
+S.TitleInputContainer = styled.div`
+    display: grid;
+    justify-items: center;
+`
+S.TitleInput = styled.input`
+    outline: none;
+    font-size: 1.5rem;
+    text-align: center;
+    width: 80%;
+    height: 4rem;
+`
+
+S.DeleteJournal = styled.div`
+    color: gray;
+    width: fit-content;
+    height: fit-content;
+    :hover {
+        color: red;
     }
 `

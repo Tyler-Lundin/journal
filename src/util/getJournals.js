@@ -1,10 +1,8 @@
 import { getDocs, collection } from 'firebase/firestore'
-import {db, auth} from './firebase'
+import {auth, db} from './firebase'
 
-async function getJournals (dispatch, action) {
-    console.log('start get journals')
-    const userID = auth.currentUser.uid
-    const collRef = collection(db, userID);
+async function getJournals () {
+    const collRef = collection(db, auth.currentUser.email);
     const querySnapshot = await getDocs(collRef);
     let list = {
       journalTitles: [],

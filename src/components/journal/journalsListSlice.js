@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getJournals } from '../../util'
+import { getJournals } from '../../util/getJournals'
 
 export const journalsListSlice = createSlice({
   name: 'journalsList',
@@ -16,7 +16,10 @@ export const journalsListSlice = createSlice({
       state.value = action.payload
     },
     clrJournalsList: state => {
-      state.value = null
+      state.value = {
+        journalTitles: [],
+        journalIDs: []
+      }
     }
   }
 })

@@ -1,13 +1,25 @@
 import styled from "styled-components";
 import JournalLogo from './../assets/JOURNAL.png'
 import { upDown } from "../util/animations";
-import Login from './Login/Login';
 import { useDispatch } from 'react-redux';
-import { useEffect, useState } from "react";
-import { clrJournalsList } from './journal/journalsListSlice';
-import { clrPagesList } from './pageEditor/pagesListSlice'
-import { clrCurrentJournal } from './journal/currentJournalSlice';
-import { clrCurrentPage } from './pageEditor/currentPageSlice';
+import { setUser } from './Login/userSlice'
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+
+
+// Configure FirebaseUI.
+const uiConfig = {
+  signInFlow: 'popup',
+  signInSuccessUrl: '/',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    firebase.auth.EmailAuthProvider.PROVIDER_ID
+  ],
+};
+
+
+
 
 
 const S = {}
@@ -34,24 +46,13 @@ S.Logo = styled.img`
 
 
 const LoggedOut = () => {
-    const [counter, setCounter] = useState(0)
     const dispatch = useDispatch()
-    function clearStateSignout () {
-        dispatch(clrJournalsList())
-        dispatch(clrPagesList())
-        dispatch(clrCurrentJournal())
-        dispatch(clrCurrentPage())
-        setCounter(0)
-    }
-    useEffect(()=>{
-    if (counter > 1) {
-        clearStateSignout()
-    }
-    },[])
+
+
     return (
         <S.LoggedOut id="LoggedOut">
             <S.Logo id="LogInLogo" src={JournalLogo}/>
-            <Login/>            
+            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
         </S.LoggedOut>
     )
 }

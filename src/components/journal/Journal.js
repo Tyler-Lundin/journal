@@ -3,9 +3,8 @@ import BlankJournal from './../../assets/JournalBlank.png'
 import { upDown } from '../../util/animations'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCurrentJournalTitle, setCurrentJournalID, setCurrentJournalPageAmount } from './currentJournalSlice'
-import loadSelectedJournal from '../../util/loadSelectedJournal'
 import { promptOpenJournal } from '../prompt/promptSlice'
-import { getPages } from '../../util'
+import getPages from '../../util/getPages'
 import { setCurrentPageContent, setCurrentPageTitle, setCurrentPageIndex } from '../pageEditor/currentPageSlice'
 import { setPageList } from '../pageEditor/pagesListSlice'
 const Journal = (props) => {
@@ -14,6 +13,7 @@ const Journal = (props) => {
     const journalsList = useSelector(state => state.journalsList.value)
     const selectedTitle = journalsList.journalTitles[index]
     const selectedID = journalsList.journalIDs[index]
+    const user = useSelector(state=> state.user.value)
 
     const handleClick = async (index) => { 
         const preloadPages = await getPages(selectedID)

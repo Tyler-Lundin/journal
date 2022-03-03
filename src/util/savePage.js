@@ -1,10 +1,9 @@
 import { doc, updateDoc} from 'firebase/firestore'
-import {db, auth} from './firebase'
+import {db} from './firebase'
 
-async function savePage (journal, title, content) {
+async function savePage (email, journal, title, content) {
     const journalID = journal.currentID[0]
-    const userID = auth.currentUser.uid
-    const docRef = doc(db, userID, journalID);
+    const docRef = doc(db, email, journalID);
     
     await updateDoc(docRef, {
         pageTitles: title,

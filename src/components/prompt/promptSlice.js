@@ -4,7 +4,9 @@ export const promptSlice = createSlice({
   initialState: {
     value: {
         message: '',
-        isOpen: false
+        isOpen: false,
+        action: '',
+        newTitle: ''
     }
   },
   reducers: {
@@ -12,31 +14,50 @@ export const promptSlice = createSlice({
     promptOpenJournal: (state, action) => {
         state.value = {
             message: `Open '${action.payload}'?`,
-            isOpen: true
+            isOpen: true,
+            action: 'OpenJournal'
         }
     },
-    promptCloseWithoutSave: (state, payload) => {
+    promptCloseWithoutSave: (state, action) => {
         state.value = {
             message: 'Close without saving? 😅',
-            isOpen: true
+            isOpen: true,
+            action: 'NewJournal'
         }
     },
-    promptAccept: (state) => {
+    promptCreateNewJournal: (state, action) => {
         state.value = {
             message: '',
-            isOpen: false
+            isOpen: true,
+            action: 'NewJournal',
+            newTitle: action.payload
         }
     },
-    promptCancel: (state, payload) => {
+    promptAccept: (state, action) => {
         state.value = {
             message: '',
-            isOpen: false
+            isOpen: false,
+            action: action.payload
+        }
+    },
+    promptCancel: (state, action) => {
+        state.value = {
+            message: '',
+            isOpen: false,
+            action: ''
+        }
+    },
+    promptDeleteWarning: (state, action) => {
+        state.value = {
+            message: `Delete '${action.payload}'? THIS IS PERMANENT 😱`,
+            isOpen: true,
+            action: 'DeleteWarning'
         }
     }
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { promptOpenJournal, promptCloseWithoutSave, promptAccept, promptCancel } = promptSlice.actions
+export const { promptOpenJournal, promptCloseWithoutSave, promptCreateNewJournal, promptAccept, promptCancel, promptDeleteWarning } = promptSlice.actions
 
 export default promptSlice.reducer

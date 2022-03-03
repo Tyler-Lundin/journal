@@ -3,39 +3,26 @@ import OpenMenu from './../../assets/menu.png'
 import CloseMenu from './../../assets/close.png'
 import { useGoogleLogout } from 'react-google-login';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react'
-import { closeNav, openNav } from './isNavOpenSlice';
+import { useState } from 'react'
 import { clearUser } from '../Login/userSlice';
-
+import { clrPagesList } from '../pageEditor/pagesListSlice'
+import { closeJournal } from '../journal/currentJournalSlice';
+import { clrJournalsList } from '../journal/journalsListSlice'
+import { auth } from '../../util/firebase';
+import { signOut } from 'firebase/auth';
 const S = {} // styles below
 
 const Nav = () => {
     const dispatch = useDispatch()
-    const _isMenuOpen = useSelector(state => state.isNavOpen.value)
-    const user = useSelector(state => state.user.value)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const clientId =
-    '707788443358-u05p46nssla3l8tmn58tpo9r5sommgks.apps.googleusercontent.com';
 
-    const onLogoutSuccess = (res) => {
-        console.log('logout')
-        dispatch(clearUser())
-      };
-    
-      const onFailure = () => {
-        console.log('Handle failure cases');
-      };
-    const { signOut } = useGoogleLogout({
-    clientId,
-    onLogoutSuccess,
-    onFailure,
-    });
-
-    function handleJournals () {
-        // if (unsaved && journalOpen) {
-        //     prompt warning
-        // }
+    async function handleLogout() {
+        await signOut(auth)
         
+    }
+    function handleJournalsLink () {
+        dispatch(closeJournal())
+        setIsMenuOpen(!isMenuOpen)
     }
 
     return (
@@ -46,12 +33,12 @@ const Nav = () => {
                 </S.Toggle>
                 <S.SlideOutMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
                     <S.UserImageContainer>
-                        {user ? <S.UserImage src={user.imageUrl}/> : <></>}
+                        {auth.currentUser ? <S.UserImage src={auth.currentUser.photoURL}/> : <></>}
                     </S.UserImageContainer>
                     <S.Links>
-                        <S.Link onClick={()=>handleJournals}>JOURNALS</S.Link>
+                        <S.Link onClick={()=>handleJournalsLink()}>JOURNALS</S.Link>
                         {/* <S.Link>SETTINGS</S.Link> */}
-                        <S.Link onClick={signOut}>LOGOUT</S.Link>
+                        <S.Link onClick={()=>handleLogout()}>LOGOUT</S.Link>
                     </S.Links>                 
                 </S.SlideOutMenu>
             </S.Nav>

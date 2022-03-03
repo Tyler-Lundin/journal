@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import savePage from '../../util/savePage'
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewPage, editPageTitle, editPageContent } from './pagesListSlice';
-
+import { auth } from '../../util/firebase';
 
 const S = {}
 
@@ -13,6 +13,7 @@ const PageEditor = (props) => {
     const currentJournal = useSelector(state => state.currentJournal.value)
     const pagesList = useSelector(state => state.pagesList.value )
     const initialAmount = useSelector(state => state.currentJournal.value.pageAmount)
+    const user = useSelector(state => state.user.value)
     const [currentPage, setCurrentPage] = useState([pagesList[0][initialAmount - 1],pagesList[1][initialAmount - 1]])
     const [prevPage_, setPrevPage_] = useState( [pagesList[0][initialAmount - 2],pagesList[1][initialAmount - 2]])
     const [nextPage_, setNextPage_] = useState(['NEW PAGE 📄', 'Type here! ⌨'])
@@ -53,10 +54,25 @@ const PageEditor = (props) => {
         }
         setPageIndex(pageIndex + 1)
     }
-    
+    let checkOnce = true 
     function handleKeyPress (e) {
-        if (e.key === 'Enter') {
-            editTitleRef.current.blur()
+        switch(e.key) {
+            case 'Enter':
+                editTitleRef.current.blur()
+                checkOnce = true
+                break;
+            case 'Escape':
+                editTitleRef.current.value = currentPage[0]
+                editTitleRef.current.blur()
+                break;
+            case 'ArrowLeft':
+            case 'ArrowRight':
+                if (checkOnce) {
+                    editTitleRef.current.value = currentPage[0]
+                    editTitleRef.current.setSelectionRange(Math.floor(currentPage[0].length / 2), Math.floor(currentPage[0].length / 2))
+                }
+                checkOnce = false
+                break;
         }
     }
     function handleTitleChange (e) {
@@ -74,7 +90,7 @@ const PageEditor = (props) => {
         dispatch(editPageContent(tempList))
     }
     function handleSaveChanges(){
-        savePage(currentJournal, pagesList[0], pagesList[1])
+        savePage(auth.currentUser.email, currentJournal, pagesList[0], pagesList[1])
     }
 
 
@@ -111,7 +127,7 @@ const PageEditor = (props) => {
             </S.Content>
             <S.Footer>
                 <S.PreviousPage onClick={()=>prevPage()}>&#60;</S.PreviousPage>
-                <S.SaveButton onClick={()=>handleSaveChanges()}>SAVE CHANGES</S.SaveButton>
+                <S.SaveButton onClick={()=>handleSaveChanges()}>Save</S.SaveButton>
                 <S.NextPage onClick={()=>nextPage()}>{pageIndex == pageAmount ? '+' : '>'}</S.NextPage>
             </S.Footer>
         </S.PageEditor>
@@ -144,23 +160,33 @@ background: none;
 /* border-radius: 0; */
 border: none;
 text-align: center;
-font-size: 2.5rem;
+font-size: 1rem;
+    @media (min-width: 550px) {
+        font-size: 1.5rem;
+    }
 
 ::placeholder {
     color: gray;
-    font-size: 2.5rem;
+    font-size: 1rem;
+    @media (min-width: 550px) {
+        font-size: 1.5rem;
+    }
 }
 :focus {
     outline: none;
 }
 `;
 S.PageTitle = styled.div`
-    width: fit-content;
     /* margin-top: 3vh; */
-    font-size: 2.5rem;
     text-align: center;
     font-weight: 700;
     position: absolute;
+    font-size: 1rem;
+    width: 150px;
+    @media (min-width: 550px) {
+        font-size: 1.5rem;
+        width: fit-content;
+    }
 `
 S.CounterContainer = styled.div`
     display: grid;
@@ -175,7 +201,7 @@ S.PageCounter = styled.div`
     line-height: 30px;
 `
 S.Content = styled.div`
-    width: 98%;
+    width: 100vw;
     height: 80vh;
     margin: auto;
     background: whitesmoke;

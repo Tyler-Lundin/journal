@@ -26,7 +26,12 @@ export const currentJournalSlice = createSlice({
     closeJournal: state => {
       state.value.isJournalOpen = false
     },
-    clrCurrentJournal: state => state.value == null
+    clrCurrentJournal: state => state.value == {
+      currentTitle: '',
+      currentID: '',
+      isJournalOpen: false,
+      pageAmount: 0
+    } 
   }
 })
 

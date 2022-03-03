@@ -1,19 +1,35 @@
 import LoggedIn from './components/LoggedIn';
 import LoggedOut from './components/LoggedOut';
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
+import {Routes, Route} from 'react-router-dom'
+import { auth } from './util/firebase';
+import { useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import Loading from './components/Loading';
+
 
 function App() {
-  const user = useSelector(state => state.user.value)
-  // CONSOLE_APP_INFO(1, 0)
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(false)
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUser(user)
+      console.log(user)
+    } else {
+      setUser(null)
+    }
+  });
+  function loadingTransition() {
+    setLoading(true)
+    setTimeout(()=>setLoading(false), 1000)
+  }
   return (
     <>
       <S.App>
-        {user ? 
-          <LoggedIn /> 
-          : 
-          <LoggedOut/>
-        }
+        <Routes>
+          <Route path="/" element={ user ? <LoggedIn /> : <LoggedOut />}/>
+        </Routes>
+        { loading ? <Loading /> : <></>}
       </S.App>
     </>
   );
