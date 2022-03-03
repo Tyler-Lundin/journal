@@ -1,6 +1,5 @@
 import styled from 'styled-components'
-import BlankJournal from './../../assets/JournalBlank.png'
-import { upDown } from '../../util/animations'
+import { upDown, openJournal} from '../../util/animations'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCurrentJournalTitle, setCurrentJournalID, setCurrentJournalPageAmount } from './currentJournalSlice'
 import { promptOpenJournal } from '../prompt/promptSlice'
@@ -29,11 +28,11 @@ const Journal = (props) => {
         dispatch(setCurrentPageContent(preloadedContent))
         dispatch(setCurrentPageIndex(journalLength))
     }
-
+    
     return (
-        <S.Container onClick={()=>handleClick(index)} id={selectedID}>
+        <S.Container className='journal' onClick={()=>handleClick(index)} id={selectedID}>
             <S.Journal>
-                <S.JournalIcon src={BlankJournal}/>
+                {/* <S.JournalIcon src={BlankJournal}/> */}
                 <S.TitleContainer>
                     <S.JournalTitle>{selectedTitle}</S.JournalTitle>
                 </S.TitleContainer>
@@ -48,22 +47,27 @@ const S = {}
 S.Container = styled.div`
     transition: 300ms;
     animation: ${upDown} 2.5s infinite alternate ease-out;
+    align-self: center;
     :hover {
-        animation: ${upDown} .5s infinite alternate ease-out;
+        animation: ${openJournal} 1s forwards alternate ease-out;
     }
 `
 S.Journal = styled.div`
     position: relative;
-    
+    width: 250px;
+    height: 350px;
+    background: #3d3a4b;
+    border-radius: 12px;
 `
 S.JournalIcon = styled.img`
-    width: 250px;
     position: relative;
 `
 S.JournalTitle = styled.h2`
     text-align: center;
     white-space: nowrap;
-
+    font-family: 'le-havre';
+    font-size: 2.2rem;
+    color: white;
 `
 S.TitleContainer = styled.div`
     position: absolute;

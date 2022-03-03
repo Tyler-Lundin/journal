@@ -9,7 +9,7 @@
     scrollbar-width: auto;
     scrollbar-color: #e08c8c #ffffff;
   }
-
+@import url(./animations.css);
   /* Chrome, Edge, and Safari */
   *::-webkit-scrollbar {
     width: 2px;

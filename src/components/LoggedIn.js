@@ -44,17 +44,11 @@ const LoggedIn = () => {
             }
             {
                 isJournalOpen ? <></> :           
-                <DisplayJournals>
+                <DisplayJournals handleCreateJournal={handleCreateJournal}>
                     {journalsList.journalTitles.map((title, index)=>
                         <Journal title={title} key={index} index={index} /> 
                     )}
                 </DisplayJournals>
-            }
-            {
-                isJournalOpen ? <></> : 
-                <S.CreateJournalButton onClick={()=>handleCreateJournal()}>
-                    Create Journal
-                </S.CreateJournalButton>
             }
             <Nav/>
         </S.LoggedIn>

@@ -43,6 +43,29 @@ S.Logo = styled.img`
     max-width: 340px;
     animation: ${upDown} 3s infinite alternate;
 `
+S.Journal = styled.div`
+    position: relative;
+    width: 250px;
+    height: 350px;
+    background: #3d3a4b;
+    border-radius: 12px;
+    animation: ${upDown} 2.5s infinite alternate ease-out;
+
+`
+S.JournalTitle = styled.h2`
+    text-align: center;
+    white-space: nowrap;
+    font-family: 'le-havre';
+    font-size: 2.2rem;
+    color: white;
+`
+S.TitleContainer = styled.div`
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-43%);
+    max-width: 220px;
+`
 
 
 const LoggedOut = () => {
@@ -51,10 +74,22 @@ const LoggedOut = () => {
 
     return (
         <S.LoggedOut id="LoggedOut">
-            <S.Logo id="LogInLogo" src={JournalLogo}/>
+            <S.Journal>
+            <S.TitleContainer>
+                    <S.JournalTitle>JOURNAL</S.JournalTitle>
+                </S.TitleContainer>
+            </S.Journal>
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+            <S.Signature>Created by Tyler Lundin</S.Signature>
         </S.LoggedOut>
     )
 }
 
 export default LoggedOut
+
+S.Signature = styled.h5`
+    position: absolute;
+    color: rgba(0,0,0,0.5);
+    text-align: center;
+    bottom: 5px;
+`

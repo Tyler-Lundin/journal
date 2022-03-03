@@ -4,7 +4,8 @@ import savePage from '../../util/savePage'
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewPage, editPageTitle, editPageContent } from './pagesListSlice';
 import { auth } from '../../util/firebase';
-
+import {IoIosArrowBack, IoIosArrowForward, IoIosAdd} from 'react-icons/io'
+import {MdKeyboardArrowLeft, MdKeyboardArrowRight} from 'react-icons/md'
 const S = {}
 
 
@@ -13,7 +14,6 @@ const PageEditor = (props) => {
     const currentJournal = useSelector(state => state.currentJournal.value)
     const pagesList = useSelector(state => state.pagesList.value )
     const initialAmount = useSelector(state => state.currentJournal.value.pageAmount)
-    const user = useSelector(state => state.user.value)
     const [currentPage, setCurrentPage] = useState([pagesList[0][initialAmount - 1],pagesList[1][initialAmount - 1]])
     const [prevPage_, setPrevPage_] = useState( [pagesList[0][initialAmount - 2],pagesList[1][initialAmount - 2]])
     const [nextPage_, setNextPage_] = useState(['NEW PAGE 📄', 'Type here! ⌨'])
@@ -21,10 +21,7 @@ const PageEditor = (props) => {
     const [pageIndex, setPageIndex] = useState(initialAmount)
     const editTitleRef = useRef()
     const [titleClicked, setTitleClicked] = useState(false)
-    // console.log('####################################### RERENDER LINE')
-    // console.log('currentPage', currentPage)
-    // console.log('prevPage_', prevPage_)
-    // console.log('nextPage_', nextPage_)
+
 
     function prevPage() {
         if (pageIndex > 1) {
@@ -97,25 +94,31 @@ const PageEditor = (props) => {
     return(
         <S.PageEditor>
             <S.Head>
-                <S.PageTitle onClick={()=>setTitleClicked(true)}>
-                    {titleClicked ? 
-                        <S.EditTitle 
-                            onBlur={(e)=>handleTitleChange(e)} 
-                            placeholder={currentPage[0]} 
-                            maxLength="25" 
-                            autoFocus
-                            onKeyUp={handleKeyPress}
-                            ref={editTitleRef}
-                        /> 
-                        : currentPage[0]
-                    }
+                <S.PreviousPage onClick={()=>prevPage()}><MdKeyboardArrowLeft/></S.PreviousPage>
+               
+                <S.TitleCounterContainer>
+                    <S.PageTitle onClick={()=>setTitleClicked(true)}>
+                        {titleClicked ? 
+                            <S.EditTitle 
+                                onBlur={(e)=>handleTitleChange(e)} 
+                                placeholder={currentPage[0]} 
+                                maxLength="25" 
+                                autoFocus
+                                onKeyUp={handleKeyPress}
+                                ref={editTitleRef}
+                            /> 
+                            : currentPage[0]
+                        }
 
-                </S.PageTitle>
-                <S.CounterContainer >
-                    <S.PageCounter>
-                       {pageIndex}/{pageAmount}
-                    </S.PageCounter>
-                </S.CounterContainer >
+                    </S.PageTitle>
+                    <S.CounterContainer >
+                        <S.PageCounter>
+                        {pageIndex}/{pageAmount}
+                        </S.PageCounter>
+                    </S.CounterContainer >
+                </S.TitleCounterContainer>
+                
+                <S.NextPage onClick={()=>nextPage()}>{pageIndex == pageAmount ? <IoIosAdd/> : <MdKeyboardArrowRight/>}</S.NextPage>
             </S.Head>
             <S.Content>
                 <S.TextArea 
@@ -126,9 +129,6 @@ const PageEditor = (props) => {
                 />
             </S.Content>
             <S.Footer>
-                <S.PreviousPage onClick={()=>prevPage()}>&#60;</S.PreviousPage>
-                <S.SaveButton onClick={()=>handleSaveChanges()}>Save</S.SaveButton>
-                <S.NextPage onClick={()=>nextPage()}>{pageIndex == pageAmount ? '+' : '>'}</S.NextPage>
             </S.Footer>
         </S.PageEditor>
     )
@@ -142,18 +142,25 @@ S.PageEditor = styled.div`
     height: 100vh;
     position: absolute;
     z-index: 999;
-    background: #acbcfe;
+    background: #e4e4e4;
+    overflow: hidden;
 `
 S.Head = styled.div`
     width: 100%;
-    height: 10vh;
     display: grid;
-    /* grid-auto-flow: column; */
+    grid-template-columns: 50px 2fr 50px;
     justify-items: center;
     align-items: center;
+    justify-content: center;
 `
-S.TitleContainer = styled.div`
-
+S.TitleCounterContainer = styled.div`
+    width: 100%;
+    height: 10vh;
+    display: grid;
+    grid-template-rows: 3fr 1fr;
+    justify-items: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
 `
 S.EditTitle = styled.input`
 background: none;
@@ -179,21 +186,17 @@ font-size: 1rem;
 S.PageTitle = styled.div`
     /* margin-top: 3vh; */
     text-align: center;
-    font-weight: 700;
-    position: absolute;
-    font-size: 1rem;
-    width: 150px;
-    @media (min-width: 550px) {
-        font-size: 1.5rem;
-        width: fit-content;
+    font-size: 1.5rem;
+    width: fit-content;
+    font-family:"le-havre";
+    @media (max-width: 550px) {
+        font-size: 1rem;
     }
+    
 `
 S.CounterContainer = styled.div`
     display: grid;
     justify-content: center;
-    position: absolute;
-    top: 3vh;
-    left: 3vh;
 `
 S.PageCounter = styled.div`
     width: fit-content;
@@ -204,7 +207,7 @@ S.Content = styled.div`
     width: 100vw;
     height: 80vh;
     margin: auto;
-    background: whitesmoke;
+    background: #e4e4e4;
     padding: 5px;
     box-sizing: border-box;
 `
@@ -213,7 +216,7 @@ S.TextArea = styled.textarea`
     height: 100%;
     resize: none;
     border: none;
-    background: whitesmoke;
+    background: #e4e4e4;
     :focus {
         outline: none;
     }
@@ -221,12 +224,6 @@ S.TextArea = styled.textarea`
 S.Footer = styled.div`
     width: 100%;
     height: 10vh;
-    display: grid;
-    grid-auto-flow: column;
-    justify-items: center;
-    align-items: center;
-    text-align: center;
-
 `
 S.SaveButton = styled.div`
     width: 100%;
@@ -242,31 +239,23 @@ S.SaveButton = styled.div`
     }
 `
 S.PreviousPage = styled.div`
-    width: 7vh;
-    height: 7vh;
-    font-size: 7vh;
+    width: 5vh;
+    height: 5vh;
+    font-size: 5vh;
     cursor: pointer;
     line-height: 6vh;
     transition: 250ms;
-    border-radius: 50%;
-    border: 2px solid black;
-    :hover {
-        background: white;
-    }
+    color: rgb(50,50,50);
+
 `
 S.NextPage = styled.div`
-    width: 7vh;
-    height: 7vh;
-    font-size: 7vh;
+    width: 5vh;
+    height: 5vh;
+    font-size: 5vh;
     cursor: pointer;
     line-height: 6vh;
     transition: 250ms;
-    border-radius: 50%;
-    border: 2px solid black;
-    :hover {
-        background: white;
-    }
-
+    color: rgb(50,50,50);
 `
 
 

@@ -92,7 +92,6 @@ S.Prompt = styled.div`
     min-height: 30vh;
     background: rgb(50,50,50);
     border-radius: 10px;
-    border: 3px solid rgb(230,230,230);
     position: absolute;
     left: 50%; top: 50%;
     transform: translate(-50%, -50%);
@@ -121,25 +120,25 @@ S.Btns = styled.div`
 `
 S.Confirm = styled.div`
     min-width: 70px;
-    width: 30vw;
+    width: 25vw;
     height: 3rem;
-    background: lightgreen;
     border-radius: 10px;
     transition: 250ms;
+    color: white;
     :hover {
-        opacity: .7;
+        background: rgba(255,255,255,0.2);
         cursor: pointer;
     }
 `
 S.Cancel = styled.div`
     min-width: 70px;
-    width: 30vw;
+    width: 25vw;
     height: 3rem;
-    background: lightcoral;
     border-radius: 10px;
     transition: 250ms;
+    color: white;
     :hover {
-        opacity: .7;
+        background: rgba(255,255,255,0.2);
         cursor: pointer;
     }
 `
@@ -164,6 +163,8 @@ S.DeleteJournal = styled.div`
     color: gray;
     width: fit-content;
     height: fit-content;
+    margin-top: 10px;
+
     :hover {
         color: red;
     }
