@@ -55,17 +55,16 @@ S.Nav = styled.div`
     position: absolute;
 `
 S.OpenMenu = styled.div`
-    width: 100%;
+    width: 8vh;
     height: 8vh;
     position: absolute;
     bottom: 1vh;
     color: black;
     z-index: 99999;
-    font-size: 7vh;
+    font-size: 8vh;
     text-align: center;
-    display: grid;
-    align-items: center;
-    justify-items: center;
+    left: 50%;
+    transform: translateX(-50%);
 `
 S.CloseMenu = styled.div`
     width: 8vh;

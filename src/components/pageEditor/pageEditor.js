@@ -129,6 +129,8 @@ const PageEditor = (props) => {
                 />
             </S.Content>
             <S.Footer>
+                <S.SaveButton onClick={()=>handleSaveChanges()}>save</S.SaveButton>
+                <S.SaveButton onClick={()=>console.log('PAGESETTINGS')}>page</S.SaveButton>
             </S.Footer>
         </S.PageEditor>
     )
@@ -213,9 +215,11 @@ S.Content = styled.div`
     background: #e4e4e4;
     padding: 5px;
     box-sizing: border-box;
+    display: grid;
+    justify-items: center;
 `
 S.TextArea = styled.textarea`
-    width: 100%;
+    width: 95%;
     height: 100%;
     resize: none;
     border: none;
@@ -228,19 +232,16 @@ S.TextArea = styled.textarea`
 S.Footer = styled.div`
     width: 100%;
     height: 10vh;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns:1fr 1fr ;
 `
 S.SaveButton = styled.div`
-    width: 100%;
-    height: 7vh;
-    font-size: 2rem;
-    line-height: 7vh;
-    transition: 250ms;
+    width: fit-content;
+    font-size: 1rem;
     cursor: pointer;
-    border-radius: 5px;
-    border: 2px solid black;
-    :hover {
-        background: white;
-    }
+
 `
 S.PreviousPage = styled.div`
     width: 5vh;
