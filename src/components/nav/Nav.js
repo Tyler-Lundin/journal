@@ -1,6 +1,4 @@
 import styled, {keyframes} from 'styled-components'
-import OpenMenu from './../../assets/menu.png'
-import CloseMenu from './../../assets/close.png'
 import { useDispatch } from 'react-redux';
 import { useState } from 'react'
 import { closeJournal } from '../journal/currentJournalSlice';

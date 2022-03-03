@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import JournalLogo from './../assets/JOURNAL.png'
 import { upDown } from "../util/animations";
 import { useDispatch } from 'react-redux';
-import { setUser } from './Login/userSlice'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';

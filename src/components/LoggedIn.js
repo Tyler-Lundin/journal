@@ -2,7 +2,7 @@ import styled from "styled-components";
 import DisplayJournals from "./journal/DisplayJournals";
 import Journal from "./journal/Journal";
 import Nav from "./nav/Nav";
-import PageEditor from "./pageEditor/PageEditor";
+import pageEditor from "./pageEditor/pageEditor";
 import Prompt from "./prompt/Prompt";
 import { useState, useEffect } from "react";
 import getJournals from "../util/getJournals";
@@ -37,7 +37,7 @@ const LoggedIn = () => {
     return (
         <S.LoggedIn>
             {
-                isJournalOpen? <PageEditor /> : <></>
+                isJournalOpen? <pageEditor /> : <></>
             }
             {
                 promptOpen? <Prompt getJournalList={handleGetJournalList}/> : <></>
