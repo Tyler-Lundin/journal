@@ -2,14 +2,21 @@ import { useState, useRef } from 'react'
 import styled from 'styled-components'
 import savePage from '../../util/savePage'
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewPage, editPageTitle, editPageContent } from './pagesListSlice';
+import { addNewPage, editPageTitle, editPageContent } from '../../app/page/pagesListSlice';
 import { auth } from '../../util/firebase';
 import {IoIosAdd} from 'react-icons/io'
 import {MdKeyboardArrowLeft, MdKeyboardArrowRight} from 'react-icons/md'
+import currentTheme from '../../themes/themes';
+import { useSwipeable } from 'react-swipeable';
+const theme = currentTheme('glass')
 const S = {}
 
 
 const PageEditor = (props) => {
+    const {
+        isDarkMode,
+        setIsDarkMode
+    } = props
     const dispatch = useDispatch()
     const currentJournal = useSelector(state => state.currentJournal.value)
     const pagesList = useSelector(state => state.pagesList.value )
@@ -21,8 +28,7 @@ const PageEditor = (props) => {
     const [pageIndex, setPageIndex] = useState(initialAmount)
     const editTitleRef = useRef()
     const [titleClicked, setTitleClicked] = useState(false)
-
-
+    const [pageEditorTheme, setPageEditorTheme] = useState()
     function prevPage() {
         if (pageIndex > 1) {
             setPageIndex(pageIndex - 1)
@@ -89,15 +95,39 @@ const PageEditor = (props) => {
     function handleSaveChanges(){
         savePage(auth.currentUser.email, currentJournal, pagesList[0], pagesList[1])
     }
+    const handlers = useSwipeable({
+        onSwipedLeft: (eventData) => { console.log(eventData)}
+    })
+    const handleKeyDown = e => {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const textArea = e.currentTarget; // or use document.querySelector('#my-textarea');
+            textArea.setRangeText(
+              '\t',
+              textArea.selectionStart,
+              textArea.selectionEnd,
+              'end'
+            );
+          }
+        };
+    S.PageEditor = styled.div`
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        z-index: 999;
+        background: ${theme.pageBgColor};
+        overflow: hidden;
+        filter: ${!isDarkMode ? 'invert(.8)' : 'none'};
+    `
 
 
     return(
-        <S.PageEditor>
-            <S.Head>
-                <S.PreviousPage onClick={()=>prevPage()}><MdKeyboardArrowLeft/></S.PreviousPage>
+        <S.PageEditor id='PageEditor'>
+            <S.Head id='PageEditorHead'>
+                <S.PreviousPage onClick={()=>prevPage()} ><MdKeyboardArrowLeft color={pageIndex == 1 ? 'rgba(0,0,0,0.5)' : 'black'}/></S.PreviousPage>
                
-                <S.TitleCounterContainer>
-                    <S.PageTitle onClick={()=>setTitleClicked(true)}>
+                <S.TitleCounterContainer id='TitleCounterContainer'>
+                    <S.PageTitle id='PageTitle' onClick={()=>setTitleClicked(true)}>
                         {titleClicked ? 
                             <S.EditTitle 
                                 onBlur={(e)=>handleTitleChange(e)} 
@@ -120,17 +150,17 @@ const PageEditor = (props) => {
                 
                 <S.NextPage onClick={()=>nextPage()}>{pageIndex == pageAmount ? <IoIosAdd/> : <MdKeyboardArrowRight/>}</S.NextPage>
             </S.Head>
-            <S.Content>
+            <S.Content id='PageEditorContent' {...handlers}>
                 <S.TextArea 
-                    id='pageEditorTextArea'
+                    id='PageEditorTextArea'
                     key={pageIndex}
                     defaultValue={currentPage[1]} 
                     onChange={e=>handleContentChange(e)}
+                    onKeyDown={(e)=>handleKeyDown(e)}
                 />
             </S.Content>
             <S.Footer>
                 <S.SaveButton onClick={()=>handleSaveChanges()}>save</S.SaveButton>
-                <S.SaveButton onClick={()=>console.log('PAGESETTINGS')}>page</S.SaveButton>
             </S.Footer>
         </S.PageEditor>
     )
@@ -139,14 +169,7 @@ const PageEditor = (props) => {
 export default PageEditor
 
 
-S.PageEditor = styled.div`
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    z-index: 999;
-    background: #e4e4e4;
-    overflow: hidden;
-`
+
 S.Head = styled.div`
     width: 100%;
     display: grid;
@@ -169,19 +192,19 @@ background: none;
 /* border-radius: 0; */
 border: none;
 text-align: center;
-font-size: 1.5rem;
-font-family:"le-havre";
+font-size: ${1.5 * theme.fontSizeMultiplyer}rem;
+font-family: ${theme.fontFamily};
 
     @media (max-width: 550px) {
-        font-size: 1rem;
+        font-size: ${1 * theme.fontSizeMultiplyer}rem;
     }
 
 ::placeholder {
     color: gray;
-    font-size: 1.5rem;
-    font-family:"le-havre";
+    font-size: ${1.5 * theme.fontSizeMultiplyer}rem;
+    font-family:${theme.fontFamily};
     @media (max-width: 550px) {
-        font-size: 1rem;
+        font-size: ${1 * theme.fontSizeMultiplyer}rem;
     }
 }
 :focus {
@@ -191,9 +214,9 @@ font-family:"le-havre";
 S.PageTitle = styled.div`
     /* margin-top: 3vh; */
     text-align: center;
-    font-size: 1.5rem;
+    font-size: ${1.5 * theme.fontSizeMultiplyer}rem;
     width: fit-content;
-    font-family:"le-havre";
+    font-family:${theme.fontFamily};
     @media (max-width: 550px) {
         font-size: 1rem;
     }
@@ -212,7 +235,7 @@ S.Content = styled.div`
     width: 100vw;
     height: 80vh;
     margin: auto;
-    background: #e4e4e4;
+    background: ${theme.pageBgColor};
     padding: 5px;
     box-sizing: border-box;
     display: grid;
@@ -221,10 +244,14 @@ S.Content = styled.div`
 S.TextArea = styled.textarea`
     width: 95%;
     height: 100%;
+    line-height: 2rem;
     resize: none;
     border: none;
-    background: #e4e4e4;
-    font-size: 1.5rem;
+    background-image: linear-gradient(#F1F1F1 50%, #F9F9F9 50%);
+    background-size: 100% 4rem;
+    background-attachment: local;
+    /* background: ${theme.pageBgColor}; */
+    font-size: ${1.5 * theme.fontSizeMultiplyer}rem;
     :focus {
         outline: none;
     }
@@ -239,7 +266,7 @@ S.Footer = styled.div`
 `
 S.SaveButton = styled.div`
     width: fit-content;
-    font-size: 1rem;
+    font-size: ${1 * theme.fontSizeMultiplyer}rem;
     cursor: pointer;
 
 `
@@ -250,7 +277,7 @@ S.PreviousPage = styled.div`
     cursor: pointer;
     line-height: 6vh;
     transition: 250ms;
-    color: rgb(50,50,50);
+    color: ${theme.iconDarkColor};
 
 `
 S.NextPage = styled.div`
@@ -260,7 +287,7 @@ S.NextPage = styled.div`
     cursor: pointer;
     line-height: 6vh;
     transition: 250ms;
-    color: rgb(50,50,50);
+    color: ${theme.iconDarkColor};
 `
 
 

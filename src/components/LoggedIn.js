@@ -1,20 +1,24 @@
+import { lazy, Suspense, useEffect } from "react";
 import styled from "styled-components";
 import DisplayJournals from "./journal/DisplayJournals";
 import Journal from "./journal/Journal";
 import Nav from "./nav/Nav";
-import PageEditor from "./pageEditor/PageEditor";
-import Prompt from "./prompt/Prompt";
-import { useState, useEffect } from "react";
 import getJournals from "../util/getJournals";
 import { useDispatch, useSelector } from 'react-redux';
-import { setJournalsList } from './journal/journalsListSlice'
+import { setJournalsList } from '../app/journal/journalsListSlice'
 import { promptCreateNewJournal } from "./prompt/promptSlice";
-import { setUser } from "./Login/userSlice";
 import { auth } from "../util/firebase";
-
+const PageEditor = lazy( ()=>import('./pageEditor/PageEditor'))
+const Prompt = lazy( ()=> import('./prompt/Prompt'))
 const S = {}
+const renderLoader = () => <p>Loading</p>;
 
-const LoggedIn = () => {
+
+const LoggedIn = (props) => {
+    const {
+        isDarkMode,
+        setIsDarkMode
+    } = props
 
     const dispatch = useDispatch()
     const journalsList = useSelector(state => state.journalsList.value)
@@ -37,10 +41,18 @@ const LoggedIn = () => {
     return (
         <S.LoggedIn>
             {
-                isJournalOpen? <PageEditor /> : <></>
+                isJournalOpen? 
+                <Suspense fallback={renderLoader()}>
+                    <PageEditor/>
+                </Suspense>
+                : <></>
             }
             {
-                promptOpen? <Prompt getJournalList={handleGetJournalList}/> : <></>
+                promptOpen? 
+                <Suspense fallback={renderLoader()}>
+                    <Prompt getJournalList={handleGetJournalList}/> 
+                </Suspense>
+                : <></>
             }
             {
                 isJournalOpen ? <></> :           
@@ -50,7 +62,7 @@ const LoggedIn = () => {
                     )}
                 </DisplayJournals>
             }
-            <Nav/>
+            <Nav isJournalOpen={isJournalOpen} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}/>
         </S.LoggedIn>
     )
 }

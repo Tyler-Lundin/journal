@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import promptMessage from '../../util/promptAction'
 import { useSelector, useDispatch } from 'react-redux'
 import { promptAccept, promptCancel, promptDeleteWarning } from './promptSlice'
-import { openJournal } from '../journal/currentJournalSlice'
+import { openJournal } from '../../app/journal/currentJournalSlice'
 import createJournal from '../../util/createJournal'
 import { useRef, useState } from 'react'
 import deleteJournal from '../../util/deleteJournal'
@@ -59,12 +59,15 @@ const Prompt = (props) => {
                             !deleteJournalCheck ? 
                             <S.OpenJournalContainer>
                                 <S.DeleteJournal onClick={handleDelete}>DELETE JOURNAL</S.DeleteJournal>
-                                <S.Message>{promptMessage}</S.Message>
+                                <S.MessageContainer>
+                                    <S.Message>Open</S.Message>
+                                    <S.Message>{promptMessage}</S.Message>
+                                </S.MessageContainer>
                             </S.OpenJournalContainer>
                             :
-                            <S.Message>
-                                {promptMessage}
-                            </S.Message>
+                        
+                            <S.Message>{promptMessage}</S.Message>
+                            
                         
                     }
                     <S.Btns>    
@@ -109,6 +112,9 @@ S.Message = styled.div`
     color: white;
     font-size: 2rem;
     align-self: center;
+    @media (max-width: 420px){
+        font-size: 1.5rem;
+    }
 `
 S.Btns = styled.div`
     display: grid;
@@ -146,6 +152,12 @@ S.OpenJournalContainer = styled.div`
     display: grid;
     justify-items: center;
     grid-template-rows: 1rem 1fr;
+`
+S.MessageContainer = styled.div`
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    height: 50%;
+    align-self: center;
 `
 S.TitleInputContainer = styled.div`
     display: grid;

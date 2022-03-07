@@ -13,7 +13,7 @@ export const promptSlice = createSlice({
     // setMessage: (state, payload) => state.value = payload,
     promptOpenJournal: (state, action) => {
         state.value = {
-            message: `Open '${action.payload}'?`,
+            message: `'${action.payload}'?`,
             isOpen: true,
             action: 'OpenJournal'
         }

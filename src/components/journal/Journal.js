@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 import { upDown, openJournal} from '../../util/animations'
 import { useSelector, useDispatch } from 'react-redux'
-import { setCurrentJournalTitle, setCurrentJournalID, setCurrentJournalPageAmount } from './currentJournalSlice'
+import { setCurrentJournalTitle, setCurrentJournalID, setCurrentJournalPageAmount } from '../../app/journal/currentJournalSlice'
 import { promptOpenJournal } from '../prompt/promptSlice'
 import getPages from '../../util/getPages'
-import { setCurrentPageContent, setCurrentPageTitle, setCurrentPageIndex } from '../pageEditor/currentPageSlice'
-import { setPageList } from '../pageEditor/pagesListSlice'
+import { setCurrentPageContent, setCurrentPageTitle, setCurrentPageIndex } from '../../app/page/currentPageSlice'
+import { setPageList } from '../../app/page/pagesListSlice'
 const Journal = (props) => {
     const {index} = props
     const dispatch = useDispatch()
