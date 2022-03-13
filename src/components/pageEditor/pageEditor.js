@@ -40,7 +40,7 @@ export default PageEditor
 
 S.PageEditor = styled.div`
 width: 100vw;
-height: 100vh;
+height: calc(var(--vh, 1vh) * 100);
 position: absolute;
 z-index: 999;
 background: whitesmoke;

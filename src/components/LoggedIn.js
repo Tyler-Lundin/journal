@@ -62,29 +62,11 @@ const LoggedIn = () => {
 
 export default LoggedIn
 
-S.LoggedIn = styled.div``
-
-S.CreateJournalButton = styled.div`
-    position: absolute;
-    bottom: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 99999;
-    width: fit-content;
-    padding: 0 5px;
-    height: 7vh;
-    text-align: center;
-    font-size: 2rem;
-    line-height: 7vh;
-    transition: 250ms;
-    cursor: pointer;
-    border-radius: 5px;
-    border: 2px solid black;
-    :hover {
-        background: white;
-    }
-    @media (max-width: 300px) {
-        font-size: 1rem;
-    }
+S.LoggedIn = styled.div`
+    width: 100vw;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
 
 `
+
+

@@ -2,25 +2,26 @@
   margin: 0;
   padding: 0;
   font-family: 'Roboto Mono';
+  scrollbar-width: auto;
+  scrollbar-color: #e08c8c #ffffff;
 }
-/* ===== Scrollbar CSS ===== */
-  /* Firefox */
-  * {
-    scrollbar-width: auto;
-    scrollbar-color: #e08c8c #ffffff;
-  }
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+/* ===== Scrollbar CSS ===== *
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 2px;
+}
 
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 2px;
-  }
+*::-webkit-scrollbar-track {
+  background: #acbcfe;
+}
 
-  *::-webkit-scrollbar-track {
-    background: #acbcfe;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: #ffffff;
-    border-radius: 0px;
-    border: none;
-  }
+*::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+  border-radius: 0px;
+  border: none;
+}

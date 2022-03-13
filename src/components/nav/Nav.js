@@ -29,8 +29,8 @@ const Nav = (props) => {
                 <S.OpenMenu onClick={()=>setIsMenuOpen(!isMenuOpen)} isMenuOpen={isMenuOpen} id='OpenNavBtn'>
                     <IoIosMenu/>
                 </S.OpenMenu>
-                
-                <S.SlideOutMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
+            </S.Nav>
+            <S.SlideOutMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
                     <S.CloseMenu onClick={()=>setIsMenuOpen(!isMenuOpen)}>
                         <IoIosClose/>
                     </S.CloseMenu>
@@ -39,8 +39,7 @@ const Nav = (props) => {
                         <S.Link onClick={()=>handleJournalsLink()}>JOURNALS</S.Link>
                         <S.Link onClick={()=>handleLogout()}>LOGOUT</S.Link>
                     </S.Links>                 
-                </S.SlideOutMenu>
-            </S.Nav>
+            </S.SlideOutMenu>
         </>
     
     )
@@ -50,7 +49,8 @@ export default Nav
 
 S.Nav = styled.div`
     width: 100%;
-    height: 100%;
+    height: 8vh;
+    top: calc(var(--vh, 1vh) * 90);
     overflow: hidden;
     position: absolute;
     display: grid;
@@ -60,10 +60,8 @@ S.OpenMenu = styled.div`
     width: 8vh;
     height: 8vh;
     position: absolute;
-    display: inline-block;
-    bottom: 1vh;
     color: black;
-    z-index: 9999;
+    z-index: 999997;
     font-size: 8vh;
     animation: ${props => moveVertically((props.isMenuOpen?'0':'-100'),(props.isMenuOpen?'-100':'0'))}  1s forwards;
 `
@@ -80,13 +78,13 @@ S.CloseMenu = styled.div`
 S.SlideOutMenu = styled.div`
     width: 100vw;
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     background: #3d3a4b;
-    bottom: 0;
     display: grid;
     justify-content: center;
     position: absolute;
     z-index: 999998;
-    animation: ${props => moveVertically((props.isMenuOpen?'200':0),(props.isMenuOpen?0:'200'))}  1s forwards;
+    animation: ${props => moveVertically((props.isMenuOpen?'110':0),(props.isMenuOpen?0:'110'))}  1s forwards;
 `
 
 S.Links = styled.ul`

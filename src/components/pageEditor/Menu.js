@@ -14,5 +14,5 @@ const S = {}
 
 S.Menu = styled.div`
     width: 100vw;
-    height: 100vh;
+    height: 100%;
 `

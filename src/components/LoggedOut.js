@@ -23,7 +23,8 @@ const uiConfig = {
 const S = {}
 S.LoggedOut = styled.div`
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     display: grid;
     justify-items:center;
     align-items: center;
@@ -38,8 +39,8 @@ S.SignInBtn = styled.img`
 
 S.Journal = styled.div`
     position: relative;
-    width: 250px;
-    height: 350px;
+    width: 200px;
+    height: 300px;
     background: #3d3a4b;
     border-radius: 12px;
     animation: ${upDown} 2.5s infinite alternate ease-out;
@@ -63,8 +64,6 @@ S.TitleContainer = styled.div`
 
 
 const LoggedOut = () => {
-    const dispatch = useDispatch()
-
 
     return (
         <S.LoggedOut id="LoggedOut">
@@ -85,5 +84,6 @@ S.Signature = styled.h5`
     position: absolute;
     color: rgba(0,0,0,0.5);
     text-align: center;
-    bottom: 5px;
+    top: calc(var(--vh, 1vh) * 95);
+    right: 15px;
 `

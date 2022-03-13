@@ -85,7 +85,7 @@ export default Prompt
 const S = {}
 S.Shadow = styled.div`
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     background: rgba(0,0,0,0.5);
     z-index: 99999999;
     position: absolute;
