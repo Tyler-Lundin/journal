@@ -5,7 +5,7 @@ import { closeJournal } from '../../app/journal/currentJournalSlice';
 import { auth } from '../../util/firebase';
 import { signOut } from 'firebase/auth';
 import {IoIosMenu, IoIosArrowDown} from 'react-icons/io'
-import PageMenu from '../nav/PageMenu';
+// import PageMenu from '../nav/PageMenu';
 
 const S = {} // styles below
 
@@ -26,12 +26,6 @@ const Nav = (props) => {
     return (
         <>
             <S.Nav id='Nav'>
-                {
-                    props.isJournalOpen ?
-                    <PageMenu isDarkMode={props.isDarkMode} setIsDarkMode={props.setIsDarkMode}/>
-                    :
-                    <></>
-                }
                 <S.OpenMenu onClick={()=>setIsMenuOpen(!isMenuOpen)} isMenuOpen={isMenuOpen} id='OpenNavBtn'>
                     <IoIosMenu/>
                 </S.OpenMenu>

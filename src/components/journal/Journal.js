@@ -6,15 +6,17 @@ import { promptOpenJournal } from '../prompt/promptSlice'
 import getPages from '../../util/getPages'
 import { setCurrentPageContent, setCurrentPageTitle, setCurrentPageIndex } from '../../app/page/currentPageSlice'
 import { setPageList } from '../../app/page/pagesListSlice'
+import { useEffect, useState, useRef } from 'react'
+import { useSpring, animated, interpolate } from 'react-spring'
+
 const Journal = (props) => {
     const {index} = props
     const dispatch = useDispatch()
     const journalsList = useSelector(state => state.journalsList.value)
     const selectedTitle = journalsList.journalTitles[index]
     const selectedID = journalsList.journalIDs[index]
-    const user = useSelector(state=> state.user.value)
-
-    const handleClick = async (index) => { 
+    const journalRef = useRef()
+    const handleClick = async () => { 
         const preloadPages = await getPages(selectedID)
         const journalLength = preloadPages.pageTitles.length
         const preloadedTitle = preloadPages.pageTitles[journalLength - 1]
@@ -28,29 +30,49 @@ const Journal = (props) => {
         dispatch(setCurrentPageContent(preloadedContent))
         dispatch(setCurrentPageIndex(journalLength))
     }
-    
+
+    const [flip, set] = useState(false)
+    const [{ hoverY, scale }, hoverAnimate] = useSpring(() => ({ hoverY: 5, scale: 0}));
+
     return (
-        <S.Container className='journal' onClick={()=>handleClick(index)} id={selectedID}>
-            <S.Journal>
-                {/* <S.JournalIcon src={BlankJournal}/> */}
-                <S.TitleContainer>
-                    <S.JournalTitle>{selectedTitle}</S.JournalTitle>
-                </S.TitleContainer>
-            </S.Journal>
-        </S.Container>
+        <S.Classes>
+            <S.Container 
+            className='journal' 
+            onClick={()=>handleClick(index)} 
+            id={selectedID}
+            onMouseEnter={() => hoverAnimate({ hoverY: 0, scale: -5})}
+            onMouseLeave={() => hoverAnimate({ hoverY: 5, scale: 0 })}
+            style={{ transform: interpolate([hoverY, scale],(v, z) => `translateY(${v}%) rotate3d(0, 0, 1, ${z}deg)`) }}
+            >
+                <S.Journal>
+                    <S.TitleContainer>
+                        <S.JournalTitle>{selectedTitle}</S.JournalTitle>
+                    </S.TitleContainer>
+                </S.Journal>
+            </S.Container>
+        </S.Classes>
     )
 }
 
 export default Journal
 
 const S = {}
-S.Container = styled.div`
-    transition: 300ms;
-    animation: ${upDown} 2.5s infinite alternate ease-out;
-    align-self: center;
-    :hover {
+S.Classes = styled(animated.div)`
+    /* .active {
         animation: ${openJournal} 1s forwards alternate ease-out;
     }
+    .in-active {
+        animation-direction: reverse;
+        animation-name: ${openJournal};
+        animation-duration: 1s;
+    } */
+    
+`
+S.Container = styled(animated.div)`
+    transition: 300ms;
+    align-self: center;
+
+ 
 `
 S.Journal = styled.div`
     position: relative;
@@ -58,6 +80,7 @@ S.Journal = styled.div`
     height: 350px;
     background: #3d3a4b;
     border-radius: 12px;
+    box-shadow: 0px 5px 10px 0px black;
 `
 S.JournalIcon = styled.img`
     position: relative;

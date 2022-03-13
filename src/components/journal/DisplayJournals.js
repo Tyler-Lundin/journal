@@ -34,7 +34,8 @@ S.Scroller = styled.div`
 `
 S.DisplayJournals = styled.div`
     max-width: 100vw;
-    height: 100%;
+    height: 100vh;
+    align-items: center;
     display: grid;
     grid-auto-flow:column;
     grid-gap: 1.5rem;
