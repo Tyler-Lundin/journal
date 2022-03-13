@@ -5,12 +5,10 @@ import {Routes, Route} from 'react-router-dom'
 import { auth } from './util/firebase';
 import { useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import Loading from './components/Loading';
 
 
 function App() {
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(false)
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setUser(user)
@@ -26,7 +24,6 @@ function App() {
         <Routes>
           <Route path="/" element={ user ? <LoggedIn/> : <LoggedOut />}/>
         </Routes>
-        { loading ? <Loading /> : <></>}
       </S.App>
     </>
   );

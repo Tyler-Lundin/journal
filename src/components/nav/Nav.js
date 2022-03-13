@@ -53,18 +53,18 @@ S.Nav = styled.div`
     height: 100%;
     overflow: hidden;
     position: absolute;
+    display: grid;
+    justify-items: center;
 `
 S.OpenMenu = styled.div`
     width: 8vh;
     height: 8vh;
     position: absolute;
+    display: inline-block;
     bottom: 1vh;
     color: black;
     z-index: 9999;
     font-size: 8vh;
-    text-align: center;
-    left: 50%;
-    transform: translateX(50%);
     animation: ${props => moveVertically((props.isMenuOpen?'0':'-100'),(props.isMenuOpen?'-100':'0'))}  1s forwards;
 `
 S.CloseMenu = styled.div`
