@@ -11,7 +11,6 @@ import Loading from './components/Loading';
 function App() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setUser(user)
@@ -20,15 +19,12 @@ function App() {
       setUser(null)
     }
   });
-  function loadingTransition() {
-    setLoading(true)
-    setTimeout(()=>setLoading(false), 1000)
-  }
+
   return (
     <>
       <S.App>
         <Routes>
-          <Route path="/" element={ user ? <LoggedIn isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} /> : <LoggedOut />}/>
+          <Route path="/" element={ user ? <LoggedIn/> : <LoggedOut />}/>
         </Routes>
         { loading ? <Loading /> : <></>}
       </S.App>

@@ -35,12 +35,7 @@ S.SignInBtn = styled.img`
     width: 40vw;
     transition: 250ms;
 `
-S.Logo = styled.img`
-    width: 45vw;
-    min-width: 200px;
-    max-width: 340px;
-    animation: ${upDown} 3s infinite alternate;
-`
+
 S.Journal = styled.div`
     position: relative;
     width: 250px;
@@ -48,6 +43,7 @@ S.Journal = styled.div`
     background: #3d3a4b;
     border-radius: 12px;
     animation: ${upDown} 2.5s infinite alternate ease-out;
+    box-shadow: 0px 5px 10px 0px black;
 
 `
 S.JournalTitle = styled.h2`
@@ -73,8 +69,8 @@ const LoggedOut = () => {
     return (
         <S.LoggedOut id="LoggedOut">
             <S.Journal>
-            <S.TitleContainer>
-                    <S.JournalTitle>JOURNAL</S.JournalTitle>
+                <S.TitleContainer>
+                    <S.JournalTitle>Journal</S.JournalTitle>
                 </S.TitleContainer>
             </S.Journal>
             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />

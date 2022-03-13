@@ -179,5 +179,6 @@ S.DeleteJournal = styled.div`
 
     :hover {
         color: red;
+        cursor: pointer;
     }
 `

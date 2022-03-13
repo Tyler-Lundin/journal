@@ -14,18 +14,11 @@ const S = {}
 const renderLoader = () => <p>Loading</p>;
 
 
-const LoggedIn = (props) => {
-    const {
-        isDarkMode,
-        setIsDarkMode
-    } = props
-
+const LoggedIn = () => {
     const dispatch = useDispatch()
     const journalsList = useSelector(state => state.journalsList.value)
     const promptOpen = useSelector(state => state.prompt.value.isOpen)
     const isJournalOpen = useSelector(state => state.currentJournal.value.isJournalOpen)
-    const promptAction = useSelector(state => state.prompt.value.action)
-    const user = useSelector(state => state.user.value)
     async function handleGetJournalList () {
         let list = await getJournals(auth.currentUser.email)
         dispatch(setJournalsList(list))
@@ -62,7 +55,7 @@ const LoggedIn = (props) => {
                     )}
                 </DisplayJournals>
             }
-            <Nav isJournalOpen={isJournalOpen} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}/>
+            <Nav isJournalOpen={isJournalOpen}/>
         </S.LoggedIn>
     )
 }
