@@ -130,6 +130,7 @@ S.Head = styled.div`
 S.TitleCounterContainer = styled.div`
     width: 100%;
     height: 10vh;
+    height: calc(var(--vh, 1vh) * 10);
     display: grid;
     grid-template-rows: 3fr 1fr;
     justify-items: center;

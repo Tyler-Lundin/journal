@@ -48,6 +48,7 @@ const S = {}
 S.Content = styled.div`
     width: 100vw;
     height: 80vh;
+    height: calc(var(--vh, 1vh) * 80);
     margin: auto;
     background: whitesmoke;
     padding: 5px;

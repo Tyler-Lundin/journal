@@ -29,6 +29,7 @@ const S = {}
 S.Footer = styled.div`
     width: 100%;
     height: 10vh;
+    height: calc(var(--vh, 1vh) * 10);
     display: grid;
     align-items: center;
     justify-items: center;
