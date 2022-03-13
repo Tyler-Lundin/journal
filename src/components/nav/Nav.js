@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { closeJournal } from '../../app/journal/currentJournalSlice';
 import { auth } from '../../util/firebase';
 import { signOut } from 'firebase/auth';
-import {IoIosMenu, IoIosArrowDown} from 'react-icons/io'
+import {IoIosMenu, IoIosClose} from 'react-icons/io'
 // import PageMenu from '../nav/PageMenu';
 
 const S = {} // styles below
@@ -29,15 +29,14 @@ const Nav = (props) => {
                 <S.OpenMenu onClick={()=>setIsMenuOpen(!isMenuOpen)} isMenuOpen={isMenuOpen} id='OpenNavBtn'>
                     <IoIosMenu/>
                 </S.OpenMenu>
+                
                 <S.SlideOutMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
-
+                    <S.CloseMenu onClick={()=>setIsMenuOpen(!isMenuOpen)}>
+                        <IoIosClose/>
+                    </S.CloseMenu>
                     
                     <S.Links>
                         <S.Link onClick={()=>handleJournalsLink()}>JOURNALS</S.Link>
-                        {/* <S.CloseMenu onClick={()=>setIsMenuOpen(!isMenuOpen)} id='CloseNavBtn'>
-                            <IoIosArrowDown/>
-                        </S.CloseMenu> */}
-                        {/* <S.Link>SETTINGS</S.Link> */}
                         <S.Link onClick={()=>handleLogout()}>LOGOUT</S.Link>
                     </S.Links>                 
                 </S.SlideOutMenu>
@@ -61,7 +60,7 @@ S.OpenMenu = styled.div`
     position: absolute;
     bottom: 1vh;
     color: black;
-    z-index: 99999;
+    z-index: 9999;
     font-size: 8vh;
     text-align: center;
     left: 50%;
@@ -71,18 +70,16 @@ S.OpenMenu = styled.div`
 S.CloseMenu = styled.div`
     width: 8vh;
     height: 8vh;
-    bottom: 1vh;
     color: white;
     z-index: 999999;
     font-size: 7vh;
     text-align: center;
-    display: grid;
-    align-items: center;
-    justify-items: center;
+    position: absolute;
+    justify-self: right;
 `
 S.SlideOutMenu = styled.div`
     width: 100vw;
-    height: 10vh;
+    height: 100vh;
     background: #3d3a4b;
     bottom: 0;
     display: grid;
@@ -96,11 +93,11 @@ S.Links = styled.ul`
     list-style: none;
     display: grid;
     width: 100vw;
-    grid-template-columns: 2fr 2fr;
     justify-items: center;
     align-items: center;
-    font-size: 1.3rem;
-    font-weight: 300;
+    font-size: clamp(5vw, 8vw, 10vw);
+    font-weight: 700;
+    font-family: 'paralucent';
 `
 S.Link = styled.li`
     cursor: pointer;

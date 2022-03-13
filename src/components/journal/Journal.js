@@ -32,7 +32,7 @@ const Journal = (props) => {
     }
 
     const [flip, set] = useState(false)
-    const [{ hoverY, scale }, hoverAnimate] = useSpring(() => ({ hoverY: 5, scale: 0}));
+    const [{ hoverY }, hoverAnimate] = useSpring(() => ({ hoverY: 5, scale: 0}));
 
     return (
         <S.Classes>
@@ -40,9 +40,9 @@ const Journal = (props) => {
             className='journal' 
             onClick={()=>handleClick(index)} 
             id={selectedID}
-            onMouseEnter={() => hoverAnimate({ hoverY: 0, scale: -5})}
-            onMouseLeave={() => hoverAnimate({ hoverY: 5, scale: 0 })}
-            style={{ transform: interpolate([hoverY, scale],(v, z) => `translateY(${v}%) rotate3d(0, 0, 1, ${z}deg)`) }}
+            onMouseEnter={() => hoverAnimate({ hoverY: 0 })}
+            onMouseLeave={() => hoverAnimate({ hoverY: 5 })}
+            style={{ transform: interpolate([hoverY],(v) => `translateY(${v}%)`) }}
             >
                 <S.Journal>
                     <S.TitleContainer>
