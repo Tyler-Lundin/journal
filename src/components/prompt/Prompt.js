@@ -1,7 +1,6 @@
 import styled from 'styled-components'
-import promptMessage from '../../util/promptAction'
 import { useSelector, useDispatch } from 'react-redux'
-import { promptAccept, promptCancel, promptDeleteWarning } from './promptSlice'
+import { promptAccept, promptCancel, promptDeleteWarning } from '../../app/prompt/promptSlice'
 import { openJournal } from '../../app/journal/currentJournalSlice'
 import createJournal from '../../util/createJournal'
 import { useRef, useState } from 'react'
@@ -14,7 +13,6 @@ const Prompt = (props) => {
     } = props
     const dispatch = useDispatch()
     const promptMessage = useSelector(state => state.prompt.value.message)
-    const user = useSelector(state => state.user.value)
     const promptAction = useSelector(state => state.prompt.value.action)
     const selectedTitle = useSelector(state => state.currentJournal.value.currentTitle)
     const selectedID = useSelector(state => state.currentJournal.value.currentID)

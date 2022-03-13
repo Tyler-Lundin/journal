@@ -46,3 +46,23 @@ z-index: 999;
 background: whitesmoke;
 overflow: hidden;
 `
+
+S.Dark = styled.div`
+  background: rgb(40,40,40);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  transition: 250ms;
+  opacity: ${props => props.isDarkModeEnabled ? 1 : 0};
+`
+
+S.Light = styled.div`
+  background: rgb(200,200,200);
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  position: absolute;
+  transition: 250ms;
+  opacity: ${props => props.isDarkModeEnabled ? 0 : 1};
+`

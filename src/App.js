@@ -1,20 +1,21 @@
 import LoggedIn from './components/LoggedIn';
 import LoggedOut from './components/LoggedOut';
 import styled from 'styled-components'
-import {Routes, Route} from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { auth } from './util/firebase';
 import { useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useSelector } from 'react-redux';
 
 
 
 
 function App() {
   const [user, setUser] = useState(null)
+  const isDarkModeEnabled = useSelector(state => state.darkMode.value)
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setUser(user)
-      console.log(user)
     } else {
       setUser(null)
     }
@@ -23,16 +24,18 @@ function App() {
     const doc = document.documentElement
     doc.style.setProperty('--vh', (window.innerHeight*.01) + 'px');
   }
-  
   window.addEventListener('resize', appHeight);
   appHeight();
 
+
   return (
     <>
-      <S.App>
+      <S.App >
         <Routes>
           <Route path="/" element={ user ? <LoggedIn/> : <LoggedOut />}/>
         </Routes>
+        <S.Dark isDarkModeEnabled={isDarkModeEnabled}/>
+        <S.Light isDarkModeEnabled={isDarkModeEnabled}/>
       </S.App>
     </>
   );
@@ -49,6 +52,24 @@ S.App = styled.div`
   max-width: 100vw;
   max-height: 100vh;
   overscroll-behavior:none;
-  background: rgb(200,200,200);
   overflow: hidden;
+`
+S.Dark = styled.div`
+  background: rgb(40,40,40);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  transition: 250ms;
+  opacity: ${props => props.isDarkModeEnabled ? 1 : 0};
+`
+
+S.Light = styled.div`
+  background: rgb(200,200,200);
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  position: absolute;
+  transition: 250ms;
+  opacity: ${props => props.isDarkModeEnabled ? 0 : 1};
 `

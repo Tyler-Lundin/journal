@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getJournals } from '../../util/getJournals'
 
 export const journalsListSlice = createSlice({
   name: 'journalsList',
@@ -10,8 +9,6 @@ export const journalsListSlice = createSlice({
     }
   },
   reducers: {
-    loadJournalsList: (state, payload) => {
-    },
     setJournalsList: (state, action) => {
       state.value = action.payload
     },

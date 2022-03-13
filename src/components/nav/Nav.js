@@ -5,18 +5,18 @@ import { closeJournal } from '../../app/journal/currentJournalSlice';
 import { auth } from '../../util/firebase';
 import { signOut } from 'firebase/auth';
 import {IoIosMenu, IoIosClose} from 'react-icons/io'
-// import PageMenu from '../nav/PageMenu';
+import {hideFirstAnimation} from './../../util/animations'
 
 const S = {} // styles below
 
-const Nav = (props) => {
+const Nav = () => {
 
     const dispatch = useDispatch()
     const [isMenuOpen, setIsMenuOpen] = useState(true)
 
     const handleLogout = async () => {
         await signOut(auth)
-        
+        window.location.reload()
     }
     const handleJournalsLink = () => {
         dispatch(closeJournal())
@@ -30,16 +30,18 @@ const Nav = (props) => {
                     <IoIosMenu/>
                 </S.OpenMenu>
             </S.Nav>
-            <S.SlideOutMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
-                    <S.CloseMenu onClick={()=>setIsMenuOpen(!isMenuOpen)}>
-                        <IoIosClose/>
-                    </S.CloseMenu>
-                    
-                    <S.Links>
-                        <S.Link onClick={()=>handleJournalsLink()}>JOURNALS</S.Link>
-                        <S.Link onClick={()=>handleLogout()}>LOGOUT</S.Link>
-                    </S.Links>                 
-            </S.SlideOutMenu>
+            <S.SlideMenuContainer>
+                <S.SlideMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
+                        <S.CloseMenu onClick={()=>setIsMenuOpen(!isMenuOpen)}>
+                            <IoIosClose/>
+                        </S.CloseMenu>
+                        
+                        <S.Links>
+                            <S.Link onClick={()=>handleJournalsLink()}>JOURNALS</S.Link>
+                            <S.Link onClick={()=>handleLogout()}>LOGOUT</S.Link>
+                        </S.Links>                 
+                </S.SlideMenu>
+            </S.SlideMenuContainer>
         </>
     
     )
@@ -64,6 +66,12 @@ S.OpenMenu = styled.div`
     z-index: 999997;
     font-size: 8vh;
     animation: ${props => moveVertically((props.isMenuOpen?'0':'-100'),(props.isMenuOpen?'-100':'0'))}  1s forwards;
+    svg {
+        transition: 250ms;
+    }
+    svg:hover {
+        transform: scaleX(115%)
+    }
 `
 S.CloseMenu = styled.div`
     width: 8vh;
@@ -74,8 +82,14 @@ S.CloseMenu = styled.div`
     text-align: center;
     position: absolute;
     justify-self: right;
+    svg {
+        transition: 300ms;
+    }
+    svg:hover {
+        transform: rotate(90deg) scale(130%);
+    }
 `
-S.SlideOutMenu = styled.div`
+S.SlideMenu = styled.div`
     width: 100vw;
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
@@ -85,6 +99,11 @@ S.SlideOutMenu = styled.div`
     position: absolute;
     z-index: 999998;
     animation: ${props => moveVertically((props.isMenuOpen?'110':0),(props.isMenuOpen?0:'110'))}  1s forwards;
+`
+S.SlideMenuContainer = styled.div`
+    animation: ${hideFirstAnimation} 1s forwards;
+    position: absolute;
+    z-index: 999998;
 `
 
 S.Links = styled.ul`

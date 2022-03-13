@@ -3,9 +3,9 @@ import currentJournalSlice from './journal/currentJournalSlice'
 import journalsListSlice from './journal/journalsListSlice'
 import currentPageSlice from './page/currentPageSlice'
 import pagesListSlice from './page/pagesListSlice'
-import promptSlice from '../components/prompt/promptSlice'
+import promptSlice from './prompt/promptSlice'
 import unsavedChangesSlice from './page/unsavedChangesSlice'
-import userSlice from '../components/Login/userSlice'
+import darkModeSlice from './settings/darkModeSlice'
 
 export default configureStore({
     reducer: {
@@ -15,6 +15,6 @@ export default configureStore({
         currentPage: currentPageSlice,
         prompt: promptSlice,
         unsavedChanges: unsavedChangesSlice,
-        user: userSlice
+        darkMode: darkModeSlice
     }
   })

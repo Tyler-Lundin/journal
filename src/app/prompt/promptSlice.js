@@ -18,7 +18,7 @@ export const promptSlice = createSlice({
             action: 'OpenJournal'
         }
     },
-    promptCloseWithoutSave: (state, action) => {
+    promptCloseWithoutSave: (state) => {
         state.value = {
             message: 'Close without saving? 😅',
             isOpen: true,
@@ -40,7 +40,7 @@ export const promptSlice = createSlice({
             action: action.payload
         }
     },
-    promptCancel: (state, action) => {
+    promptCancel: (state) => {
         state.value = {
             message: '',
             isOpen: false,

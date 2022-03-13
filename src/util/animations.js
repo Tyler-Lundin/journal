@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components'
+import {keyframes} from 'styled-components'
 
 export const upDown = keyframes`
     0% {
@@ -8,11 +8,14 @@ export const upDown = keyframes`
         transform: translateY(5%);
     }
 `
-export const openJournal = keyframes`
+export const hideFirstAnimation = keyframes`
     0% {
-        transform: translateY(3%);
+        opacity: 0;
+    }
+    99% {
+        opacity: 0;
     }
     100% {
-        transform: translateY(-3%);
+        opacity: 1;
     }
 `

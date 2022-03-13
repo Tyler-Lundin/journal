@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import Journal from './Journal'
 import { upDown } from '../../util/animations'
 import {IoIosAdd} from 'react-icons/io'
 
@@ -61,10 +60,10 @@ S.DisplayJournals = styled.div`
 S.CreateJournal = styled.div`
     position: relative;
     width: 230px;
-    height: 330px;
+    height: 230px;
     background: #3d3a4b;
-    opacity: .3;
-    border-radius: 12px;
+    opacity: .5;
+    border-radius: 100%;
     align-self: center;
     transition: 1s;
     animation: ${upDown} 2.5s infinite alternate ease-out;

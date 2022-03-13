@@ -6,8 +6,9 @@ import Nav from "./nav/Nav";
 import getJournals from "../util/getJournals";
 import { useDispatch, useSelector } from 'react-redux';
 import { setJournalsList } from '../app/journal/journalsListSlice'
-import { promptCreateNewJournal } from "./prompt/promptSlice";
+import { promptCreateNewJournal } from "./../app/prompt/promptSlice";
 import { auth } from "../util/firebase";
+import Settings from "./settings/Settings";
 const PageEditor = lazy( ()=>import('./pageEditor/PageEditor'))
 const Prompt = lazy( ()=> import('./prompt/Prompt'))
 const S = {}
@@ -23,9 +24,9 @@ const LoggedIn = () => {
         let list = await getJournals(auth.currentUser.email)
         dispatch(setJournalsList(list))
     }
-    useEffect( async ()=>{
+    useEffect(()=>{
         handleGetJournalList()
-       },[])
+    },[])
     function handleCreateJournal() {
         dispatch(promptCreateNewJournal())
     }
@@ -33,6 +34,7 @@ const LoggedIn = () => {
     
     return (
         <S.LoggedIn>
+            <Settings/>
             {
                 isJournalOpen? 
                 <Suspense fallback={renderLoader()}>
