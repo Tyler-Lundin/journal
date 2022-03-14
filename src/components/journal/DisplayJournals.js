@@ -68,6 +68,8 @@ S.CreateJournal = styled.div`
     transition: 1s;
     animation: ${upDown} 2.5s infinite alternate ease-out;
     :hover{
-        opacity: 1;
+        opacity: .8;
+        background: green;
+
     }
 `

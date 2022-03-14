@@ -1,20 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { editPageContent } from '../../app/page/pagesListSlice';
+import savePage from '../../util/savePage';
+import { auth } from '../../util/firebase';
+
 
 const Content = (props) => {
     const {
         pageIndex,
         currentPage,
         pagesList,
+        currentJournal
     } = props
     const dispatch = useDispatch()
-
+    const darkMode = useSelector(state => state.darkMode.value)
     function handleContentChange(e){
         let tempList = [...pagesList[1]]
         tempList[pageIndex - 1] = e.target.value
         dispatch(editPageContent(tempList))
+        savePage(auth.currentUser.email, currentJournal, pagesList[0], tempList)
     }
     const handleKeyDown = e => {
         if (e.key === 'Tab') {
@@ -31,7 +36,8 @@ const Content = (props) => {
 
   return (
     <S.Content id='PageEditorContent' >
-        <S.TextArea 
+        <S.TextArea
+            darkMode={darkMode} 
             id='PageEditorTextArea'
             key={pageIndex}
             defaultValue={currentPage[1]} 
@@ -50,23 +56,26 @@ S.Content = styled.div`
     height: 80vh;
     height: calc(var(--vh, 1vh) * 80);
     margin: auto;
-    background: whitesmoke;
     padding: 5px;
     box-sizing: border-box;
     display: grid;
     justify-items: center;
 `
 S.TextArea = styled.textarea`
+    color: ${props=> props.darkMode ? 'white' : 'black'}; 
     width: 95%;
     height: 100%;
     line-height: 2rem;
     resize: none;
     border: none;
-    background-image: linear-gradient(#F1F1F1 50%, #F9F9F9 50%);
+    background: rgba(0,0,0,0.1);
+    /* background: rgb(${props=>props.darkMode ? '30,30,30' : '200,200,200'});
+    background-image: linear-gradient(rgba(100,100,100,0.3) 50%, rgba(100,100,100,0.4) 50%);
     background-size: 100% 4rem;
-    background-attachment: local;
+    background-attachment: local; */
     font-size: 1.5rem;
     :focus {
         outline: none;
     }
 `
+

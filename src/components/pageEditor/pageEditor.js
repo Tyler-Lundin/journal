@@ -10,29 +10,39 @@ const S = {}
 const PageEditor = () => {
     const currentJournal = useSelector(state => state.currentJournal.value)
     const pagesList = useSelector(state => state.pagesList.value )
+    const darkMode = useSelector(state => state.darkMode.value)
     const initialAmount = useSelector(state => state.currentJournal.value.pageAmount)
     const [currentPage, setCurrentPage] = useState([pagesList[0][initialAmount - 1],pagesList[1][initialAmount - 1]])
     const [pageIndex, setPageIndex] = useState(initialAmount)
+    
+    
+    
     return(
-        <S.PageEditor id='PageEditor'>
-            <Head 
-                pageIndex={pageIndex} 
-                setPageIndex={setPageIndex} 
-                currentPage={currentPage} 
-                setCurrentPage={setCurrentPage} 
-                pagesList={pagesList} 
-                initialAmount={initialAmount}
-            />
-            <Content
-                pageIndex={pageIndex}
-                currentPage={currentPage}
-                pagesList={pagesList}
-            />
-            <Footer 
-                currentJournal={currentJournal}
-                pagesList={pagesList}
-            />
-        </S.PageEditor>
+        <>
+            <S.PageEditor id='PageEditor' darkMode={darkMode}>
+                <Head 
+                    pageIndex={pageIndex} 
+                    setPageIndex={setPageIndex} 
+                    currentPage={currentPage} 
+                    setCurrentPage={setCurrentPage} 
+                    pagesList={pagesList} 
+                    initialAmount={initialAmount}
+                />
+                <Content
+                    pageIndex={pageIndex}
+                    currentPage={currentPage}
+                    pagesList={pagesList}
+                    currentJournal={currentJournal}
+                />
+                <Footer 
+                    currentJournal={currentJournal}
+                    pagesList={pagesList}
+                />
+
+            </S.PageEditor>
+            <S.Dark darkMode={darkMode}/>
+            <S.Light darkMode={darkMode}/>
+        </>
     )
 }
 
@@ -43,7 +53,7 @@ width: 100vw;
 height: calc(var(--vh, 1vh) * 100);
 position: absolute;
 z-index: 999;
-background: whitesmoke;
+/* background: whitesmoke; */
 overflow: hidden;
 `
 
@@ -54,7 +64,7 @@ S.Dark = styled.div`
   position: absolute;
   top: 0;
   transition: 250ms;
-  opacity: ${props => props.isDarkModeEnabled ? 1 : 0};
+  opacity: ${props => props.darkMode ? 1 : 0};
 `
 
 S.Light = styled.div`
@@ -64,5 +74,5 @@ S.Light = styled.div`
   top: 0;
   position: absolute;
   transition: 250ms;
-  opacity: ${props => props.isDarkModeEnabled ? 0 : 1};
+  opacity: ${props => props.darkMode ? 0 : 1};
 `

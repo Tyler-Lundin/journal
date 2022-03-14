@@ -1,23 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import savePage from '../../util/savePage'
-import { auth } from '../../util/firebase';
+import { useSelector } from 'react-redux';
 
 const Footer = (props) => {
-    const {
-        currentJournal,
-        pagesList
-    } = props
-    function handleSaveChanges(){
-        savePage(auth.currentUser.email, currentJournal, pagesList[0], pagesList[1])
-    }
-    const handlePageMenu = () => {
-        // open page menu
-    }
+    const darkMode = useSelector(state => state.darkMode.value)
+
   return (
-    <S.Footer>
-        <S.SaveButton onClick={()=>handleSaveChanges()}>save</S.SaveButton>
-        <S.PageButton onClick={handlePageMenu}>page</S.PageButton>
+    <S.Footer darkMode={darkMode}>
     </S.Footer>
   )
 }
@@ -34,6 +23,7 @@ S.Footer = styled.div`
     align-items: center;
     justify-items: center;
     grid-template-columns:1fr 1fr ;
+    color: ${props => props.darkMode ? 'white' : 'black'};
 `
 S.SaveButton = styled.div`
     width: fit-content;

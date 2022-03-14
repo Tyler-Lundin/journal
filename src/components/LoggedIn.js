@@ -34,7 +34,6 @@ const LoggedIn = () => {
     
     return (
         <S.LoggedIn>
-            <Settings/>
             {
                 isJournalOpen? 
                 <Suspense fallback={renderLoader()}>

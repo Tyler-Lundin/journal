@@ -6,13 +6,15 @@ import { auth } from './util/firebase';
 import { useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useSelector } from 'react-redux';
-
-
+import darkBG from './images/shot-by-cerqueira-0o_GEzyargo-unsplash.jpg'
+import lightBG from './images/laura-vinck-Hyu76loQLdk-unsplash.jpg'
+import { spin } from './util/animations';
+import ImageCredit from './components/ImageCredit';
 
 
 function App() {
   const [user, setUser] = useState(null)
-  const isDarkModeEnabled = useSelector(state => state.darkMode.value)
+  const darkMode = useSelector(state => state.darkMode.value)
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setUser(user)
@@ -34,8 +36,11 @@ function App() {
         <Routes>
           <Route path="/" element={ user ? <LoggedIn/> : <LoggedOut />}/>
         </Routes>
-        <S.Dark isDarkModeEnabled={isDarkModeEnabled}/>
-        <S.Light isDarkModeEnabled={isDarkModeEnabled}/>
+        <S.CreditContainer>
+          <ImageCredit/>
+        </S.CreditContainer>
+        <S.Dark darkMode={darkMode}/>
+        <S.Light darkMode={darkMode}/>
       </S.App>
     </>
   );
@@ -46,6 +51,7 @@ export default App;
 const S = {}
 
 S.App = styled.div`
+  background: rgb(30,30,30);
   width: 100vw;
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
@@ -55,13 +61,18 @@ S.App = styled.div`
   overflow: hidden;
 `
 S.Dark = styled.div`
-  background: rgb(40,40,40);
-  width: 100vw;
-  height: 100vh;
+  background: rgb(30,30,30);
+  background-image: url(${lightBG});
+  background-size: 150%;
+  transform-origin: center;
+  width: 100vh;
+  height: 100vw;
   position: absolute;
-  top: 0;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  /* animation: ${spin}  15s linear infinite ; */
   transition: 250ms;
-  opacity: ${props => props.isDarkModeEnabled ? 1 : 0};
+  opacity: ${props => props.darkMode ? .5 : 0};
 `
 
 S.Light = styled.div`
@@ -71,5 +82,14 @@ S.Light = styled.div`
   top: 0;
   position: absolute;
   transition: 250ms;
-  opacity: ${props => props.isDarkModeEnabled ? 0 : 1};
+  opacity: ${props => props.darkMode ? 0 : 1};
+`
+
+S.CreditContainer = styled.div`
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  width: 50vw;
+  height: 50px;
+  color: white;
 `

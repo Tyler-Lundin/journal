@@ -19,3 +19,12 @@ export const hideFirstAnimation = keyframes`
         opacity: 1;
     }
 `
+
+export const spin = keyframes`
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+`

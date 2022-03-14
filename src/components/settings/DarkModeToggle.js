@@ -10,7 +10,7 @@ const DarkModeToggle = () => {
     const [isToggled, setIsToggled] = useState(false)
     const [{x}, toggleAnimation] = useSpring(()=>({
         x: 0,
-        config: config.gentle
+        config: { mass: 1, tension: 0, friction: 20 , velocity: 100}
     }))
     const handleClick = () => {
         toggleAnimation({ x: isToggled ? 0 : 100})
@@ -21,8 +21,12 @@ const DarkModeToggle = () => {
   return (
     <S.Container
         onClick={handleClick}
+        isToggled={isToggled}
     >
-        <S.Slider style={{ transform: to([x],(v) => `translateX(${v}%)`) }} />
+        <S.Slider 
+            style={{ transform: to([x],(v) => `translateX(${v}%)`) }} 
+            isToggled={isToggled}
+        />
     </S.Container>
   )
 }
@@ -32,25 +36,22 @@ export default DarkModeToggle
 const S = {}
 
 S.Container = styled(animated.div)`
-    background: rgb(40,40,40);
-    width: 3vw;
-    height: 2vw;
+    background: rgba(${props=>props.isToggled ? '0, 230, 150, 0.4' : '240,40,40, 0.5'});
+    width: 55px;
+    height: 30px;
     border-radius: 50px;
     display: grid;
     align-items: center;
-    outline: 1px solid silver;
-    padding: 0 3px;
-    /* :hover > div {
-        transform: translateX(100%);
-        background: darkblue;
-    } */
+    outline: 1px solid rgb(45,45,45);
+    box-shadow: inset 0 0 2px 0 black;
 `
 
 S.Slider = styled(animated.div)`
-    background: silver;
-    width: 1.5vw;
-    height: 1.5vw;
+    background:  rgb(60,60,60);
+    width: 25px;
+    height: 25px;
     border-radius: 100%;
     position: absolute;
     transition: 250ms;
+    margin: 0 2px;
 `

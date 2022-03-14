@@ -6,6 +6,7 @@ import pagesListSlice from './page/pagesListSlice'
 import promptSlice from './prompt/promptSlice'
 import unsavedChangesSlice from './page/unsavedChangesSlice'
 import darkModeSlice from './settings/darkModeSlice'
+import fontSizeSlice from './settings/fontSizeSlice'
 
 export default configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export default configureStore({
         currentPage: currentPageSlice,
         prompt: promptSlice,
         unsavedChanges: unsavedChangesSlice,
-        darkMode: darkModeSlice
+        darkMode: darkModeSlice,
+        fontSize: fontSizeSlice
     }
   })

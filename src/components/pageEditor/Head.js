@@ -2,26 +2,24 @@ import React, {useState, useRef} from 'react'
 import styled from 'styled-components'
 import {IoIosAdd} from 'react-icons/io'
 import {MdKeyboardArrowLeft, MdKeyboardArrowRight} from 'react-icons/md'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addNewPage, editPageTitle } from '../../app/page/pagesListSlice';
-
+// const darkMode = useSelector(state => state.darkMode.value)
+// , useSelector 
+// background: rgb(${props=>props.darkMode ? '30,30,30' : '200,200,200'});
+// color: ${props=> props.darkMode ? 'white' : 'black'}; 
 const Head = (props) => {
     const dispatch = useDispatch()
     const {
         pageIndex,
         setPageIndex,
-        // pageAmount,
-        // setPageAmount,
         currentPage,
         setCurrentPage,
-        // editTitleRef,
-        // prevPage_,
-        // setPrevPage_,
-        // nextPage_,
-        // setNextPage_,
         pagesList,
         initialAmount
     } = props
+    const darkMode = useSelector(state => state.darkMode.value)
+    const fontSize = useSelector(state => state.fontSize.value)
     const [prevPage_, setPrevPage_] = useState( [pagesList[0][initialAmount - 2],pagesList[1][initialAmount - 2]])
     const [nextPage_, setNextPage_] = useState(['NEW PAGE 📄', 'Type here! ⌨'])
     const [pageAmount, setPageAmount] = useState(pagesList[0].length)
@@ -87,9 +85,25 @@ const Head = (props) => {
     }
   return (
     <S.Head id='PageEditorHead'>
-    <S.PreviousPage onClick={()=>prevPage()} ><MdKeyboardArrowLeft color={pageIndex == 1 ? 'rgba(0,0,0,0.5)' : 'black'}/></S.PreviousPage>
+    <S.PreviousPage 
+        onClick={()=>prevPage()} 
+    >
+        <MdKeyboardArrowLeft 
+            color = {   
+                    pageIndex == 1 ? 
+                    darkMode ? 'gray' : 'rgba(0,0,0,0.5)' : 
+                    darkMode ? 'white' : 'black' 
+            }
+        />
+    </S.PreviousPage>
+
     <S.TitleCounterContainer id='TitleCounterContainer'>
-        <S.PageTitle id='PageTitle' onClick={()=>setTitleClicked(true)}>
+        <S.PageTitle 
+            id='PageTitle' 
+            onClick={()=>setTitleClicked(true)}
+            darkMode={darkMode}
+            fontSize={fontSize}
+        >
             {titleClicked ? 
                 <S.EditTitle 
                     onBlur={(e)=>handleTitleChange(e)} 
@@ -98,19 +112,30 @@ const Head = (props) => {
                     autoFocus
                     onKeyUp={handleKeyPress}
                     ref={editTitleRef}
+                    fontSize={fontSize}
+                    darkMode={darkMode}
                 /> 
                 : currentPage[0]
             }
 
         </S.PageTitle>
         <S.CounterContainer >
-            <S.PageCounter>
+            <S.PageCounter darkMode={darkMode} fontSize={fontSize}>
             {pageIndex}/{pageAmount}
             </S.PageCounter>
         </S.CounterContainer >
     </S.TitleCounterContainer>
     
-    <S.NextPage onClick={()=>nextPage()}>{pageIndex == pageAmount ? <IoIosAdd/> : <MdKeyboardArrowRight/>}</S.NextPage>
+    <S.NextPage 
+        onClick={()=>nextPage()}
+        darkMode={darkMode}
+    >
+        { pageIndex == pageAmount ? 
+            <IoIosAdd/> : 
+            <MdKeyboardArrowRight/>
+        }
+    </S.NextPage>
+
     </S.Head>
   )
 }
@@ -143,18 +168,23 @@ background: none;
 border: none;
 text-align: center;
 font-size: 1.5rem;
+font-size: ${props => props.fontSize * 1.5}rem;
 font-family: 'le-havre';
+color: ${props=>props.darkMode ? 'white' : 'black'};
 
     @media (max-width: 550px) {
         font-size: 1rem;
+        font-size: ${props => props.fontSize * 1}rem;
     }
 
 ::placeholder {
     color: gray;
     font-size: 1.5rem;
+    font-size: ${props => props.fontSize * 1.5}rem;
     font-family:'le-havre';
     @media (max-width: 550px) {
         font-size: 1rem;
+        font-size: ${props => props.fontSize * 1}rem;
     }
 }
 :focus {
@@ -164,10 +194,13 @@ font-family: 'le-havre';
 S.PageTitle = styled.div`
     text-align: center;
     font-size: 1.5rem;
+    font-size: ${props => props.fontSize * 1.5}rem;
     width: fit-content;
     font-family: 'le-havre';
+    color: ${props=>props.darkMode ? 'white' : 'black'};
     @media (max-width: 550px) {
         font-size: 1rem;
+        font-size: ${props => props.fontSize * 1}rem;
     }
     
 `
@@ -179,6 +212,7 @@ S.PageCounter = styled.div`
     width: fit-content;
     text-align: center;
     line-height: 30px;
+    color: ${props=>props.darkMode ? 'white' : 'black'};
 `
 S.PreviousPage = styled.div`
     width: 5vh;
@@ -187,8 +221,7 @@ S.PreviousPage = styled.div`
     cursor: pointer;
     line-height: 6vh;
     transition: 250ms;
-    color: black;
-
+    color: ${props=> props.darkMode ? 'white' : 'black'}; 
 `
 S.NextPage = styled.div`
     width: 5vh;
@@ -197,5 +230,5 @@ S.NextPage = styled.div`
     cursor: pointer;
     line-height: 6vh;
     transition: 250ms;
-    color: black;
+    color: ${props=> props.darkMode ? 'white' : 'black'}; 
 `

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 export const darkModeSlice = createSlice({
-  name: 'unsavedChanges',
+  name: 'darkMode',
   initialState: {
     value: true
   },

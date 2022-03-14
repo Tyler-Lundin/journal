@@ -47,7 +47,7 @@ const Prompt = (props) => {
                 <S.Prompt>
                     { promptAction == 'NewJournal' ? 
                         <S.TitleInputContainer>
-                            <S.SmallMessage>What will you call this Journal?</S.SmallMessage>
+                            <S.SmallMessage>Create New Journal</S.SmallMessage>
                             <S.TitleInput maxLength={25} ref={newTitleRef}/>
 
                         </S.TitleInputContainer>

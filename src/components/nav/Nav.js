@@ -1,11 +1,12 @@
 import styled, {keyframes} from 'styled-components'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react'
 import { closeJournal } from '../../app/journal/currentJournalSlice';
 import { auth } from '../../util/firebase';
 import { signOut } from 'firebase/auth';
 import {IoIosMenu, IoIosClose} from 'react-icons/io'
 import {hideFirstAnimation} from './../../util/animations'
+import Settings from '../settings/Settings';
 
 const S = {} // styles below
 
@@ -13,7 +14,8 @@ const Nav = () => {
 
     const dispatch = useDispatch()
     const [isMenuOpen, setIsMenuOpen] = useState(true)
-
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+    const darkMode = useSelector(state=> state.darkMode.value)
     const handleLogout = async () => {
         await signOut(auth)
         window.location.reload()
@@ -22,14 +24,29 @@ const Nav = () => {
         dispatch(closeJournal())
         setIsMenuOpen(!isMenuOpen)
     }
+    const handleSettings = () => {
+        setIsSettingsOpen(!isSettingsOpen)
+        setIsMenuOpen(!isMenuOpen)
+    }
 
     return (
         <>
             <S.Nav id='Nav'>
-                <S.OpenMenu onClick={()=>setIsMenuOpen(!isMenuOpen)} isMenuOpen={isMenuOpen} id='OpenNavBtn'>
+                <S.OpenMenu 
+                    onClick={()=>setIsMenuOpen(!isMenuOpen)} 
+                    isMenuOpen={isMenuOpen} 
+                    id='OpenNavBtn'
+                    darkMode={darkMode}
+                >
                     <IoIosMenu/>
                 </S.OpenMenu>
             </S.Nav>
+            <S.SettingsMenu isSettingsOpen={isSettingsOpen}>
+                <S.CloseMenu onClick={()=>setIsSettingsOpen(!isSettingsOpen)}>
+                    <IoIosClose/>
+                </S.CloseMenu>
+                <Settings/>
+            </S.SettingsMenu>
             <S.SlideMenuContainer>
                 <S.SlideMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
                         <S.CloseMenu onClick={()=>setIsMenuOpen(!isMenuOpen)}>
@@ -38,6 +55,7 @@ const Nav = () => {
                         
                         <S.Links>
                             <S.Link onClick={()=>handleJournalsLink()}>JOURNALS</S.Link>
+                            <S.Link onClick={()=>handleSettings()}>SETTINGS</S.Link>
                             <S.Link onClick={()=>handleLogout()}>LOGOUT</S.Link>
                         </S.Links>                 
                 </S.SlideMenu>
@@ -62,7 +80,7 @@ S.OpenMenu = styled.div`
     width: 8vh;
     height: 8vh;
     position: absolute;
-    color: black;
+    color: ${props=>props.darkMode ? 'white' : 'black'};
     z-index: 999997;
     font-size: 8vh;
     animation: ${props => moveVertically((props.isMenuOpen?'0':'-100'),(props.isMenuOpen?'-100':'0'))}  1s forwards;
@@ -132,4 +150,24 @@ const moveVertically = (y,x) =>
     100% {
       transform: translateY(${y}%);
     }
+`
+const moverHorizontally = (y,x) =>
+  keyframes`
+    0% {
+      transform: translateX(${x}%);
+    }
+    100% {
+      transform: translateX(${y}%);
+    }
+`
+
+S.SettingsMenu = styled.div`
+    width: 300px;
+    height: calc(var(--vh, 1vh) * 100);
+    background: rgb(50,50,50);
+    position: absolute;
+    z-index: 1000000;
+    top: 0;
+    right: 0;
+    animation: ${props => moverHorizontally((props.isSettingsOpen?'110':0),(props.isSettingsOpen?0:'110'))}  1s forwards;
 `

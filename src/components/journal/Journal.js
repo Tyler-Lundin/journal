@@ -55,7 +55,12 @@ const S = {}
 S.Container = styled(animated.div)`
     transition: 300ms;
     align-self: center;
-
+    -webkit-touch-callout: none;
+  -webkit-user-select: none;
+   -khtml-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
  
 `
 S.Journal = styled.div`

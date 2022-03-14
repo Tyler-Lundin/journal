@@ -1,4 +1,6 @@
-
+# add credits later
+Photo by <a href="https://unsplash.com/@thomschneider?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Thom Schneider</a> on <a href="https://unsplash.com/s/photos/midnight-sky?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+  
 # JOURNAL
 ### Minimal Web Journaling 
 Designed / Developed by Tyler Lundin
@@ -13,7 +15,17 @@ Designed / Developed by Tyler Lundin
 	Firetore - Save / Load Data
 	User Authentication - Login / Logout
 
-# Design
+
+## TO DO
+AUTOSAVE
+onChange -> no changes for 30 seconds
+
+## Bugs not fixed yet
+- toggling dark mode on PageEditor 
+
+
+
+# Initial Design
 <p float="left">
 <img src="https://user-images.githubusercontent.com/82530947/155422943-034e8db1-ae39-43c7-a9ce-93bb7f537d28.png" alt="loggedIn" width="200"/>
 
