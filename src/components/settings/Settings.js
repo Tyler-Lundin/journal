@@ -20,9 +20,14 @@ const Settings = () => {
   }
 
   const saveSettings = async (dM, fS, sB) => {
-    await saveUserSettings(dM === null ? darkMode : dM, fontSize, selectedBackground)
-  }
+    if (dM === '_' && fS === '_') {
+      await saveUserSettings(darkMode, fontSize, sB)
 
+    } else {
+      await saveUserSettings(darkMode, fontSize, selectedBackground)
+
+    }
+  }
 
   return (
     <S.Settings>

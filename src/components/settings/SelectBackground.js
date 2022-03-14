@@ -14,7 +14,7 @@ const SelectBackground = (props) => {
         if (selection_ > 1) {
             const s_ = selection_ - 1
             dispatch(setBackground(s_))
-            props.saveSettings()
+            setTimeout(props.saveSettings('_','_',s_), 1000)
         }
     }
 
@@ -22,8 +22,7 @@ const SelectBackground = (props) => {
         if (selection_ < 17) {
             const s_ = selection_ + 1
             dispatch(setBackground(s_))
-            props.saveSettings()
-
+            setTimeout(props.saveSettings('_','_',s_), 1000)
         }
     }
   return (
