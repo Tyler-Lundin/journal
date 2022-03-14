@@ -4,10 +4,7 @@ import {IoIosAdd} from 'react-icons/io'
 import {MdKeyboardArrowLeft, MdKeyboardArrowRight} from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewPage, editPageTitle } from '../../app/page/pagesListSlice';
-// const darkMode = useSelector(state => state.darkMode.value)
-// , useSelector 
-// background: rgb(${props=>props.darkMode ? '30,30,30' : '200,200,200'});
-// color: ${props=> props.darkMode ? 'white' : 'black'}; 
+
 const Head = (props) => {
     const dispatch = useDispatch()
     const {
@@ -84,7 +81,12 @@ const Head = (props) => {
         setTitleClicked(false)
     }
   return (
-    <S.Head id='PageEditorHead'>
+    <S.Head id='PageEditorHead' darkMode={darkMode}>
+    <S.CounterContainer >
+        <S.PageCounter darkMode={darkMode} fontSize={fontSize}>
+            {pageIndex}/{pageAmount}
+        </S.PageCounter>
+    </S.CounterContainer >
     <S.PreviousPage 
         onClick={()=>prevPage()} 
     >
@@ -119,11 +121,6 @@ const Head = (props) => {
             }
 
         </S.PageTitle>
-        <S.CounterContainer >
-            <S.PageCounter darkMode={darkMode} fontSize={fontSize}>
-            {pageIndex}/{pageAmount}
-            </S.PageCounter>
-        </S.CounterContainer >
     </S.TitleCounterContainer>
     
     <S.NextPage 
@@ -151,7 +148,7 @@ S.Head = styled.div`
     justify-items: center;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.2);
+    background: ${props=>props.darkMode? 'rgba(0,0,0,0.5)': 'rgba(255,255,255,0.5)'};
 `
 S.TitleCounterContainer = styled.div`
     width: 100%;
@@ -208,6 +205,8 @@ S.PageTitle = styled.div`
 S.CounterContainer = styled.div`
     display: grid;
     justify-content: center;
+    position: absolute;
+    left: 5vw;
 `
 S.PageCounter = styled.div`
     width: fit-content;

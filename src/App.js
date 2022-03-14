@@ -6,9 +6,7 @@ import { auth } from './util/firebase';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { spin } from './util/animations';
 import ImageCredit from './components/ImageCredit';
-import {img0, img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15, img16, img17} from './images/imageListInOrder'
 import SelectedBackground from './components/SelectedBackground';
 import { setBackground } from './app/settings/selectedBackgroundSlice';
 import { toggle } from './app/settings/darkModeSlice';
@@ -18,6 +16,7 @@ import getUserSettings from './util/getUserSettings';
 function App() {
   const [user, setUser] = useState(null)
   const dispatch = useDispatch()
+  const darkMode = useSelector(state=>state.darkMode.value)
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setUser(user)
@@ -35,6 +34,8 @@ function App() {
   const setSettingsOnLoad = async () => {
     const settings_ = await getUserSettings()
     console.log(settings_.selectedBackground)
+    console.log(settings_.darkMode)
+    console.log(settings_.fontMultiplyer)
     dispatch(setBackground(settings_.selectedBackground))
     dispatch(toggle(settings_.darkMode))
     dispatch(setMultiplyer(settings_.fontMultiplyer))
@@ -56,8 +57,7 @@ function App() {
           <ImageCredit/>
         </S.CreditContainer>
         <SelectedBackground/>
-        {/* <S.Dark darkMode={darkMode}/>
-        <S.Light darkMode={darkMode}/> */}
+        <S.DarkModeFilter darkMode={darkMode}/>
       </S.App>
     </>
   );
@@ -77,28 +77,17 @@ S.App = styled.div`
   overscroll-behavior:none;
   overflow: hidden;
 `
-// S.Dark = styled.div`
-//   background: rgb(30,30,30);
-//   background-image: url(${img0});
-//   background-size: 100%;
-//   transform-origin: center;
-//   width: 100vw;
-//   height: 100vh;
-//   top: 0;
-//   position: absolute;
-//   transition: 250ms;
-//   opacity: ${props => props.darkMode ? .5 : 0};
-// `
+S.DarkModeFilter = styled.div`
+  background: ${props=> props.darkMode ? 'rgba(30,30,30,0.5)' : 'rgba(200,200,200,0.2)'};
+  background-size: 100%;
+  transform-origin: center;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  position: absolute;
+  transition: 250ms;
+`
 
-// S.Light = styled.div`
-//   background: rgb(200,200,200);
-//   width: 100vw;
-//   height: 100vh;
-//   top: 0;
-//   position: absolute;
-//   transition: 250ms;
-//   opacity: ${props => props.darkMode ? 0 : 1};
-// `
 
 S.CreditContainer = styled.div`
   position: absolute;

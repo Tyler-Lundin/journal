@@ -10,19 +10,19 @@ import getUserSettings from '../../util/getUserSettings'
 import saveUserSettings from '../../util/saveUserSettings'
 
 const Settings = () => {
+
   const darkMode = useSelector(state=>state.darkMode.value)
   const selectedBackground = useSelector(state=>state.selectedBackground.value)
   const fontSize = useSelector(state=>state.fontSize.value)
+
   const handleClick = () => {
     console.log('click')
   }
 
-  const saveSettings = () => {
-    saveUserSettings(darkMode, fontSize, selectedBackground)
+  const saveSettings = async (dM, fS, sB) => {
+    await saveUserSettings(dM === null ? darkMode : dM, fontSize, selectedBackground)
   }
-  useEffect(()=>{
-    saveSettings()
-  },[darkMode, selectedBackground, fontSize])
+
 
   return (
     <S.Settings>
@@ -58,12 +58,13 @@ S.Settings = styled.div`
     position: absolute;
     display: grid;
     justify-content: center;
-    justify-items:center ;
+    justify-items: center;
     background: rgba(103, 99, 130,0.1);
     padding: 5vh 0;
     z-index: 1000;
     grid-gap: 5vw;
     align-content: center;
+    transform: translateY(-5%);
 `
 
 S.SettingsLabel = styled.h1`

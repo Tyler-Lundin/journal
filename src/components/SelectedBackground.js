@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import {img0, img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15, img16, img17} from '../images/imageListInOrder'
-
+import {loadBackground} from '../util/animations'
 const SelectedBackground = () => {
     const selectedBackground = useSelector(state=>state.selectedBackground.value)
     // const imageSource = require(`../images/imageListInOrder/img${selectedBackground}.jpg` )
@@ -39,11 +39,12 @@ const S = {}
 
 S.BG = styled.div`
     background: rgb(30,30,30);
-    background-size: 100%;
+    background-size: cover;
     transform-origin: center;
     width: 100vw;
     height: 100vh;
     top: 0;
     opacity: .7;
     position: absolute;
+    animation: ${loadBackground} 5s forwards; 
 `

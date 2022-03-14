@@ -5,26 +5,28 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toggle } from '../../app/settings/darkModeSlice'
 
 const DarkModeToggle = (props) => {
+    const {saveSettings} = props
     const dispatch = useDispatch()
+    const darkMode = useSelector(state=>state.darkMode.value)
     const [isToggled, setIsToggled] = useState(false)
     const [{x}, toggleAnimation] = useSpring(()=>({
-        x: 0,
+        x: !darkMode ? 0 : 100,
         config: { mass: 1, tension: 0, friction: 20 , velocity: 100}
     }))
     const handleClick = () => {
-        toggleAnimation({ x: isToggled ? 0 : 100})
+        toggleAnimation({ x: !darkMode ? 0 : 100})
         setIsToggled(!isToggled)
-        dispatch(toggle(isToggled))
-        props.saveSettings(false)
+        dispatch(toggle(!isToggled))
+        saveSettings(isToggled)
     }
   return (
     <S.Container
         onClick={handleClick}
-        isToggled={isToggled}
+        darkMode={darkMode}
     >
         <S.Slider 
             style={{ transform: to([x],(v) => `translateX(${v}%)`) }} 
-            isToggled={isToggled}
+            darkMode={darkMode}
         />
     </S.Container>
   )
@@ -35,7 +37,7 @@ export default DarkModeToggle
 const S = {}
 
 S.Container = styled(animated.div)`
-    background: rgba(${props=>props.isToggled ? '0, 230, 150, 0.4' : '240,40,40, 0.5'});
+    background: rgba(${props=>props.darkMode ? '0, 230, 150, 0.4' : '240,40,40, 0.5'});
     width: 55px;
     height: 30px;
     border-radius: 50px;

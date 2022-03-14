@@ -25,7 +25,7 @@ const Nav = () => {
         setIsMenuOpen(!isMenuOpen)
     }
     const handleSettings = () => {
-        setIsSettingsOpen(!isSettingsOpen)
+        setIsSettingsOpen(false)
         setIsMenuOpen(!isMenuOpen)
     }
 
@@ -164,9 +164,9 @@ const moverHorizontally = (y,x) =>
 S.SettingsMenu = styled.div`
     width: 300px;
     height: calc(var(--vh, 1vh) * 100);
-    background: rgb(50,50,50);
+    background: rgba(0,100,125,.6);
     position: absolute;
-    z-index: 1000000;
+    z-index: 999996;
     top: 0;
     right: 0;
     animation: ${props => moverHorizontally((props.isSettingsOpen?'110':0),(props.isSettingsOpen?0:'110'))}  1s forwards;

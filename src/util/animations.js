@@ -20,11 +20,14 @@ export const hideFirstAnimation = keyframes`
     }
 `
 
-export const spin = keyframes`
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
+export const loadBackground = keyframes`
+    0% {
+        opacity: 0;
     }
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
+    60%{
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 `

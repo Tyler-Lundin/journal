@@ -15,6 +15,7 @@ const Content = (props) => {
     } = props
     const dispatch = useDispatch()
     const darkMode = useSelector(state => state.darkMode.value)
+    const fontSize = useSelector(state => state.fontSize.value)
     function handleContentChange(e){
         let tempList = [...pagesList[1]]
         tempList[pageIndex - 1] = e.target.value
@@ -38,6 +39,7 @@ const Content = (props) => {
     <S.Content id='PageEditorContent' >
         <S.TextArea
             darkMode={darkMode} 
+            fontSize={fontSize}
             id='PageEditorTextArea'
             key={pageIndex}
             defaultValue={currentPage[1]} 
@@ -63,17 +65,18 @@ S.Content = styled.div`
 `
 S.TextArea = styled.textarea`
     color: ${props=> props.darkMode ? 'white' : 'black'}; 
-    width: 95%;
+    width: 100%;
     height: 100%;
     line-height: 2rem;
+    padding: 0 5px;
     resize: none;
     border: none;
-    background: rgba(0,0,0,0.1);
+    background: ${props=>props.darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(200,200,200,0.2)'};
     /* background: rgb(${props=>props.darkMode ? '30,30,30' : '200,200,200'});
     background-image: linear-gradient(rgba(100,100,100,0.3) 50%, rgba(100,100,100,0.4) 50%);
     background-size: 100% 4rem;
     background-attachment: local; */
-    font-size: 1.5rem;
+    font-size: ${props=>props.fontSize * 1}rem;
     :focus {
         outline: none;
     }

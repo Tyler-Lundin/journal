@@ -2,22 +2,27 @@ import styled from 'styled-components'
 import React, {useState} from 'react'
 import { IoIosAdd, IoIosRemove } from 'react-icons/io'
 import {setMultiplyer} from './../../app/settings/fontSizeSlice'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-const FontSize = () => {
+const FontSize = (props) => {
     const darkMode = useSelector(state=>state.darkMode.value)
+    const fontSize = useSelector(state=>state.fontSize.value)
     const [fontMultiplyer, setfontMultiplyer] = useState(1)
+    const dispatch = useDispatch()
     const handleIncrease = () => {
         if (fontMultiplyer <= 2) {
             setfontMultiplyer(fontMultiplyer + .2)
+            dispatch(setMultiplyer(fontMultiplyer + .2))
             console.log(fontMultiplyer)
+            props.saveSettings()
         }
     }
     const handleDecrease = () => {
         if (fontMultiplyer >= 1) {
             setfontMultiplyer(fontMultiplyer - .2)
             console.log(fontMultiplyer)
-            dispatchEvent(setMultiplyer)
+            dispatch(setMultiplyer(fontMultiplyer - .2))
+            props.saveSettings()
         }
     }
   return (
@@ -30,7 +35,7 @@ const FontSize = () => {
         </S.Decrease>
 
         <S.Display 
-            fontMultiplyer={fontMultiplyer}
+            fontSize={fontSize}
         >
             { darkMode ? 
                 'zZ' :
@@ -67,11 +72,9 @@ S.FontSize = styled.div`
 S.Display = styled.div`
     width: 100px;
     height: 100%;
-    border: 1px solid black;
     line-height: 60px;
     text-align: center;
-    font-size: ${props=>props.fontMultiplyer * 1.5}rem;
-    border-radius: 50px;
+    font-size: ${props=>props.fontSize * 1.5}rem;
 `
 S.Increase = styled.div`
     width: 60px;
