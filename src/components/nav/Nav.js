@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { closeJournal } from '../../app/journal/currentJournalSlice';
 import { auth } from '../../util/firebase';
 import { signOut } from 'firebase/auth';
-import {IoIosMenu, IoIosClose} from 'react-icons/io'
+import {IoIosMenu, IoIosClose, IoIosSettings} from 'react-icons/io'
 import {hideFirstAnimation} from './../../util/animations'
 import Settings from '../settings/Settings';
 
@@ -26,7 +26,6 @@ const Nav = () => {
     }
     const handleSettings = () => {
         setIsSettingsOpen(false)
-        setIsMenuOpen(!isMenuOpen)
     }
 
     return (
@@ -40,13 +39,20 @@ const Nav = () => {
                 >
                     <IoIosMenu/>
                 </S.OpenMenu>
+                <S.SettingsOpen darkMode={darkMode} isSettingsOpen={isSettingsOpen} onClick={()=>handleSettings()}>
+                    <IoIosSettings size={'100%'}/>
+                </S.SettingsOpen>
             </S.Nav>
+
+            {/*  SETTINGS MENU  */}
             <S.SettingsMenu isSettingsOpen={isSettingsOpen}>
                 <S.CloseMenu onClick={()=>setIsSettingsOpen(!isSettingsOpen)}>
                     <IoIosClose/>
                 </S.CloseMenu>
                 <Settings/>
             </S.SettingsMenu>
+
+            {/* MAIN NAV MENU */}
             <S.SlideMenuContainer>
                 <S.SlideMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
                         <S.CloseMenu onClick={()=>setIsMenuOpen(!isMenuOpen)}>
@@ -55,7 +61,7 @@ const Nav = () => {
                         
                         <S.Links>
                             <S.Link onClick={()=>handleJournalsLink()}>JOURNALS</S.Link>
-                            <S.Link onClick={()=>handleSettings()}>SETTINGS</S.Link>
+                            {/* <S.Link onClick={()=>handleSettings()}>SETTINGS</S.Link> */}
                             <S.Link onClick={()=>handleLogout()}>LOGOUT</S.Link>
                         </S.Links>                 
                 </S.SlideMenu>
@@ -111,7 +117,7 @@ S.SlideMenu = styled.div`
     width: 100vw;
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
-    background: #3d3a4b;
+    background: rgba(100,10,50,0.8);
     display: grid;
     justify-content: center;
     position: absolute;
@@ -170,4 +176,22 @@ S.SettingsMenu = styled.div`
     top: 0;
     right: 0;
     animation: ${props => moverHorizontally((props.isSettingsOpen?'110':0),(props.isSettingsOpen?0:'110'))}  1s forwards;
+`
+S.SettingsOpen = styled.div`
+    width: 50px;
+    height: 50px;
+    background: rgba(0,100,125,.6);
+    color: white;
+    position: absolute;
+    z-index: 999996;
+    bottom: 0;
+    right: 2%;
+    border-radius: 100%;
+    animation: ${props => moverHorizontally((props.isSettingsOpen?'0':'210'),(props.isSettingsOpen?'210':'0'))}  1s forwards;
+    svg {
+        transition: 5s;
+    }
+    svg:hover {
+        transform: rotate(360deg) scale(115%);
+    }
 `

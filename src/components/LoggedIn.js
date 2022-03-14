@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setJournalsList } from '../app/journal/journalsListSlice'
 import { promptCreateNewJournal } from "./../app/prompt/promptSlice";
 import { auth } from "../util/firebase";
-import Settings from "./settings/Settings";
 const PageEditor = lazy( ()=>import('./pageEditor/PageEditor'))
 const Prompt = lazy( ()=> import('./prompt/Prompt'))
 const S = {}

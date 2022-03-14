@@ -1,12 +1,10 @@
 import styled from 'styled-components'
-
-import React, { useEffect } from 'react'
+import React from 'react'
 import DarkModeToggle from './DarkModeToggle'
 import { IoIosSunny, IoIosMoon } from 'react-icons/io'
 import FontSize from './FontSize'
 import SelectBackground from './SelectBackground'
 import { useSelector } from 'react-redux'
-import getUserSettings from '../../util/getUserSettings'
 import saveUserSettings from '../../util/saveUserSettings'
 
 const Settings = () => {

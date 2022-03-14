@@ -1,11 +1,13 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import {img0, img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15, img16, img17} from '../images/imageListInOrder'
 import {loadBackground} from '../util/animations'
+import {img0, img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15, img16, img17} from '../images/imageListInOrder'
+
+
+
 const SelectedBackground = () => {
     const selectedBackground = useSelector(state=>state.selectedBackground.value)
-    // const imageSource = require(`../images/imageListInOrder/img${selectedBackground}.jpg` )
     const select = () => {
       switch(selectedBackground){
         case 0: return img0
@@ -25,11 +27,14 @@ const SelectedBackground = () => {
         case 14: return img14
         case 15: return img15
         case 16: return img16
-        case 17: return img17
+        case 17: return img17 
+        default: return img10
       }
     }
   return (
-    <S.BG style={{backgroundImage: `url(${select(selectedBackground)})`}}/>
+    <S.BG>
+      <img src={select()} loading='lazy' alt='a very beautiful scene'/>
+    </S.BG>
   )
 }
 
@@ -46,5 +51,13 @@ S.BG = styled.div`
     top: 0;
     opacity: .7;
     position: absolute;
-    animation: ${loadBackground} 5s forwards; 
+    animation: ${loadBackground} 2s forwards; 
+    display: flex;
+    img {
+      min-height: 100%;
+      min-width: 100%;
+      object-fit: cover;
+      align-self: center;
+      justify-self: center;
+    }
 `

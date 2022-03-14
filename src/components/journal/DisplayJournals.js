@@ -67,6 +67,8 @@ S.CreateJournal = styled.div`
     align-self: center;
     transition: 1s;
     animation: ${upDown} 2.5s infinite alternate ease-out;
+    box-shadow: 0px 5px 10px 0px black;
+
     :hover{
         opacity: .8;
         background: green;

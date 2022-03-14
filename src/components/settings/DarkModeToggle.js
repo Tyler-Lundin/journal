@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useSpring, animated, config, to } from 'react-spring'
+import { useSpring, animated, to } from 'react-spring'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggle } from '../../app/settings/darkModeSlice'
 
@@ -10,7 +10,7 @@ const DarkModeToggle = (props) => {
     const darkMode = useSelector(state=>state.darkMode.value)
     const [isToggled, setIsToggled] = useState(false)
     const [{x}, toggleAnimation] = useSpring(()=>({
-        x: !darkMode ? 0 : 100,
+        x: !darkMode ? 100 : 0,
         config: { mass: 1, tension: 0, friction: 20 , velocity: 100}
     }))
     const handleClick = () => {
@@ -25,7 +25,7 @@ const DarkModeToggle = (props) => {
         darkMode={darkMode}
     >
         <S.Slider 
-            style={{ transform: to([x],(v) => `translateX(${v}%)`) }} 
+            style={{ transform: to([x],(x) => `translateX(${x}%)`) }} 
             darkMode={darkMode}
         />
     </S.Container>

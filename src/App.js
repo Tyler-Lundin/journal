@@ -42,9 +42,7 @@ function App() {
   }
 
   useEffect(()=>{
-    if ( user ) {
-      setSettingsOnLoad()
-    }
+    setSettingsOnLoad()
   },[user])
 
   return (

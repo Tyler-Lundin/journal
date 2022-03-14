@@ -21,11 +21,11 @@ const Prompt = (props) => {
 
     const handleCancel = () => dispatch( promptCancel() )
     const handleConfirm = () => {
-        if (promptAction == 'OpenJournal') {
+        if (promptAction === 'OpenJournal') {
             dispatch( promptAccept('OpenJournalAccepted') )
             dispatch( openJournal() )
         }
-        if (promptAction == 'NewJournal') {
+        if (promptAction === 'NewJournal') {
             dispatch ( promptAccept('NewJournalAccepted'))
             createJournal(newTitleRef.current.value, auth.currentUser.email)
             getJournalList()
@@ -45,7 +45,7 @@ const Prompt = (props) => {
         <>
             <S.Shadow>
                 <S.Prompt>
-                    { promptAction == 'NewJournal' ? 
+                    { promptAction === 'NewJournal' ? 
                         <S.TitleInputContainer>
                             <S.SmallMessage>Create New Journal</S.SmallMessage>
                             <S.TitleInput maxLength={25} ref={newTitleRef}/>

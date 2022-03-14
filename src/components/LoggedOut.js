@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { upDown } from "../util/animations";
-import { useDispatch } from 'react-redux';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -29,6 +28,8 @@ S.LoggedOut = styled.div`
     justify-items:center;
     align-items: center;
     align-content: space-evenly;
+    position:absolute ;
+    z-index: 155;
 `
 S.SignInBtn = styled.img`
     min-width: 200px;

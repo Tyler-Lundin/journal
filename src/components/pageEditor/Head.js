@@ -37,11 +37,11 @@ const Head = (props) => {
             setCurrentPage(nextPage_)
             setPrevPage_([pagesList[0][pageIndex - 1],pagesList[1][pageIndex - 1]])
             setNextPage_([pagesList[0][pageIndex + 1],pagesList[1][pageIndex + 1]])
-            if (pageIndex == pageAmount - 1) {
+            if (pageIndex === pageAmount - 1) {
                 setNextPage_(['NEW PAGE 📄', 'Type here! ⌨'])
             }
         }
-        if (pageIndex == pageAmount) { // NEW PAGE BUTTON
+        if (pageIndex === pageAmount) { // NEW PAGE BUTTON
             setPrevPage_([pagesList[0][pageIndex - 1],pagesList[1][pageIndex - 1]])
             setCurrentPage(nextPage_)
             dispatch(addNewPage())
@@ -69,10 +69,11 @@ const Head = (props) => {
                 }
                 checkOnce = false
                 break;
-        }
+            default: break;
+        } 
     }
     function handleTitleChange (e) {
-        if (e.target.value != '') {
+        if (e.target.value !== '') {
             let tempList = [...pagesList[0]]
             tempList[pageIndex - 1] = e.target.value
             dispatch(editPageTitle(tempList))
@@ -92,7 +93,7 @@ const Head = (props) => {
     >
         <MdKeyboardArrowLeft 
             color = {   
-                    pageIndex == 1 ? 
+                    pageIndex === 1 ? 
                     darkMode ? 'gray' : 'rgba(0,0,0,0.5)' : 
                     darkMode ? 'white' : 'black' 
             }
@@ -127,7 +128,7 @@ const Head = (props) => {
         onClick={()=>nextPage()}
         darkMode={darkMode}
     >
-        { pageIndex == pageAmount ? 
+        { pageIndex === pageAmount ? 
             <IoIosAdd/> : 
             <MdKeyboardArrowRight/>
         }
@@ -200,6 +201,11 @@ S.PageTitle = styled.div`
         font-size: 1rem;
         font-size: ${props => props.fontSize * 1}rem;
     }
+    transition: 250ms;
+    :hover {
+        color: lightcoral;
+        font-style: italic;
+    }
     
 `
 S.CounterContainer = styled.div`
@@ -222,6 +228,13 @@ S.PreviousPage = styled.div`
     line-height: 6vh;
     transition: 250ms;
     color: ${props=> props.darkMode ? 'white' : 'black'}; 
+    svg {
+        transition: 1s;
+    }
+    svg:hover {
+        transform: translateX(-10%) scale(135%);
+
+    }
 `
 S.NextPage = styled.div`
     width: 5vh;
@@ -231,4 +244,10 @@ S.NextPage = styled.div`
     line-height: 6vh;
     transition: 250ms;
     color: ${props=> props.darkMode ? 'white' : 'black'}; 
+    svg {
+        transition: 1s;
+    }
+    svg:hover {
+        transform: translateX(10%) scale(135%);
+    }
 `

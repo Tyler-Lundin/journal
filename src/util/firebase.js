@@ -1,4 +1,3 @@
-import { initializeApp } from 'firebase/app'
 import { getFirestore } from "firebase/firestore"; 
 import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 import firebase from 'firebase/compat/app';
