@@ -1,36 +1,49 @@
 import styled from 'styled-components'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import DarkModeToggle from './DarkModeToggle'
 import { IoIosSunny, IoIosMoon } from 'react-icons/io'
 import FontSize from './FontSize'
+import SelectBackground from './SelectBackground'
 import { useSelector } from 'react-redux'
-import { animated, config, useSpring, to } from 'react-spring'
+import getUserSettings from '../../util/getUserSettings'
+import saveUserSettings from '../../util/saveUserSettings'
 
 const Settings = () => {
   const darkMode = useSelector(state=>state.darkMode.value)
-
+  const selectedBackground = useSelector(state=>state.selectedBackground.value)
+  const fontSize = useSelector(state=>state.fontSize.value)
   const handleClick = () => {
     console.log('click')
   }
 
+  const saveSettings = () => {
+    saveUserSettings(darkMode, fontSize, selectedBackground)
+  }
+  useEffect(()=>{
+    saveSettings()
+  },[darkMode, selectedBackground, fontSize])
 
   return (
     <S.Settings>
+      
       <S.DarkMode>
-        <S.Moon 
-          onClick={()=>handleClick} 
-        >
+        <S.Moon>
           <IoIosMoon size={'100%'} color={!darkMode ? 'black' : 'yellow'}/>
         </S.Moon>
-        <DarkModeToggle />
+        <DarkModeToggle  saveSettings={saveSettings}/>
         <S.Sun onClick={handleClick}>
           <IoIosSunny size={'100%'} color={darkMode ? 'black' : 'yellow'}/>
         </S.Sun>
       </S.DarkMode>
+
       <S.FontSize>
-        <FontSize/>
+        <FontSize  saveSettings={saveSettings}/>
       </S.FontSize>
+
+      <S.SelectBackground>
+        <SelectBackground saveSettings={saveSettings}/>
+      </S.SelectBackground>
     </S.Settings>
   )
 }
@@ -46,7 +59,7 @@ S.Settings = styled.div`
     display: grid;
     justify-content: center;
     justify-items:center ;
-    background: rgb(103, 99, 130);
+    background: rgba(103, 99, 130,0.1);
     padding: 5vh 0;
     z-index: 1000;
     grid-gap: 5vw;
@@ -74,10 +87,14 @@ S.FontSize = styled.div`
   justify-items: center;
   `
 
-  S.Moon = styled(animated.div)`
+  S.Moon = styled.div`
     position: relative;
   `
 
-  S.Sun = styled(animated.div)`
+  S.Sun = styled.div`
+  
+  `
+
+  S.SelectBackground = styled.div`
   
   `

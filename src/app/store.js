@@ -7,6 +7,7 @@ import promptSlice from './prompt/promptSlice'
 import unsavedChangesSlice from './page/unsavedChangesSlice'
 import darkModeSlice from './settings/darkModeSlice'
 import fontSizeSlice from './settings/fontSizeSlice'
+import selectedBackgroundSlice from './settings/selectedBackgroundSlice'
 
 export default configureStore({
     reducer: {
@@ -17,6 +18,7 @@ export default configureStore({
         prompt: promptSlice,
         unsavedChanges: unsavedChangesSlice,
         darkMode: darkModeSlice,
-        fontSize: fontSizeSlice
+        fontSize: fontSizeSlice,
+        selectedBackground: selectedBackgroundSlice
     }
   })

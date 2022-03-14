@@ -1,5 +1,5 @@
 # add credits later
-Photo by <a href="https://unsplash.com/@thomschneider?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Thom Schneider</a> on <a href="https://unsplash.com/s/photos/midnight-sky?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+
   
 # JOURNAL
 ### Minimal Web Journaling 

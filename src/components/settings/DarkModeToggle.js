@@ -4,9 +4,8 @@ import { useSpring, animated, config, to } from 'react-spring'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggle } from '../../app/settings/darkModeSlice'
 
-const DarkModeToggle = () => {
+const DarkModeToggle = (props) => {
     const dispatch = useDispatch()
-    const check = useSelector( state => state.darkMode.value)
     const [isToggled, setIsToggled] = useState(false)
     const [{x}, toggleAnimation] = useSpring(()=>({
         x: 0,
@@ -16,7 +15,7 @@ const DarkModeToggle = () => {
         toggleAnimation({ x: isToggled ? 0 : 100})
         setIsToggled(!isToggled)
         dispatch(toggle(isToggled))
-        console.log(check)
+        props.saveSettings(false)
     }
   return (
     <S.Container

@@ -147,10 +147,11 @@ const S = {}
 S.Head = styled.div`
     width: 100%;
     display: grid;
-    grid-template-columns: 50px 2fr 50px;
+    grid-template-columns: 1fr 2fr 1fr;
     justify-items: center;
     align-items: center;
     justify-content: center;
+    background: rgba(0,0,0,0.2);
 `
 S.TitleCounterContainer = styled.div`
     width: 100%;

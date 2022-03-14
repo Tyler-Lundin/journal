@@ -9,8 +9,13 @@ async function getJournals () {
       journalIDs: []
     }
     querySnapshot.forEach((doc) => {
-      list.journalTitles.push([doc.data().title])
-      list.journalIDs.push([doc.id])
+      console.log(doc)
+      console.log(doc.data())
+      if (doc.id !== 'user-settings'){
+        list.journalTitles.push([doc.data().title])
+        list.journalIDs.push([doc.id])
+      }
+
     });
     return list
 }
