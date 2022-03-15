@@ -59,19 +59,22 @@ S.DisplayJournals = styled.div`
 
 S.CreateJournal = styled.div`
     position: relative;
-    width: 230px;
-    height: 230px;
-    background: #3d3a4b;
-    opacity: .5;
+    width: 100px;
+    height: 100px;
+    background: rgba(0, 150, 50, 0.5);
     border-radius: 100%;
     align-self: center;
     transition: 1s;
     animation: ${upDown} 2.5s infinite alternate ease-out;
     box-shadow: 0px 5px 10px 0px black;
-
+    margin: 0 65px;
     :hover{
-        opacity: .8;
-        background: green;
-
+        background: rgba(0, 200, 90, 0.9);
+    }
+    svg {
+        transition: 2s;
+    }
+    svg:hover {
+        transform: rotate(-720deg) scale(135%);
     }
 `
