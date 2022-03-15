@@ -22,11 +22,10 @@ const DarkModeToggle = (props) => {
   return (
     <S.Container
         onClick={handleClick}
-        darkMode={darkMode}
+        $darkmode={darkMode}
     >
         <S.Slider 
             style={{ transform: to([x],(x) => `translateX(${x}%)`) }} 
-            darkMode={darkMode}
         />
     </S.Container>
   )
@@ -37,7 +36,7 @@ export default DarkModeToggle
 const S = {}
 
 S.Container = styled(animated.div)`
-    background: rgba(${props=>props.darkMode ? '0, 230, 150, 0.4' : '240,40,40, 0.5'});
+    background: rgba(${props=>props.$darkmode ? '0, 230, 150, 0.4' : '240,40,40, 0.5'});
     width: 55px;
     height: 30px;
     border-radius: 50px;

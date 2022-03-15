@@ -1,7 +1,7 @@
+import React from 'react';
 import LoggedIn from './components/LoggedIn';
 import LoggedOut from './components/LoggedOut';
 import styled from 'styled-components'
-import { Routes, Route } from 'react-router-dom'
 import { auth } from './util/firebase';
 import { useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -27,9 +27,7 @@ function App() {
   return (
     <>
       <S.App >
-        <Routes>
-          <Route path="/" element={ user ? <LoggedIn/> : <LoggedOut />}/>
-        </Routes>
+        { user ? <LoggedIn/> : <LoggedOut />}
       </S.App>
     </>
   );

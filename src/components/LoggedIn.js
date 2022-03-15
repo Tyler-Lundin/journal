@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef } from "react";
+import React, { lazy, Suspense, useEffect, useRef } from "react";
 import styled from "styled-components";
 import DisplayJournals from "./journal/DisplayJournals";
 import Journal from "./journal/Journal";
@@ -99,7 +99,7 @@ S.LoggedIn = styled.div`
     width: 100vw;
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
-
+    overflow: hidden;
 `
 
 S.CreditContainer = styled.div`

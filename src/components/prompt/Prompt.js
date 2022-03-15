@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { promptAccept, promptCancel, promptDeleteWarning } from '../../app/prompt/promptSlice'
 import { openJournal } from '../../app/journal/currentJournalSlice'
 import createJournal from '../../util/createJournal'
-import { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import deleteJournal from '../../util/deleteJournal'
 import { auth } from '../../util/firebase'
 const Prompt = (props) => {

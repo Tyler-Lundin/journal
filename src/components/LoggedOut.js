@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from "styled-components";
 import { upDown } from "../util/animations";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';

@@ -1,6 +1,6 @@
 import styled, {keyframes} from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { closeJournal } from '../../app/journal/currentJournalSlice';
 import { auth } from '../../util/firebase';
 import { signOut } from 'firebase/auth';
