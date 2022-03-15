@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux'
 
 const ImageCredit = () => {
   const index = useSelector(state=>state.selectedBackground.value)
+  console.log(index)
   return (
     <>
         Photo by 
-        <a href={imageCreditList[index][0]}> {imageCreditList[index][1]} </a>
+        <a href={imageCreditList[index|| 1][0]}> {imageCreditList[index|| 1][1]} </a>
         on
-        <a href={imageCreditList[index][2]}> Unsplash</a>
+        <a href={imageCreditList[index|| 1][2]}> Unsplash</a>
     </>
   )
 }

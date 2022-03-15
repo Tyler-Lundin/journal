@@ -8,16 +8,16 @@ const DarkModeToggle = (props) => {
     const {saveSettings} = props
     const dispatch = useDispatch()
     const darkMode = useSelector(state=>state.darkMode.value)
-    const [isToggled, setIsToggled] = useState(false)
+
     const [{x}, toggleAnimation] = useSpring(()=>({
         x: !darkMode ? 100 : 0,
         config: { mass: 1, tension: 0, friction: 20 , velocity: 100}
     }))
     const handleClick = () => {
-        toggleAnimation({ x: !darkMode ? 0 : 100})
-        setIsToggled(!isToggled)
-        dispatch(toggle(!isToggled))
-        saveSettings(isToggled)
+        saveSettings(!darkMode, '_', '_')
+        console.log('handleClick Start')
+        toggleAnimation.start({ x: !darkMode ? 0 : 100})
+        dispatch(toggle(!darkMode))
     }
   return (
     <S.Container

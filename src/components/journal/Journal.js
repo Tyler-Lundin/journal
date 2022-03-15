@@ -67,9 +67,14 @@ S.Journal = styled.div`
     position: relative;
     width: 250px;
     height: 350px;
-    background: #3d3a4b;
+    background: rgba(30,30,30,0.6);
+    border: 1px solid black;
     border-radius: 12px;
     box-shadow: 0px 5px 10px 0px black;
+    transition: 250ms;
+    :hover {
+        background: rgba(30,30,30,.95);
+    }
 `
 S.JournalIcon = styled.img`
     position: relative;

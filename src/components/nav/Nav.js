@@ -14,7 +14,7 @@ const Nav = () => {
 
     const dispatch = useDispatch()
     const [isMenuOpen, setIsMenuOpen] = useState(true)
-    const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+    const [isSettingsOpen, setIsSettingsOpen] = useState(true)
     const darkMode = useSelector(state=> state.darkMode.value)
     const handleLogout = async () => {
         await signOut(auth)
@@ -45,12 +45,16 @@ const Nav = () => {
             </S.Nav>
 
             {/*  SETTINGS MENU  */}
+            <S.SettingsContainer>
+
             <S.SettingsMenu isSettingsOpen={isSettingsOpen}>
                 <S.CloseMenu onClick={()=>setIsSettingsOpen(!isSettingsOpen)}>
                     <IoIosClose/>
                 </S.CloseMenu>
                 <Settings/>
             </S.SettingsMenu>
+
+            </S.SettingsContainer>
 
             {/* MAIN NAV MENU */}
             <S.SlideMenuContainer>
@@ -166,11 +170,18 @@ const moverHorizontally = (y,x) =>
       transform: translateX(${y}%);
     }
 `
-
+S.SettingsContainer = styled.div`
+    animation: ${hideFirstAnimation} 1s forwards;
+    width: 300px;
+    height: calc(var(--vh, 1vh) * 100);
+    position: absolute;
+    z-index: 999990;
+    top: 0;
+    right: 0;
+`
 S.SettingsMenu = styled.div`
     width: 300px;
     height: calc(var(--vh, 1vh) * 100);
-    background: rgba(0,100,125,.6);
     position: absolute;
     z-index: 999996;
     top: 0;

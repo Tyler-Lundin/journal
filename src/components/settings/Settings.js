@@ -6,7 +6,6 @@ import FontSize from './FontSize'
 import SelectBackground from './SelectBackground'
 import { useSelector } from 'react-redux'
 import saveUserSettings from '../../util/saveUserSettings'
-
 const Settings = () => {
 
   const darkMode = useSelector(state=>state.darkMode.value)
@@ -18,25 +17,31 @@ const Settings = () => {
   }
 
   const saveSettings = async (dM, fS, sB) => {
+    console.log('SaveSettings Start')
     if (dM === '_' && fS === '_') {
       await saveUserSettings(darkMode, fontSize, sB)
 
-    } else {
+    } else if(fS === '_' && sB === '_') {
+      console.log('else if')
+      await saveUserSettings(dM, fontSize, selectedBackground)
+    }
+     else {
+      console.log('else')
       await saveUserSettings(darkMode, fontSize, selectedBackground)
 
     }
   }
 
   return (
-    <S.Settings>
+    <S.Settings darkMode={darkMode}>
       
       <S.DarkMode>
         <S.Moon>
-          <IoIosMoon size={'100%'} color={!darkMode ? 'black' : 'yellow'}/>
+          <IoIosMoon size={'100%'} color={!darkMode ? 'silver' : 'gold'}/>
         </S.Moon>
         <DarkModeToggle  saveSettings={saveSettings}/>
         <S.Sun onClick={handleClick}>
-          <IoIosSunny size={'100%'} color={darkMode ? 'black' : 'yellow'}/>
+          <IoIosSunny size={'100%'} color={darkMode ? 'silver' : 'gold'}/>
         </S.Sun>
       </S.DarkMode>
 
@@ -62,7 +67,7 @@ S.Settings = styled.div`
     display: grid;
     justify-content: center;
     justify-items: center;
-    background: rgba(103, 99, 130,0.1);
+    background: ${props=>props.darkMode ? 'rgba(30,30,30,0.5)' : 'rgba(200,200,200,0.5)'};
     padding: 5vh 0;
     z-index: 1000;
     grid-gap: 5vw;

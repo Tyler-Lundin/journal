@@ -7,21 +7,16 @@ import { useDispatch, useSelector } from 'react-redux'
 const FontSize = (props) => {
     const darkMode = useSelector(state=>state.darkMode.value)
     const fontSize = useSelector(state=>state.fontSize.value)
-    const [fontMultiplyer, setfontMultiplyer] = useState(1)
     const dispatch = useDispatch()
     const handleIncrease = () => {
-        if (fontMultiplyer <= 2) {
-            setfontMultiplyer(fontMultiplyer + .2)
-            dispatch(setMultiplyer(fontMultiplyer + .2))
-            console.log(fontMultiplyer)
+        if (fontSize <= 2) {
+            dispatch(setMultiplyer(fontSize + .2))
             props.saveSettings()
         }
     }
     const handleDecrease = () => {
-        if (fontMultiplyer >= 1) {
-            setfontMultiplyer(fontMultiplyer - .2)
-            console.log(fontMultiplyer)
-            dispatch(setMultiplyer(fontMultiplyer - .2))
+        if (fontSize >= 1) {
+            dispatch(setMultiplyer(fontSize - .2))
             props.saveSettings()
         }
     }
@@ -36,6 +31,7 @@ const FontSize = (props) => {
 
         <S.Display 
             fontSize={fontSize}
+            darkMode={darkMode}
         >
             { darkMode ? 
                 'zZ' :
@@ -75,15 +71,18 @@ S.Display = styled.div`
     line-height: 60px;
     text-align: center;
     font-size: ${props=>props.fontSize * 1.5}rem;
+    color: ${props=>props.darkMode ? 'white' : 'black'};
 `
 S.Increase = styled.div`
     width: 60px;
     height: 100%;
+    color: ${props=>props.darkMode ? 'white' : 'black'};
 
 `
 S.Decrease = styled.div`
     width: 60px;
     height: 100%;
+    color: ${props=>props.darkMode ? 'white' : 'black'};
 
 
 `

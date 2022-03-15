@@ -197,14 +197,14 @@ S.PageTitle = styled.div`
     width: fit-content;
     font-family: 'le-havre';
     color: ${props=>props.darkMode ? 'white' : 'black'};
+    transform: scale(100%);
     @media (max-width: 550px) {
         font-size: 1rem;
         font-size: ${props => props.fontSize * 1}rem;
     }
     transition: 250ms;
     :hover {
-        color: lightcoral;
-        font-style: italic;
+        transform: scaleX(105%);
     }
     
 `

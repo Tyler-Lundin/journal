@@ -8,13 +8,14 @@ import { BsImageAlt } from 'react-icons/bs'
 
 const SelectBackground = (props) => {
     const selection_ = useSelector(state=> state.selectedBackground.value)
+    const darkMode = useSelector(state=>state.darkMode.value)
     const dispatch = useDispatch()
 
     const handlePrevious = () => {
         if (selection_ > 1) {
             const s_ = selection_ - 1
             dispatch(setBackground(s_))
-            setTimeout(props.saveSettings('_','_',s_), 1000)
+            props.saveSettings('_','_',s_)
         }
     }
 
@@ -22,19 +23,19 @@ const SelectBackground = (props) => {
         if (selection_ < 17) {
             const s_ = selection_ + 1
             dispatch(setBackground(s_))
-            setTimeout(props.saveSettings('_','_',s_), 1000)
+            props.saveSettings('_','_',s_)
         }
     }
   return (
     <S.SelectBG>
-        <S.Previous onClick={handlePrevious}>
+        <S.Previous darkMode={darkMode} onClick={handlePrevious}>
             <MdKeyboardArrowLeft size={'100%'}/>
         </S.Previous>
         {/*  */}
-        <S.Image>
+        <S.Image darkMode={darkMode} >
             <BsImageAlt size={'100%'}/>
         </S.Image>
-        <S.Next onClick={handleNext}>
+        <S.Next darkMode={darkMode} onClick={handleNext}>
             <MdKeyboardArrowRight size={'100%'}/>
         </S.Next>
     </S.SelectBG>
@@ -54,12 +55,17 @@ S.SelectBG = styled.div`
 S.Image = styled.div`
     width: 60px;
     height: 45px;
+    svg {
+        color: ${props=>props.darkMode ? 'gold' : 'black'};
+    }
 `
 S.Next = styled.div`
     width: 60px;
+    color: ${props=>props.darkMode ? 'white' : 'black'};
     height: 45px;
 `
 S.Previous = styled.div`
     width: 60px;
+    color: ${props=>props.darkMode ? 'white' : 'black'};
     height: 45px;
 `
