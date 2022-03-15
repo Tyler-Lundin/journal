@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 import styled from "styled-components";
 import DisplayJournals from "./journal/DisplayJournals";
 import Journal from "./journal/Journal";
@@ -17,7 +17,7 @@ import getUserSettings from '../util/getUserSettings';
 const PageEditor = lazy( ()=>import('./pageEditor/PageEditor'))
 const Prompt = lazy( ()=> import('./prompt/Prompt'))
 const S = {}
-const renderLoader = () => <p>Loading</p>;
+const renderLoader = () => <p>Loading. . .</p>;
 
 
 const LoggedIn = () => {
@@ -26,6 +26,8 @@ const LoggedIn = () => {
     const darkMode = useSelector(state => state.darkMode.value)
     const promptOpen = useSelector(state => state.prompt.value.isOpen)
     const isJournalOpen = useSelector(state => state.currentJournal.value.isJournalOpen)
+    const journalsLoadRef = useRef(false)
+    const settingsLoadRef = useRef(false)
     async function handleGetJournalList () {
         let list = await getJournals(auth.currentUser.email)
         dispatch(setJournalsList(list))
@@ -44,10 +46,17 @@ const LoggedIn = () => {
         dispatch(setMultiplyer(settings_.fontMultiplyer))
       }
     
-      useEffect(()=>{
-        handleGetJournalList()
-        setSettingsOnLoad()
-      },[])
+    useEffect(()=>{
+        if(!journalsLoadRef.current) {
+            handleGetJournalList()
+            journalsLoadRef.current = true
+
+        }
+        if(!settingsLoadRef.current) {
+            setSettingsOnLoad()
+            settingsLoadRef.current = true
+        }
+    })
     
     
     return (

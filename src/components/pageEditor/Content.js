@@ -72,10 +72,6 @@ S.TextArea = styled.textarea`
     resize: none;
     border: none;
     background: ${props=>props.darkMode ? 'rgba(0,0,0,0.1)' : 'rgba(200,200,200,0.2)'};
-    /* background: rgb(${props=>props.darkMode ? '30,30,30' : '200,200,200'});
-    background-image: linear-gradient(rgba(100,100,100,0.3) 50%, rgba(100,100,100,0.4) 50%);
-    background-size: 100% 4rem;
-    background-attachment: local; */
     font-size: ${props=>props.fontSize * 1}rem;
     :focus {
         outline: none;

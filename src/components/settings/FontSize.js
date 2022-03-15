@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import React, {useState} from 'react'
+import React from 'react'
 import { IoIosAdd, IoIosRemove } from 'react-icons/io'
 import {setMultiplyer} from './../../app/settings/fontSizeSlice'
 import { useDispatch, useSelector } from 'react-redux'
