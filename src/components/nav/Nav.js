@@ -29,7 +29,7 @@ const Nav = () => {
     }
 
     return (
-        <>
+        <S.Container>
             <S.Nav id='Nav'>
                 <S.OpenMenu 
                     onClick={()=>setIsMenuOpen(!isMenuOpen)} 
@@ -47,12 +47,12 @@ const Nav = () => {
             {/*  SETTINGS MENU  */}
             <S.SettingsContainer>
 
-            <S.SettingsMenu isSettingsOpen={isSettingsOpen}>
-                <S.CloseMenu onClick={()=>setIsSettingsOpen(!isSettingsOpen)}>
-                    <IoIosClose/>
-                </S.CloseMenu>
-                <Settings/>
-            </S.SettingsMenu>
+                <S.SettingsMenu isSettingsOpen={isSettingsOpen}>
+                    <S.CloseMenu onClick={()=>setIsSettingsOpen(!isSettingsOpen)}>
+                        <IoIosClose/>
+                    </S.CloseMenu>
+                    <Settings/>
+                </S.SettingsMenu>
 
             </S.SettingsContainer>
 
@@ -70,12 +70,18 @@ const Nav = () => {
                         </S.Links>                 
                 </S.SlideMenu>
             </S.SlideMenuContainer>
-        </>
+        </S.Container>
     
     )
 }
 
 export default Nav
+
+S.Container = styled.div`
+    width: 100vw;
+    height: calc(var(--vh, 1vh) * 100);
+    overflow: hidden;
+`
 
 S.Nav = styled.div`
     width: 100%;
@@ -132,6 +138,7 @@ S.SlideMenuContainer = styled.div`
     animation: ${hideFirstAnimation} 1s forwards;
     position: absolute;
     z-index: 999998;
+    display: ${props=>props.isMenuOpen? 'none' : 'block'};
 `
 
 S.Links = styled.ul`
