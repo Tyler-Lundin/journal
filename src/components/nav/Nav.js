@@ -37,7 +37,7 @@ const Nav = () => {
                     id='OpenNavBtn'
                     darkMode={darkMode}
                 >
-                    <IoIosMenu/>
+                    <IoIosMenu color='white'/>
                 </S.OpenMenu>
                 <S.SettingsOpen darkMode={darkMode} isSettingsOpen={isSettingsOpen} onClick={()=>handleSettings()}>
                     <IoIosSettings size={'100%'}/>
@@ -49,7 +49,7 @@ const Nav = () => {
 
                 <S.SettingsMenu isSettingsOpen={isSettingsOpen}>
                     <S.CloseMenu onClick={()=>setIsSettingsOpen(!isSettingsOpen)}>
-                        <IoIosClose/>
+                        <IoIosClose color={darkMode ? 'white' : 'black'}/>
                     </S.CloseMenu>
                     <Settings/>
                 </S.SettingsMenu>
@@ -60,7 +60,7 @@ const Nav = () => {
             <S.SlideMenuContainer>
                 <S.SlideMenu id='SlideOutMenu' isMenuOpen={isMenuOpen}>
                         <S.CloseMenu onClick={()=>setIsMenuOpen(!isMenuOpen)}>
-                            <IoIosClose/>
+                            <IoIosClose color='white'/>
                         </S.CloseMenu>
                         
                         <S.Links>
@@ -90,8 +90,10 @@ S.OpenMenu = styled.div`
     width: 8vh;
     height: 8vh;
     position: absolute;
-    color: ${props=>props.darkMode ? 'white' : 'black'};
-    z-index: 350;
+    color: 'white';
+    background: rgba(100,10,50,0.8);
+    border-radius: 5px;
+    z-index: 250;
     font-size: 8vh;
     animation: ${props => moveVertically((props.isMenuOpen?'0':'-100'),(props.isMenuOpen?'-100':'0'))}  1s forwards;
     svg {
@@ -104,7 +106,6 @@ S.OpenMenu = styled.div`
 S.CloseMenu = styled.div`
     width: 8vh;
     height: 8vh;
-    color: white;
     z-index: 450;
     font-size: 7vh;
     text-align: center;
@@ -175,7 +176,7 @@ S.SettingsContainer = styled.div`
     animation: ${hideFirstAnimation} 1s forwards;
     /* height: calc(var(--vh, 1vh) * 100); */
     position: absolute;
-    z-index: 200;
+    z-index: 349;
     top: 0;
     right: 0;
 `
@@ -184,7 +185,7 @@ S.SettingsMenu = styled.div`
     height: 100vh;
     /* height: calc(var(--vh, 1vh) * 100); */
     position: absolute;
-    z-index: 250;
+    z-index: 350;
     top: 0;
     right: 0;
     animation: ${props => moverHorizontally((props.isSettingsOpen?'110':0),(props.isSettingsOpen?0:'110'))}  1s forwards;
