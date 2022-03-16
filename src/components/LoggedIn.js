@@ -28,6 +28,7 @@ const LoggedIn = () => {
     const isJournalOpen = useSelector(state => state.currentJournal.value.isJournalOpen)
     const journalsLoadRef = useRef(false)
     const settingsLoadRef = useRef(false)
+    
     async function handleGetJournalList () {
         let list = await getJournals(auth.currentUser.email)
         dispatch(setJournalsList(list))
@@ -98,7 +99,7 @@ export default LoggedIn
 S.LoggedIn = styled.div`
     width: 100vw;
     height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
+    /* height: calc(var(--vh, 1vh) * 100); */
     overflow: hidden;
 `
 
@@ -110,7 +111,7 @@ S.CreditContainer = styled.div`
   height: fit-content;
   color: white; 
   background: rgba(0,0,0,0.5);
-  z-index: 999999999;
+  z-index: 60;
   a {
     text-decoration: none;
     :any-link {
@@ -128,4 +129,5 @@ S.DarkModeFilter = styled.div`
   top: 0;
   position: absolute;
   transition: 250ms;
+  z-index: 7;
 `

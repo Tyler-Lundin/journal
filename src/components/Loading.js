@@ -18,5 +18,5 @@ S.Loading = styled.div`
     height: 100%;
     background: black;
     position: absolute;
-    z-index: 999999999999999;
+    z-index: 600;
 `

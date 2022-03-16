@@ -15,6 +15,7 @@ const Journal = (props) => {
     const selectedTitle = journalsList.journalTitles[index]
     const selectedID = journalsList.journalIDs[index]
     const darkMode = useSelector(state => state.darkMode.value)
+
     const handleClick = async () => { 
         const preloadPages = await getPages(selectedID)
         const journalLength = preloadPages.pageTitles.length
@@ -58,11 +59,11 @@ S.Container = styled(animated.div)`
     transition: 300ms;
     align-self: center;
     -webkit-touch-callout: none;
-  -webkit-user-select: none;
-   -khtml-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
  
 `
 S.Journal = styled.div`
@@ -83,17 +84,17 @@ S.JournalIcon = styled.img`
 `
 S.JournalTitle = styled.h2`
     text-align: center;
-    white-space: nowrap;
     font-family: 'le-havre';
     font-size: 2.2rem;
     color: white;
     color: ${props=> props.darkMode ? 'white' : 'rgb(30,30,30)'};
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    line-height: 100%;
 
 `
 S.TitleContainer = styled.div`
+    width: 100%;
     position: absolute;
-    top: 12%;
-    left: 50%;
-    transform: translateX(-43%);
-    max-width: 220px;
+    top: 20%;
 `

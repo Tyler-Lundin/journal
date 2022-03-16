@@ -12,7 +12,7 @@ const SelectBackground = (props) => {
     const dispatch = useDispatch()
 
     const handlePrevious = () => {
-        if (selection_ > 1) {
+        if (selection_ >= 1) {
             const s_ = selection_ - 1
             dispatch(setBackground(s_))
             props.saveSettings('_','_',s_)

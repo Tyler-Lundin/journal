@@ -10,9 +10,10 @@ const DarkModeToggle = (props) => {
     const darkMode = useSelector(state=>state.darkMode.value)
 
     const [{x}, toggleAnimation] = useSpring(()=>({
-        x: !darkMode ? 100 : 0,
+        x: darkMode ? 1 : 100,
         config: { mass: 1, tension: 0, friction: 20 , velocity: 100}
     }))
+
     const handleClick = () => {
         saveSettings(!darkMode, '_', '_')
         console.log('handleClick Start')

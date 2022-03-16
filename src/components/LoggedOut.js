@@ -30,7 +30,7 @@ S.LoggedOut = styled.div`
     align-items: center;
     align-content: space-evenly;
     position:absolute ;
-    z-index: 155;
+    z-index: 10;
 `
 S.SignInBtn = styled.img`
     min-width: 200px;

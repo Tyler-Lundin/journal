@@ -56,7 +56,7 @@ const S = {}
 S.Content = styled.div`
     width: 100vw;
     height: 80vh;
-    height: calc(var(--vh, 1vh) * 80);
+    /* height: calc(var(--vh, 1vh) * 80); */
     margin: auto;
     padding: 5px;
     box-sizing: border-box;

@@ -26,7 +26,7 @@ function App() {
 
   return (
     <>
-      <S.App >
+      <S.App>
         { user ? <LoggedIn/> : <LoggedOut />}
       </S.App>
     </>
@@ -41,9 +41,9 @@ S.App = styled.div`
   background: rgb(30,30,30);
   width: 100vw;
   height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
+  /* height: calc(var(--vh, 1vh) * 100); */
   max-width: 100vw;
-  max-height: 100vh;
   overscroll-behavior:none;
   overflow: hidden;
+  position: relative;
 `

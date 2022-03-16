@@ -67,10 +67,10 @@ S.Settings = styled.div`
     display: grid;
     justify-content: center;
     justify-items: center;
-    background: ${props=>props.darkMode ? 'rgba(30,30,30,0.5)' : 'rgba(200,200,200,0.5)'};
+    background: ${props=>props.darkMode ? 'rgba(30,30,30,0.8)' : 'rgba(200,200,200,0.8)'};
     padding: 5vh 0;
-    z-index: 1000;
-    grid-gap: 5vw;
+    z-index: 100;
+    grid-gap: 20vh;
     align-content: center;
     transform: translateY(-5%);
 `

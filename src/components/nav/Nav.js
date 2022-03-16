@@ -29,7 +29,7 @@ const Nav = () => {
     }
 
     return (
-        <S.Container>
+        <>
             <S.Nav id='Nav'>
                 <S.OpenMenu 
                     onClick={()=>setIsMenuOpen(!isMenuOpen)} 
@@ -70,18 +70,12 @@ const Nav = () => {
                         </S.Links>                 
                 </S.SlideMenu>
             </S.SlideMenuContainer>
-        </S.Container>
+        </>
     
     )
 }
 
 export default Nav
-
-S.Container = styled.div`
-    width: 100vw;
-    height: calc(var(--vh, 1vh) * 100);
-    overflow: hidden;
-`
 
 S.Nav = styled.div`
     width: 100%;
@@ -97,7 +91,7 @@ S.OpenMenu = styled.div`
     height: 8vh;
     position: absolute;
     color: ${props=>props.darkMode ? 'white' : 'black'};
-    z-index: 999997;
+    z-index: 350;
     font-size: 8vh;
     animation: ${props => moveVertically((props.isMenuOpen?'0':'-100'),(props.isMenuOpen?'-100':'0'))}  1s forwards;
     svg {
@@ -111,7 +105,7 @@ S.CloseMenu = styled.div`
     width: 8vh;
     height: 8vh;
     color: white;
-    z-index: 999999;
+    z-index: 450;
     font-size: 7vh;
     text-align: center;
     position: absolute;
@@ -126,18 +120,18 @@ S.CloseMenu = styled.div`
 S.SlideMenu = styled.div`
     width: 100vw;
     height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
+    /* height: calc(var(--vh, 1vh) * 100); */
     background: rgba(100,10,50,0.8);
     display: grid;
     justify-content: center;
     position: absolute;
-    z-index: 999998;
+    z-index: 400;
     animation: ${props => moveVertically((props.isMenuOpen?'110':0),(props.isMenuOpen?0:'110'))}  1s forwards;
 `
 S.SlideMenuContainer = styled.div`
     animation: ${hideFirstAnimation} 1s forwards;
     position: absolute;
-    z-index: 999998;
+    z-index: 399;
     display: ${props=>props.isMenuOpen? 'none' : 'block'};
 `
 
@@ -179,18 +173,18 @@ const moverHorizontally = (y,x) =>
 `
 S.SettingsContainer = styled.div`
     animation: ${hideFirstAnimation} 1s forwards;
-    width: 300px;
-    height: calc(var(--vh, 1vh) * 100);
+    /* height: calc(var(--vh, 1vh) * 100); */
     position: absolute;
-    z-index: 999990;
+    z-index: 200;
     top: 0;
     right: 0;
 `
 S.SettingsMenu = styled.div`
     width: 300px;
-    height: calc(var(--vh, 1vh) * 100);
+    height: 100vh;
+    /* height: calc(var(--vh, 1vh) * 100); */
     position: absolute;
-    z-index: 999996;
+    z-index: 250;
     top: 0;
     right: 0;
     animation: ${props => moverHorizontally((props.isSettingsOpen?'110':0),(props.isSettingsOpen?0:'110'))}  1s forwards;
@@ -201,7 +195,7 @@ S.SettingsOpen = styled.div`
     background: rgba(0,100,125,.6);
     color: white;
     position: absolute;
-    z-index: 999996;
+    z-index: 300;
     bottom: 0;
     right: 2%;
     border-radius: 100%;

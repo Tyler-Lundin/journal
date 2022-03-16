@@ -24,7 +24,7 @@ export default DisplayJournals
 
 S.Scroller = styled.div`
     position:absolute;
-    z-index: 99999;
+    z-index: 150;
     overflow-y: visible;
     top: 40%;
     transform: translateY(-50%);

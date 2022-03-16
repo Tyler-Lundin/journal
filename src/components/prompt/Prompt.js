@@ -6,6 +6,7 @@ import createJournal from '../../util/createJournal'
 import React, { useRef, useState } from 'react'
 import deleteJournal from '../../util/deleteJournal'
 import { auth } from '../../util/firebase'
+
 const Prompt = (props) => {
 
     const {
@@ -37,10 +38,12 @@ const Prompt = (props) => {
         }
 
     }
-    const handleDelete = () => {
+    const handleDelete = async () => {
         setDeleteJournalCheck(!deleteJournalCheck)
         dispatch( promptDeleteWarning(selectedTitle) )
+        
     }
+
     return (
         <>
             <S.Shadow>
@@ -85,7 +88,7 @@ S.Shadow = styled.div`
     width: 100vw;
     height: 100%;
     background: rgba(0,0,0,0.5);
-    z-index: 99999999;
+    z-index: 500;
     position: absolute;
 `
 S.Prompt = styled.div`

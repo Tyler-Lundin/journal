@@ -7,9 +7,9 @@ const ImageCredit = () => {
   return (
     <>
         Photo by 
-        <a href={imageCreditList[index|| 1][0]}> {imageCreditList[index|| 1][1]} </a>
+        <a href={imageCreditList[index|| 0][0]}> {imageCreditList[index|| 0][1]} </a>
         on
-        <a href={imageCreditList[index|| 1][2]}> Unsplash</a>
+        <a href={imageCreditList[index|| 0][2]}> Unsplash</a>
     </>
   )
 }
