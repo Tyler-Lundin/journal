@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
+
 import currentJournalSlice from './journal/currentJournalSlice'
 import journalsListSlice from './journal/journalsListSlice'
 import currentPageSlice from './page/currentPageSlice'

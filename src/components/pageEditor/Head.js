@@ -7,6 +7,7 @@ import { addNewPage, editPageTitle } from '../../app/page/pagesListSlice';
 
 const Head = (props) => {
     const dispatch = useDispatch()
+    
     const {
         pageIndex,
         setPageIndex,
@@ -15,6 +16,7 @@ const Head = (props) => {
         pagesList,
         initialAmount
     } = props
+
     const darkMode = useSelector(state => state.darkMode.value)
     const fontSize = useSelector(state => state.fontSize.value)
     const [prevPage_, setPrevPage_] = useState( [pagesList[0][initialAmount - 2],pagesList[1][initialAmount - 2]])
@@ -83,11 +85,6 @@ const Head = (props) => {
     }
   return (
     <S.Head id='PageEditorHead' darkMode={darkMode}>
-    <S.CounterContainer >
-        <S.PageCounter darkMode={darkMode} fontSize={fontSize}>
-            {pageIndex}/{pageAmount}
-        </S.PageCounter>
-    </S.CounterContainer >
     <S.PreviousPage 
         onClick={()=>prevPage()} 
     >
@@ -207,12 +204,6 @@ S.PageTitle = styled.div`
         transform: scaleX(105%);
     }
     
-`
-S.CounterContainer = styled.div`
-    display: grid;
-    justify-content: center;
-    position: absolute;
-    left: 5vw;
 `
 S.PageCounter = styled.div`
     width: fit-content;

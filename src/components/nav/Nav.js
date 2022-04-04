@@ -1,17 +1,17 @@
-import styled, {keyframes} from 'styled-components'
+import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react'
 import { closeJournal } from '../../app/journal/currentJournalSlice';
 import { auth } from '../../util/firebase';
 import { signOut } from 'firebase/auth';
 import {IoIosMenu, IoIosClose, IoIosSettings} from 'react-icons/io'
-import {hideFirstAnimation} from './../../util/animations'
+import {hideFirstAnimation, moveVertically, moverHorizontally} from './../../util/animations'
 import Settings from '../settings/Settings';
+import ImageCredit from '../ImageCredit';
 
 const S = {} // styles below
 
 const Nav = () => {
-
     const dispatch = useDispatch()
     const [isMenuOpen, setIsMenuOpen] = useState(true)
     const [isSettingsOpen, setIsSettingsOpen] = useState(true)
@@ -23,7 +23,7 @@ const Nav = () => {
     const handleJournalsLink = () => {
         dispatch(closeJournal())
         setIsMenuOpen(!isMenuOpen)
-    }
+    } 
     const handleSettings = () => {
         setIsSettingsOpen(false)
     }
@@ -37,7 +37,7 @@ const Nav = () => {
                     id='OpenNavBtn'
                     darkMode={darkMode}
                 >
-                    <IoIosMenu color='white'/>
+                    <IoIosMenu color='white' size={'100%'}/>
                 </S.OpenMenu>
                 <S.SettingsOpen darkMode={darkMode} isSettingsOpen={isSettingsOpen} onClick={()=>handleSettings()}>
                     <IoIosSettings size={'100%'}/>
@@ -52,8 +52,8 @@ const Nav = () => {
                         <IoIosClose color={darkMode ? 'white' : 'black'}/>
                     </S.CloseMenu>
                     <Settings/>
+                    <ImageCredit/>
                 </S.SettingsMenu>
-
             </S.SettingsContainer>
 
             {/* MAIN NAV MENU */}
@@ -91,16 +91,17 @@ S.OpenMenu = styled.div`
     height: 8vh;
     position: absolute;
     color: 'white';
-    background: rgba(100,10,50,0.8);
-    border-radius: 5px;
+    background: rgba(0,100,125,.6);
+    border-radius: 100%;
     z-index: 250;
     font-size: 8vh;
     animation: ${props => moveVertically((props.isMenuOpen?'0':'-100'),(props.isMenuOpen?'-100':'0'))}  1s forwards;
     svg {
-        transition: 250ms;
+        transition: .3s;
+        transform: translateY(-3%);
     }
     svg:hover {
-        transform: scaleX(115%)
+        transform: translateY(-3%) rotate(180deg) scaleY(140%);
     }
 `
 S.CloseMenu = styled.div`
@@ -154,24 +155,6 @@ S.Link = styled.li`
         color: gray;
     }
 `
-const moveVertically = (y,x) =>
-  keyframes`
-    0% {
-      transform: translateY(${x}%);
-    }
-    100% {
-      transform: translateY(${y}%);
-    }
-`
-const moverHorizontally = (y,x) =>
-  keyframes`
-    0% {
-      transform: translateX(${x}%);
-    }
-    100% {
-      transform: translateX(${y}%);
-    }
-`
 S.SettingsContainer = styled.div`
     animation: ${hideFirstAnimation} 1s forwards;
     /* height: calc(var(--vh, 1vh) * 100); */
@@ -184,15 +167,15 @@ S.SettingsMenu = styled.div`
     width: 300px;
     height: 100vh;
     /* height: calc(var(--vh, 1vh) * 100); */
-    position: absolute;
+    position: relative;
     z-index: 350;
     top: 0;
     right: 0;
     animation: ${props => moverHorizontally((props.isSettingsOpen?'110':0),(props.isSettingsOpen?0:'110'))}  1s forwards;
 `
 S.SettingsOpen = styled.div`
-    width: 50px;
-    height: 50px;
+    width: 8vh;
+    height: 8vh;
     background: rgba(0,100,125,.6);
     color: white;
     position: absolute;
@@ -202,9 +185,25 @@ S.SettingsOpen = styled.div`
     border-radius: 100%;
     animation: ${props => moverHorizontally((props.isSettingsOpen?'0':'210'),(props.isSettingsOpen?'210':'0'))}  1s forwards;
     svg {
-        transition: 5s;
+        transition: 30s;
     }
     svg:hover {
-        transform: rotate(360deg) scale(115%);
+        transform: rotate(3600deg) scale(115%);
     }
+`
+
+S.CreditContainer = styled.div`
+  position: absolute;
+  width: 20vw;
+  height: fit-content;
+  color: white; 
+  background: rgba(0,0,0,0.5);
+  z-index: 60;
+  a {
+    text-decoration: none;
+    :any-link {
+      color: lightcoral;
+    }
+    
+  }
 `

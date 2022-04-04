@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setJournalsList } from '../app/journal/journalsListSlice'
 import { promptCreateNewJournal } from "./../app/prompt/promptSlice";
 import { auth } from "../util/firebase";
-import ImageCredit from './ImageCredit';
 import SelectedBackground from './SelectedBackground';
 import { setBackground } from '../app/settings/selectedBackgroundSlice';
 import { toggle } from '../app/settings/darkModeSlice';
@@ -85,9 +84,7 @@ const LoggedIn = () => {
                 </DisplayJournals>
             }
             <Nav isJournalOpen={isJournalOpen}/>
-            <S.CreditContainer>
-                <ImageCredit/>
-            </S.CreditContainer>
+
             <SelectedBackground/>
             <S.DarkModeFilter darkMode={darkMode}/>
         </S.LoggedIn>
@@ -99,27 +96,10 @@ export default LoggedIn
 S.LoggedIn = styled.div`
     width: 100vw;
     height: 100vh;
-    /* height: calc(var(--vh, 1vh) * 100); */
+    height: calc(var(--vh, 1vh) * 100);
     overflow: hidden;
 `
 
-S.CreditContainer = styled.div`
-  position: absolute;
-  left: 5px;
-  bottom: 5px;
-  width: fit-content;
-  height: fit-content;
-  color: white; 
-  background: rgba(0,0,0,0.5);
-  z-index: 60;
-  a {
-    text-decoration: none;
-    :any-link {
-      color: lightcoral;
-    }
-    
-  }
-`
 S.DarkModeFilter = styled.div`
   background: ${props=> props.darkMode ? 'rgba(30,30,30,0.5)' : 'rgba(200,200,200,0.0)'};
   background-size: 100%;

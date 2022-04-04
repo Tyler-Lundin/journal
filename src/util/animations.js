@@ -31,3 +31,22 @@ export const loadBackground = keyframes`
         opacity: 1;
     }
 `
+
+export const moveVertically = (y,x) =>
+  keyframes`
+    0% {
+      transform: translateY(${x}%);
+    }
+    100% {
+      transform: translateY(${y}%);
+    }
+`
+export const moverHorizontally = (y,x) =>
+  keyframes`
+    0% {
+      transform: translateX(${x}%);
+    }
+    100% {
+      transform: translateX(${y}%);
+    }
+`
