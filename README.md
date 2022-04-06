@@ -1,4 +1,3 @@
-# add credits later
 
   
 # JOURNAL
